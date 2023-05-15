@@ -1,5 +1,30 @@
 import { siteConfig } from '@/config/site'
 import './globals.css'
+import localFont from 'next/font/local'
+import { Inter, Roboto, Source_Sans_Pro } from 'next/font/google'
+
+const roboto = Roboto({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-roboto',
+})
+
+const inter = Inter({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
+
+const sourceSansPro = Source_Sans_Pro({
+  weight: ['300', '400', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-source-sans-pro',
+})
+
+const fontTabloidScuzzball = localFont({
+  src: '../public/fonts/tabloidScuzzball/Tabloid Scuzzball.otf',
+  variable: '--font-tabloid',
+})
 
 export const metadata = {
   title: siteConfig.name,
@@ -39,7 +64,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body
+        className={`${fontTabloidScuzzball.variable} ${sourceSansPro.variable} ${inter.variable} ${roboto.variable}`}
+      >
+        {children}
+      </body>
     </html>
   )
 }

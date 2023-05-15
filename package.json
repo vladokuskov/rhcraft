@@ -11,6 +11,10 @@
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@types/node": "20.1.4",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
@@ -25,6 +29,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@types/react-fontawesome": "^1.6.5",
     "eslint-config-prettier": "^8.8.0",
     "prettier": "^2.8.8"
   }

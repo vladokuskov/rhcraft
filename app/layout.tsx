@@ -2,6 +2,7 @@ import { siteConfig } from '@/config/site'
 import './globals.css'
 import localFont from 'next/font/local'
 import { Inter, Roboto, Source_Sans_Pro } from 'next/font/google'
+import { SessionProvider } from 'next-auth/react'
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],

@@ -2,19 +2,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { db } from '@/lib/db'
-import bcrypt from 'bcrypt'
-
-const confirmPasswordHash = (plainPassword: string, hashedPassword: string) => {
-  return new Promise((resolve) => {
-    bcrypt.compare(
-      plainPassword,
-      hashedPassword,
-      function (err: any, res: any) {
-        resolve(res)
-      },
-    )
-  })
-}
+import { confirmPasswordHash } from '@/utils/confirmPasswordHash'
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -53,25 +41,21 @@ export const authOptions: NextAuthOptions = {
               user.password,
             )
             if (res) {
-              console.log('Logged in')
               return user
             } else {
-              console.log('Hash not matched logging in')
               throw new Error('Hash not matched logging in')
             }
           } else {
-            console.log('User not found')
             throw new Error('User not found')
           }
         } catch (err: any) {
-          console.log('Authorize error:', err)
           throw new Error('Authorize error:', err)
         }
       },
     }),
   ],
   callbacks: {
-    async session({ token, session }: { token: any; session: any }) {
+    async session({ token, session }) {
       if (token) {
         session.user.id = token.id
         session.user.name = token.name

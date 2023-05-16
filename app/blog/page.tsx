@@ -2,7 +2,7 @@ import { db } from '@/lib/db'
 
 async function getAllPosts() {
   const posts = await db.post.findMany({
-    where: { published: false }, // change to true later
+    where: { published: true },
     orderBy: {
       createdAt: 'desc',
     },

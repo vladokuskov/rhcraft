@@ -19,7 +19,6 @@ export const authOptions: NextAuthOptions = {
       id: 'credentials',
       name: 'credentials',
       type: 'credentials',
-
       credentials: {
         email: {
           label: 'Email',
@@ -57,7 +56,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ token, session }) {
       if (token) {
-        session.user.id = token.id
+        session.user = session.user || {}
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
@@ -66,25 +65,28 @@ export const authOptions: NextAuthOptions = {
       return session
     },
     async jwt({ token, user }) {
-      const dbUser = await db.user.findFirst({
-        where: {
-          email: token.email,
-        },
-      })
+      if (token && token.email) {
+        const dbUser = await db.user.findFirst({
+          where: {
+            email: token.email,
+          },
+        })
 
-      if (!dbUser) {
-        if (user) {
-          token.id = user?.id
+        if (!dbUser) {
+          if (user) {
+            token.id = user?.id
+          }
+          return token
         }
-        return token
-      }
 
-      return {
-        id: dbUser.id,
-        name: dbUser.name,
-        email: dbUser.email,
-        picture: dbUser.image,
+        return {
+          id: dbUser.id,
+          name: dbUser.name,
+          email: dbUser.email,
+          picture: dbUser.image,
+        }
       }
+      return token
     },
   },
 }

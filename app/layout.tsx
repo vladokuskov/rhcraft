@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 import { Inter, Roboto, Source_Sans_Pro } from 'next/font/google'
 import { NavBar } from '@/components/navbar/navbar'
 import { Container } from '@/components/container'
+import { Footer } from '@/components/footer'
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -71,7 +72,8 @@ export default function RootLayout({
       >
         <Container variant="page">
           <NavBar />
-          {children}
+          <Container variant="page-content">{children}</Container>
+          <Footer />
         </Container>
       </body>
     </html>

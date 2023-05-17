@@ -42,21 +42,21 @@ export const authOptions: NextAuthOptions = {
             if (res) {
               return user
             } else {
-              throw new Error('Hash not matched logging in')
+              throw new Error('Wrong password')
             }
           } else {
             throw new Error('User not found')
           }
         } catch (err: any) {
-          throw new Error('Authorize error:', err)
+          throw new Error(`Authorize error: ${err.message}`)
         }
       },
     }),
   ],
   callbacks: {
     async session({ token, session }) {
-      if (token) {
-        session.user = session.user || {}
+      if (token && session?.user) {
+        session.user.id = token.id
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture

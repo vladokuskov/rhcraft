@@ -8,12 +8,5 @@ export default async function Dashboard() {
     redirect('/login')
   }
 
-  return (
-    <>
-      Dashboard page
-      <p>Name: {user.name}</p>
-      <p>Email: {user.email}</p>
-      <p>Image url: {user.image}</p>
-    </>
-  )
+  return <>Dashboard</>
 }

@@ -19,7 +19,8 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-source-sans-pro)'],
-        serif: ['var(--font-inter)'],
+        inter: ['var(--font-inter)'],
+        roboto: ['var(--font-roboto)'],
       },
       screens: {
         sm: '640px',

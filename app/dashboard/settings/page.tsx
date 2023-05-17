@@ -1,7 +1,12 @@
-import { SettingsNameChange } from '@/components/dashboard/settings-name-change'
+import { SettingsNameChange } from '@/components/dashboard/settings-name-change-form'
 import { SettingsSignOut } from '@/components/dashboard/settings-signout'
 import { getCurrentUser } from '@/lib/session'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
+
+export const metadata = {
+  title: 'rhcraft - Dashboard settings',
+}
 
 export default async function DashboardSettings() {
   const user = await getCurrentUser()
@@ -11,14 +16,9 @@ export default async function DashboardSettings() {
   }
 
   return (
-    <div className="flex flex-col gap-3 w-5/12">
+    <div className="flex flex-col gap-3 w-60">
       Dashboard settings
-      <div>
-        <p>User id: {user.id}</p>
-        <p>Name: {user.name}</p>
-        <p>Email: {user.email}</p>
-        <p>Image url: {user.image}</p>
-      </div>
+      <Link href="/dashboard">Back to dashboard</Link>
       <SettingsNameChange userName={user.name} user={user} />
       <SettingsSignOut />
     </div>

@@ -1,5 +1,9 @@
 import { db } from '@/lib/db'
 
+export const metadata = {
+  title: 'rhcraft - Blog',
+}
+
 async function getAllPosts() {
   const posts = await db.post.findMany({
     where: { published: true },

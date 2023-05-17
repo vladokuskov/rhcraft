@@ -21,7 +21,7 @@ const NavBarMenu = () => {
 
   return (
     <div
-      className="hidden max-sm:flex items-center justify-center"
+      className="hidden max-sm:flex items-center justify-center "
       ref={NavBarMenuRef}
     >
       <button
@@ -32,13 +32,19 @@ const NavBarMenu = () => {
         <FontAwesomeIcon icon={!isMenuOpen ? faBars : faClose} size="2x" />
       </button>
       {isMenuOpen && (
-        <div className="absolute m-auto left-0 right-0 w-full bg-zinc-700 p-3 py-6 top-12 flex flex-col gap-5 tap">
+        <div className="absolute m-auto left-0 right-0 w-full bg-zinc-700 p-3 py-6 top-12 flex flex-col gap-5 tap border-b border-white border-opacity-10">
           <div className="flex flex-col gap-4 w-full px-3">
-            <NavigationLink destination="/" title="HOME" icon={faAngleRight} />
+            <NavigationLink
+              destination="/"
+              title="HOME"
+              icon={faAngleRight}
+              variant="nav"
+            />
             <NavigationLink
               destination="/blog"
               title="BLOG"
               icon={faAngleRight}
+              variant="nav"
             />
           </div>
         </div>

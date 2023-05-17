@@ -7,7 +7,7 @@ import { NavigationLink } from '../navigation-link'
 
 const NavBar = () => {
   return (
-    <nav className="flex bg-gray-960 h-12 items-center w-full fixed ">
+    <nav className="flex bg-gray-960 h-12 items-center w-full fixed border-b border-white border-opacity-10">
       <div className="flex w-full max-w-[80rem] mx-auto my-0 justify-between items-center px-4 ">
         <Link href="/" className="flex items-center" title="Home">
           <Image
@@ -19,8 +19,8 @@ const NavBar = () => {
           />
         </Link>
         <div className="flex items-center justify-center gap-4 max-sm:hidden">
-          <NavigationLink destination="/" title="HOME" />
-          <NavigationLink destination="/blog" title="BLOG" />
+          <NavigationLink destination="/" title="HOME" variant="nav" />
+          <NavigationLink destination="/blog" title="BLOG" variant="nav" />
         </div>
         <NavBarMenu />
       </div>

@@ -2,6 +2,10 @@ import { AuthForm } from '@/components/auth-form'
 import { getCurrentUser } from '@/lib/session'
 import { redirect } from 'next/navigation'
 
+export const metadata = {
+  title: 'rhcraft - Login',
+}
+
 export default async function Login() {
   const user = await getCurrentUser()
 
@@ -10,9 +14,9 @@ export default async function Login() {
   }
 
   return (
-    <>
-      <p>Login page</p>
+    <div>
+      <h3>Login to your account</h3>
       <AuthForm />
-    </>
+    </div>
   )
 }

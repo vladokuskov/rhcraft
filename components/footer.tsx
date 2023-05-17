@@ -7,7 +7,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="flex flex-col justify-between pt-14 bg-gray-960 h-12 items-center w-full h-40">
+    <footer className="flex flex-col justify-between pt-14 bg-gray-960 h-12 items-center w-full h-40 border-t border-white border-opacity-10">
       <div className="flex w-full max-w-[80rem] mx-auto my-0 justify-between items-center px-4 ">
         <Link href="/" className="flex items-center" title="Home">
           <Image

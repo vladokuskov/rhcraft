@@ -15,7 +15,7 @@ const Container = ({ variant, children }: Container) => {
       {children}
     </main>
   ) : variant === 'dashboard-page' ? (
-    <div className="w-full h-full min-h-screen mx-auto my-0 grid grid-cols-withSidebar max-sm:flex flex-col items-start justify-center gap-4">
+    <div className="w-full h-full min-h-screen mx-auto my-0 grid grid-cols-withSidebar max-sm:flex max-sm:gap-8 flex-col items-start justify-center gap-16">
       {children}
     </div>
   ) : (

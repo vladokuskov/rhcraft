@@ -2,9 +2,6 @@ import { siteConfig } from '@/config/site'
 import './globals.css'
 import localFont from 'next/font/local'
 import { Inter, Roboto, Source_Sans_Pro } from 'next/font/google'
-import { NavBar } from '@/components/navbar/navbar'
-import { Container } from '@/components/container'
-import { Footer } from '@/components/footer'
 import { LayoutProvider } from '@/providers/LayoutProvider'
 
 const roboto = Roboto({

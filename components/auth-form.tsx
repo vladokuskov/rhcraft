@@ -66,6 +66,8 @@ const AuthForm = () => {
         value={email}
         onChange={handleEmailChange}
         isDisabled={isLoading}
+        full
+        label="Email"
       />
       <Input
         title="Password"
@@ -74,6 +76,8 @@ const AuthForm = () => {
         value={password}
         onChange={handlePasswordChange}
         isDisabled={isLoading}
+        full
+        label="Password"
       />
       {error && (
         <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">

@@ -43,19 +43,29 @@ const Input = ({
     )
   }
   return (
-    <input
-      title={title}
-      type={type}
-      placeholder={placeholder}
-      onChange={onChange}
-      disabled={isDisabled}
-      value={value}
-      required={isRequired}
-      className={getButtonClassNames()}
-      autoComplete={type === 'email' ? 'email' : 'off'}
-      autoCorrect="off"
-      autoCapitalize="none"
-    />
+    <div className="flex flex-col gap-1">
+      {label && (
+        <label
+          htmlFor={title}
+          className=" text-white opacity-40 font-inter text-sm tracking-wide"
+        >
+          {label}
+        </label>
+      )}
+      <input
+        title={title}
+        type={type}
+        placeholder={placeholder}
+        onChange={onChange}
+        disabled={isDisabled}
+        value={value}
+        required={isRequired}
+        className={getButtonClassNames()}
+        autoComplete={type === 'email' ? 'email' : 'off'}
+        autoCorrect="off"
+        autoCapitalize="none"
+      />
+    </div>
   )
 }
 

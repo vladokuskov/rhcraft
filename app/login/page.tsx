@@ -14,8 +14,10 @@ export default async function Login() {
   }
 
   return (
-    <div>
-      <h3>Login to your account</h3>
+    <div className="w-full max-w-sm">
+      <h3 className="font-sans pb-4 text-xl text-center">
+        Login to RHCraft Dashboard
+      </h3>
       <AuthForm />
     </div>
   )

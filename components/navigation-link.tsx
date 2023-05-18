@@ -31,7 +31,7 @@ const NavigationLink = ({
           : variant === 'default'
           ? 'font-inter hover:underline underline-offset-2 text-white-100'
           : ''
-      } hover:text-gray-300 focus:text-gray-300 hover:transition-colors aria-disabled:text-gray-500 ${
+      } hover:text-neutral-300 focus:text-neutral-300 hover:transition-colors aria-disabled:text-neutral-500 ${
         variant === 'nav' && pathname === destination && 'cursor-default'
       }`}
     >

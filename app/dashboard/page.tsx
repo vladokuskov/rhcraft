@@ -1,15 +1,9 @@
 import DraftsList from '@/components/dashboard/drafts-list'
+import { NewPostButton } from '@/components/dashboard/new-post-button'
 import { db } from '@/lib/db'
-import { getCurrentUser } from '@/lib/session'
-import Link from 'next/link'
-import { redirect } from 'next/navigation'
 
-export const metadata = {
-  title: 'rhcraft - Dashboard',
-}
-
-async function getAllPosts() {
-  const posts = await db.post.findMany({
+function getAllPosts() {
+  const posts = db.post.findMany({
     orderBy: {
       createdAt: 'desc',
     },
@@ -22,14 +16,25 @@ async function getAllPosts() {
   return posts
 }
 
-export default async function Dashboard() {
-  const posts = getAllPosts()
+export const metadata = {
+  title: 'rhcraft - Dashboard',
+}
 
+export default async function Dashboard() {
   return (
-    <div className=" flex flex-col w-full gap-3">
-      <Link href="/">Back to Home page</Link>
-      <Link href="/dashboard/create">Create post</Link>
-      <Link href="/dashboard/settings">Settings</Link>
-    </div>
+    <main className="flex flex-col w-full items-start justify-start gap-8">
+      <div className="w-full flex justify-between items-start gap-4 max-sm:flex-col">
+        <div>
+          <h2 className=" text-white text-3xl font-tabloid tracking-wider">
+            DRAFTS
+          </h2>
+          <p className="font-sans text-neutral-500 font-semibold tracking-wide">
+            Create and manage posts
+          </p>
+        </div>
+        <NewPostButton />
+      </div>
+      <DraftsList />
+    </main>
   )
 }

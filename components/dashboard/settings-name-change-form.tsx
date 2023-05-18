@@ -57,6 +57,7 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
       className="w-full flex flex-col gap-2 py-6 px-4 border border-neutral-600 rounded"
       onSubmit={handleNameSave}
     >
+      <h3 className="font-sans text-white font-semibold text-xl">Your name</h3>
       <p className="font-sans text-neutral-500 font-semibold tracking-wide">
         Here you can change your name
       </p>
@@ -77,7 +78,7 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
         </div>
       )}
       <Button
-        className=" max-w-[5rem]"
+        className=" max-w-[5rem] mt-3"
         variant="primary"
         title="Save"
         isRequired

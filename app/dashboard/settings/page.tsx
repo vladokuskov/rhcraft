@@ -15,7 +15,7 @@ export default async function DashboardSettings() {
   }
 
   return (
-    <div className="flex flex-col w-full items-start justify-start gap-8">
+    <main className="flex flex-col w-full items-start justify-start gap-8">
       <div>
         <h2 className=" text-white text-3xl font-tabloid tracking-wider">
           SETTINGS
@@ -26,6 +26,6 @@ export default async function DashboardSettings() {
       </div>
       <SettingsNameChange userName={user.name} user={user} />
       <SettingsSignOut />
-    </div>
+    </main>
   )
 }

@@ -6,7 +6,7 @@ import { NavigationLink } from '../navigation-link'
 
 const DashboardSidebar = () => {
   return (
-    <div className=" w-full flex flex-col items-start justify-center gap-3">
+    <aside className=" w-full flex flex-col items-start justify-center gap-3">
       <NavigationLink
         title="Drafts"
         destination="/dashboard"
@@ -19,7 +19,7 @@ const DashboardSidebar = () => {
         icon={faGear}
         variant="dashboard"
       />
-    </div>
+    </aside>
   )
 }
 

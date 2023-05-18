@@ -92,7 +92,7 @@ const AuthForm = () => {
         icon={isLoading ? faSpinner : null}
         isLoading={isLoading}
         full={false}
-        isDisabled={email.length === 0 || password.length === 0}
+        isDisabled={isLoading}
       />
     </form>
   )

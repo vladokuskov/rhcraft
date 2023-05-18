@@ -78,9 +78,9 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
         </div>
       )}
       <Button
-        className=" max-w-[5rem] mt-3"
+        className=" max-w-[7rem] mt-3"
         variant="primary"
-        title="Save"
+        title={isSaving ? 'Saving' : 'Save'}
         isRequired
         icon={isSaving ? faSpinner : null}
         isLoading={isSaving}

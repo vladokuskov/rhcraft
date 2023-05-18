@@ -1,20 +1,5 @@
 import DraftsList from '@/components/dashboard/drafts-list'
 import { NewPostButton } from '@/components/dashboard/new-post-button'
-import { db } from '@/lib/db'
-
-function getAllPosts() {
-  const posts = db.post.findMany({
-    orderBy: {
-      createdAt: 'desc',
-    },
-  })
-
-  if (!posts) {
-    null
-  }
-
-  return posts
-}
 
 export const metadata = {
   title: 'rhcraft - Dashboard',

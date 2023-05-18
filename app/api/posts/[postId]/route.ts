@@ -3,21 +3,28 @@ import { db } from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import { z } from 'zod'
 
-export async function DELETE(req: Request) {
+const routeContextSchema = z.object({
+  params: z.object({
+    postId: z.string(),
+  }),
+})
+
+export async function DELETE(
+  req: Request,
+  context: z.infer<typeof routeContextSchema>,
+) {
   try {
-    // Validate the route context.
+    const { params } = routeContextSchema.parse(context)
 
     const session = await getServerSession(authOptions)
+
     if (!session?.user) {
       return new Response(null, { status: 403 })
     }
 
-    const body = await req.json()
-
-    // Delete post
     await db.post.delete({
       where: {
-        id: body.postId,
+        id: params.postId as string,
       },
     })
 

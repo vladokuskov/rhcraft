@@ -33,6 +33,7 @@ const Button = ({
   full = false,
   isLoading = false,
   className,
+  size,
 }: Button) => {
   const getButtonClassNames = () => {
     return clsx(
@@ -69,6 +70,15 @@ const Button = ({
         'text-neutral-500 hover:text-neutral-500 focus:text-neutral-500':
           isDisabled && (variant === 'transparent' || variant === 'icon'),
         'w-full': full,
+        'px-2 py-1 text-xs': size === 'sm1',
+        'px-4 py-2 text-sm': size === 'sm2',
+        'px-4 py-2 text-base': size === 'sm3',
+        'px-5 py-3 text-base': size === 'md1',
+        'px-5 py-3 text-lg': size === 'md2',
+        'px-8 py-4 text-lg': size === 'md3',
+        'px-10 py-4 text-xl': size === 'xl1',
+        'px-11 py-4 text-2xl': size === 'xl2',
+        'px-12 py-4 text-3xl': size === 'xl3',
       },
       className,
     )

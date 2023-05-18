@@ -4,7 +4,6 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '../button'
 import { useRef, useState } from 'react'
 import { useClickOutside } from '@/hooks/useClickOutside'
-import { getCurrentUser } from '@/lib/session'
 
 type DashboardPost = {
   title: string

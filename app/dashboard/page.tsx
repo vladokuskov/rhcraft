@@ -8,7 +8,7 @@ export const metadata = {
 export default async function Dashboard() {
   return (
     <main className="flex flex-col w-full items-start justify-start gap-8">
-      <div className="w-full flex justify-between items-start gap-4 max-sm:flex-col">
+      <div className="w-full flex justify-between items-center gap-4 max-sm:flex-col max-sm:items-start">
         <div>
           <h2 className=" text-white text-3xl font-tabloid tracking-wider">
             DRAFTS

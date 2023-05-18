@@ -78,6 +78,7 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
         </div>
       )}
       <Button
+        size="sm2"
         className=" max-w-[7rem] mt-3"
         variant="primary"
         title={isSaving ? 'Saving' : 'Save'}

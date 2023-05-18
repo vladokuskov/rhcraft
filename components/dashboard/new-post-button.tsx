@@ -12,6 +12,8 @@ const NewPostButton = () => {
   }
   return (
     <Button
+      className="max-sm:self-end"
+      size="sm2"
       onClick={handleRedirect}
       variant="primary"
       title="New post"

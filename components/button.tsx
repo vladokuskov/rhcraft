@@ -37,7 +37,7 @@ const Button = ({
 }: Button) => {
   const getButtonClassNames = () => {
     return clsx(
-      'py-2 px-4 rounded focus:outline-none font-sans font-bold inline-flex gap-3 justify-center items-center tracking-wide transition-colors',
+      'py-2 px-4 rounded focus:outline-none font-sans font-bold inline-flex gap-3 justify-center items-center tracking-wide transition-colors flex-nowrap whitespace-nowrap',
       {
         'bg-green-500 hover:bg-green-400 focus:bg-green-400 text-white border-2 border-green-400 hover:border-green-300 focus:border-green-300':
           variant === 'primary',

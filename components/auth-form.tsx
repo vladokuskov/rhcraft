@@ -3,6 +3,13 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { Button } from './button'
+import {
+  faExclamationTriangle,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Input } from './input'
 
 const AuthForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -18,23 +25,24 @@ const AuthForm = () => {
 
     setIsLoading(true)
 
-    try {
-      const logging = await signIn('credentials', {
-        email: email.toLowerCase(),
-        password: password,
-        redirect: false,
-      })
+    if (email.length !== 0 && password.length !== 0)
+      try {
+        const logging = await signIn('credentials', {
+          email: email.toLowerCase(),
+          password: password,
+          redirect: false,
+        })
 
-      if (logging?.error) {
-        setError(logging.error)
-      } else {
-        router.push('/dashboard')
+        if (logging?.error) {
+          setError(logging.error)
+        } else {
+          router.push('/dashboard')
+        }
+
+        setIsLoading(false)
+      } catch (err) {
+        if (err instanceof Error) setError(err.message)
       }
-
-      setIsLoading(false)
-    } catch (err) {
-      if (err instanceof Error) setError(err.message)
-    }
   }
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,33 +54,42 @@ const AuthForm = () => {
   }
 
   return (
-    <form className="flex flex-col gap-3 w-40" onSubmit={handleSubmit}>
-      {error && <p className="text-red-600">{error}</p>}
-      <input
-        className="text-cyan-800"
+    <form
+      className="flex flex-col gap-3 max-w-xs mx-auto my-0"
+      onSubmit={handleSubmit}
+    >
+      <Input
+        title="Email"
+        variant="outlined"
+        type="email"
+        placeholder="name@example.com"
         value={email}
         onChange={handleEmailChange}
-        placeholder="name@example.com"
-        type="email"
-        autoCapitalize="none"
-        autoComplete="email"
-        autoCorrect="off"
-        disabled={isLoading}
+        isDisabled={isLoading}
       />
-      <input
-        className="text-cyan-800"
+      <Input
+        title="Password"
+        variant="outlined"
         type="password"
         value={password}
         onChange={handlePasswordChange}
-        placeholder=""
-        autoCapitalize="none"
-        autoComplete="password"
-        autoCorrect="off"
-        disabled={isLoading}
+        isDisabled={isLoading}
       />
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Loading' : 'Login'}
-      </button>
+      {error && (
+        <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          <p className=" font-roboto font-medium">{error}</p>
+        </div>
+      )}
+      <Button
+        variant="service"
+        title="Login"
+        isRequired
+        icon={isLoading ? faSpinner : null}
+        isLoading={isLoading}
+        full={false}
+        isDisabled={email.length === 0 || password.length === 0}
+      />
     </form>
   )
 }

@@ -27,7 +27,7 @@ const Footer = () => {
             title="YouTube channel"
             href="https://www.youtube.com/@realminheart"
             target="_blank"
-            className="font-inter hover:text-gray-300 focus:text-gray-300 hover:transition-colors hover:underline underline-offset-2"
+            className="font-inter hover:text-neutral-300 focus:text-neutral-300 hover:transition-colors hover:underline underline-offset-2"
           >
             YT Channel
           </a>

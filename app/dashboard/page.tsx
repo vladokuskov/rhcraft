@@ -23,15 +23,10 @@ async function getAllPosts() {
 }
 
 export default async function Dashboard() {
-  const user = await getCurrentUser()
   const posts = getAllPosts()
 
-  if (!user) {
-    redirect('/login')
-  }
-
   return (
-    <div className=" flex flex-col w-48 gap-3">
+    <div className=" flex flex-col w-full gap-3">
       <Link href="/">Back to Home page</Link>
       <Link href="/dashboard/create">Create post</Link>
       <Link href="/dashboard/settings">Settings</Link>

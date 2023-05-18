@@ -25,6 +25,9 @@ module.exports = {
       screens: {
         sm: '640px',
       },
+      gridTemplateColumns: {
+        withSidebar: '2fr 8fr',
+      },
     },
   },
   plugins: [],

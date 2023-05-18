@@ -21,6 +21,7 @@ module.exports = {
         sans: ['var(--font-source-sans-pro)'],
         inter: ['var(--font-inter)'],
         roboto: ['var(--font-roboto)'],
+        tabloid: ['var(--font-tabloid)'],
       },
       screens: {
         sm: '640px',

@@ -2,6 +2,13 @@
 
 import { User } from 'next-auth'
 import { useState } from 'react'
+import { Button } from '../button'
+import {
+  faExclamationTriangle,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons'
+import { Input } from '../input'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface NameChange {
   userName: string | null | undefined
@@ -46,18 +53,39 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
   }
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={handleNameSave}>
-      <p>Here you can change your name</p>
-      {error && <p className="text-red-500">{error}</p>}
-      <input
-        className="text-black"
-        onChange={handleNameChange}
-        disabled={isSaving}
+    <form
+      className="w-full flex flex-col gap-2 py-6 px-4 border border-neutral-600 rounded"
+      onSubmit={handleNameSave}
+    >
+      <p className="font-sans text-neutral-500 font-semibold tracking-wide">
+        Here you can change your name
+      </p>
+      <Input
+        title="Name"
+        variant="outlined"
+        type="text"
         value={name}
+        onChange={handleNameChange}
+        isDisabled={isSaving}
+        full
+        className="max-w-xs"
       />
-      <button className="bg-lime-500" disabled={isSaving}>
-        Save
-      </button>
+      {error && (
+        <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+          <p className=" font-roboto font-medium">{error}</p>
+        </div>
+      )}
+      <Button
+        className=" max-w-[5rem]"
+        variant="primary"
+        title="Save"
+        isRequired
+        icon={isSaving ? faSpinner : null}
+        isLoading={isSaving}
+        full={false}
+        isDisabled={isSaving}
+      />
     </form>
   )
 }

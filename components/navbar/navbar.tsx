@@ -7,7 +7,7 @@ import { NavigationLink } from '../navigation-link'
 
 const NavBar = () => {
   return (
-    <nav className="flex bg-gray-960 h-12 items-center w-full fixed border-b border-white border-opacity-10">
+    <nav className="flex bg-gray-960 h-12 items-center w-full fixed border-b border-white border-opacity-10 z-40">
       <div className="flex w-full max-w-[80rem] mx-auto my-0 justify-between items-center px-4 ">
         <Link href="/" className="flex items-center" title="Home">
           <Image

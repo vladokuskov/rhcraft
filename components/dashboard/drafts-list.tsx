@@ -1,51 +1,45 @@
-'use client'
+import { DashboardPost } from './dashboard-post'
 
-import { getCurrentUser } from '@/lib/session'
-import { Post } from '@prisma/client'
-import { useState } from 'react'
+import { db } from '@/lib/db'
 
-export default function DraftsList({ posts }: { posts: any }) {
-  const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+async function getAllPosts() {
+  const posts = db.post.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+    select: {
+      id: true,
+      title: true,
+      createdAt: true,
+    },
+  })
 
-  const handleDraftDelete = async (postId: string) => {
-    const user = await getCurrentUser()
+  if (!posts) {
+    null
+  }
 
-    setIsSaving(true)
-    if (user) {
-      try {
-        const response = await fetch(`/api/posts/${postId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: postId,
-          }),
-        })
+  return posts
+}
 
-        if (!response?.ok) {
-          setError('Something happen when deleting post')
-        }
+const DraftsList = async () => {
+  const posts = await getAllPosts()
 
-        setIsSaving(false)
-      } catch (err) {
-        if (err instanceof Error) setError(err.message)
-        setIsSaving(false)
-      }
-    }
+  if (!posts) {
+    return <></>
   }
 
   return (
-    <ul className="flex flex-col gap-5">
-      {posts &&
-        posts.map((post: any) => (
-          <li key={post.id}>
-            <p>Post id: {post.id}</p>
-            <p>Post title: {post.title}</p>
-            <p>Post date: {post.createdAt.toDateString()}</p>
-          </li>
-        ))}
+    <ul className="flex flex-col gap-4 w-full">
+      {posts.map((post) => (
+        <DashboardPost
+          key={post.id}
+          title={post.title}
+          date={post.createdAt}
+          id={post.id}
+        />
+      ))}
     </ul>
   )
 }
+
+export default DraftsList as unknown as () => JSX.Element

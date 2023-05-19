@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { Button } from './button'
 import {
   faExclamationTriangle,
@@ -92,7 +92,7 @@ const AuthForm = () => {
         icon={isLoading ? faSpinner : null}
         isLoading={isLoading}
         full={false}
-        isDisabled={email.length === 0 || password.length === 0}
+        isDisabled={isLoading}
       />
     </form>
   )

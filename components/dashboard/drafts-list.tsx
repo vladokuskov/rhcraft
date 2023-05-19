@@ -1,8 +1,6 @@
 import { DashboardPost } from './dashboard-post'
 
-import { GetStaticProps } from 'next'
 import { db } from '@/lib/db'
-import { Post } from '@prisma/client'
 
 async function getAllPosts() {
   const posts = db.post.findMany({

@@ -1,9 +1,14 @@
 'use client'
 
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
+import {
+  faEllipsisVertical,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons'
 import { Button } from '../button'
 import { useRef, useState } from 'react'
 import { useClickOutside } from '@/hooks/useClickOutside'
+import { useRouter } from 'next/navigation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type DashboardPost = {
   title: string
@@ -12,26 +17,28 @@ type DashboardPost = {
   key: string
 }
 
+const handlePostDelete = async (id: string) => {
+  try {
+    const response = await fetch(`/api/posts/${id}`, {
+      method: 'DELETE',
+    })
+
+    if (!response?.ok) {
+      console.error('Error happen when deleting post')
+    }
+
+    return true
+  } catch (err) {
+    if (err) {
+    }
+  }
+}
+
 const DashboardPost = ({ title, date, id }: DashboardPost) => {
+  const router = useRouter()
   const dashboardPostRef = useRef(null)
   const [isMenuOpen, setIsMenuOpen] = useClickOutside(dashboardPostRef, false)
   const [isDeleting, setIsDeleting] = useState(false)
-
-  const handlePostDelete = async () => {
-    setIsDeleting(true)
-
-    try {
-      await fetch(`/api/posts/${id}`, {
-        method: 'DELETE',
-      })
-
-      setIsDeleting(false)
-    } catch (err) {
-      if (err) {
-        setIsDeleting(false)
-      }
-    }
-  }
 
   return (
     <li
@@ -58,19 +65,31 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
         onClick={() => setIsMenuOpen((prev) => !prev)}
       />
       {isMenuOpen && (
-        <div className="z-20 absolute right-6 bottom-[-3rem] flex flex-col font-roboto bg-black p-2 rounded border-neutral-600 border gap-2">
+        <div className=" z-20 absolute right-6 bottom-[-3rem] flex flex-col font-roboto bg-black p-2 rounded border-neutral-600 border gap-2">
           <button
-            className=" text-red-500 hover:text-red-600 focus:text-red-600"
+            className=" min-w-[6rem] text-red-500 hover:text-red-600 focus:text-red-600"
             disabled={isDeleting}
             title="Delete post"
-            onClick={handlePostDelete}
+            onClick={async () => {
+              setIsDeleting(true)
+
+              const deleted = await handlePostDelete(id)
+
+              if (deleted) {
+                setIsDeleting(false)
+                router.refresh()
+              }
+            }}
           >
-            Delete post
+            {!isDeleting ? (
+              'Delete post'
+            ) : (
+              <FontAwesomeIcon icon={faSpinner} className={'animate-spin'} />
+            )}
           </button>
           <button
-            className=" text-white-100 hover:text-neutral-300 focus:text-neutral-300"
+            className="w-23 text-white-100 hover:text-neutral-300 focus:text-neutral-300"
             title="Edit post"
-            onClick={handlePostDelete}
           >
             Edit post
           </button>

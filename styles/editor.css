@@ -1,0 +1,62 @@
+.dark .ce-block--selected .ce-block__content,
+.dark .ce-inline-toolbar,
+.dark .codex-editor--narrow .ce-toolbox,
+.dark .ce-conversion-toolbar,
+.dark .ce-settings,
+.dark .ce-settings__button,
+.dark .ce-toolbar__settings-btn,
+.dark .cdx-button,
+.dark .ce-popover,
+.dark .ce-toolbar__plus:hover {
+  background: transparent !important;
+  color: #f4f4f4;
+  border-color: white;
+}
+
+.dark .ce-inline-tool,
+.dark .ce-conversion-toolbar__label,
+.dark .ce-toolbox__button,
+.dark .cdx-settings-button,
+.dark .ce-toolbar__plus {
+  color: #f4f4f4;
+  background: transparent !important;
+}
+
+.dark .ce-popover__item-icon,
+.dark .ce-conversion-tool__icon {
+  background-color: gray;
+  box-shadow: none;
+}
+
+.dark .cdx-search-field {
+  border-color: gray;
+  background: black;
+  color: inherit;
+}
+
+.dark ::selection {
+  background: black;
+}
+
+.dark .cdx-settings-button:hover,
+.dark .ce-settings__button:hover,
+.dark .ce-toolbox__button--active,
+.dark .ce-toolbox__button:hover,
+.dark .cdx-button:hover,
+.dark .ce-inline-toolbar__dropdown:hover,
+.dark .ce-inline-tool:hover,
+.dark .ce-popover__item:hover,
+.dark .ce-conversion-tool:hover,
+.dark .ce-toolbar__settings-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+.dark .cdx-notify--error {
+  background: red !important;
+}
+
+.dark .cdx-notify__cross::after,
+.dark .cdx-notify__cross::before {
+  background: white;
+}

@@ -1,5 +1,6 @@
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { postPatchSchema } from '@/lib/validations/post'
 import { getServerSession } from 'next-auth'
 import { z } from 'zod'
 
@@ -25,6 +26,42 @@ export async function DELETE(
     await db.post.delete({
       where: {
         id: params.postId as string,
+      },
+    })
+
+    return new Response(null, { status: 200 })
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return new Response(JSON.stringify(error.issues), { status: 422 })
+    }
+
+    return new Response(null, { status: 500 })
+  }
+}
+
+export async function PATCH(
+  req: Request,
+  context: z.infer<typeof routeContextSchema>,
+) {
+  try {
+    const { params } = routeContextSchema.parse(context)
+
+    const session = await getServerSession(authOptions)
+    if (!session?.user) {
+      return new Response(null, { status: 403 })
+    }
+
+    const json = await req.json()
+    const body = postPatchSchema.parse(json)
+
+    // create post
+    await db.post.update({
+      where: {
+        id: params.postId,
+      },
+      data: {
+        title: body.title,
+        content: body.content,
       },
     })
 

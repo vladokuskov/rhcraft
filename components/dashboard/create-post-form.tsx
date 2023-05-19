@@ -12,7 +12,8 @@ const CreatePostForm = ({ post }: { post: Post }) => {
   const ref = useRef<EditorJS>()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+  const [isPublishing, setIsPublishing] = useState<boolean>(false)
+
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [title, setTitle] = useState(post.title)
 
@@ -73,7 +74,7 @@ const CreatePostForm = ({ post }: { post: Post }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          title: post.title,
+          title: title,
           content: blocks,
         }),
       })
@@ -82,18 +83,41 @@ const CreatePostForm = ({ post }: { post: Post }) => {
 
       if (!response?.ok) {
       }
+
       router.refresh()
     } catch (err) {
-      if (err instanceof Error) setError(err.message)
       setIsSaving(false)
-      console.log(err)
     }
   }
 
-  //FIXME ERROR 500 when patching
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
+  }
+
+  const handlePostPublishing = async () => {
+    setIsPublishing(true)
+
+    try {
+      const response = await fetch(`/api/posts/${post.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          published: !post.published,
+        }),
+      })
+
+      if (!response.ok) {
+        setIsPublishing(false)
+      }
+
+      setIsPublishing(false)
+
+      router.refresh()
+    } catch (err) {
+      setIsPublishing(false)
+    }
   }
 
   if (!isMounted) {
@@ -102,18 +126,33 @@ const CreatePostForm = ({ post }: { post: Post }) => {
 
   return (
     <form className="flex flex-col gap-2" onSubmit={handlePostCreation}>
-      <Button
-        isRequired
-        isDisabled={isSaving}
-        isLoading={isSaving}
-        icon={isSaving ? faSpinner : null}
-        title={isSaving ? undefined : 'Save'}
-        variant="primary"
-        className=" w-[4rem] self-end h-12"
-      />
+      <div className="flex items-center justify-end gap-2">
+        <Button
+          isRequired
+          isDisabled={isSaving}
+          isLoading={isSaving}
+          icon={isSaving ? faSpinner : null}
+          title={isSaving ? undefined : 'Save'}
+          variant="primary"
+          className=" w-[4rem] h-12"
+        />
+        <Button
+          isRequired
+          onClick={handlePostPublishing}
+          isDisabled={isPublishing}
+          isLoading={isPublishing}
+          icon={isPublishing ? faSpinner : null}
+          title={
+            isPublishing ? undefined : post.published ? 'Unpublish' : 'Publish'
+          }
+          variant={post.published ? 'secondary' : 'service'}
+          className="h-12"
+        />
+      </div>
+
       <input
         onChange={handleChange}
-        maxLength={255}
+        maxLength={165}
         name="title"
         type="text"
         title="Post title"
@@ -122,7 +161,7 @@ const CreatePostForm = ({ post }: { post: Post }) => {
         disabled={isSaving}
         value={title}
       />
-      <div id="editor" className="min-h-screen font-roboto" />
+      <div id="editor" className=" w-full min-h-screen font-roboto" />
     </form>
   )
 }

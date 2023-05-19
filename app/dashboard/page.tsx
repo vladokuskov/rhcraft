@@ -1,4 +1,4 @@
-import DraftsList from '@/components/dashboard/drafts-list'
+import DashboardPostsList from '@/components/dashboard/dashboard-posts-list'
 import { NewPostButton } from '@/components/dashboard/new-post-button'
 
 export const metadata = {
@@ -11,7 +11,7 @@ export default async function Dashboard() {
       <div className="w-full flex justify-between items-center gap-4 max-sm:flex-col max-sm:items-start">
         <div>
           <h2 className=" text-white text-3xl font-tabloid tracking-wider">
-            DRAFTS
+            POSTS
           </h2>
           <p className="font-sans text-neutral-500 font-semibold tracking-wide">
             Create and manage posts
@@ -19,7 +19,7 @@ export default async function Dashboard() {
         </div>
         <NewPostButton />
       </div>
-      <DraftsList />
+      <DashboardPostsList />
     </main>
   )
 }

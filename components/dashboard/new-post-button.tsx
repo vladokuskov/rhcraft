@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '../button'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -38,8 +38,9 @@ const NewPostButton = () => {
       onClick={handleCreating}
       variant="primary"
       title={isLoading ? 'Creating' : 'New post'}
-      icon={faPlus}
+      icon={isLoading ? faSpinner : faPlus}
       isDisabled={isLoading}
+      isLoading={isLoading}
     />
   )
 }

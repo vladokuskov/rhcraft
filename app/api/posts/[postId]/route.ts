@@ -1,6 +1,5 @@
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { postPatchSchema } from '@/lib/validations/post'
 import { getServerSession } from 'next-auth'
 import { z } from 'zod'
 
@@ -51,10 +50,9 @@ export async function PATCH(
       return new Response(null, { status: 403 })
     }
 
-    const json = await req.json()
-    const body = postPatchSchema.parse(json)
+    const body = await req.json()
 
-    // create post
+    // update post
     await db.post.update({
       where: {
         id: params.postId,
@@ -62,15 +60,12 @@ export async function PATCH(
       data: {
         title: body.title,
         content: body.content,
+        published: body.published,
       },
     })
 
     return new Response(null, { status: 200 })
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
-    }
-
     return new Response(null, { status: 500 })
   }
 }

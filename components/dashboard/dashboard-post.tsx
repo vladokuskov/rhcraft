@@ -7,7 +7,7 @@ import {
 import { Button } from '../button'
 import { useRef, useState } from 'react'
 import { useClickOutside } from '@/hooks/useClickOutside'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type DashboardPost = {
@@ -90,6 +90,7 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
           <button
             className="w-23 text-white-100 hover:text-neutral-300 focus:text-neutral-300"
             title="Edit post"
+            onClick={() => router.push(`/dashboard/${id}`)}
           >
             Edit post
           </button>

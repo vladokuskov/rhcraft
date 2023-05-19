@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Button } from './button'
 import {
   faExclamationTriangle,
@@ -36,7 +36,7 @@ const AuthForm = () => {
         if (logging?.error) {
           setError(logging.error)
         } else {
-          router.push('/dashboard')
+          router.refresh()
         }
 
         setIsLoading(false)

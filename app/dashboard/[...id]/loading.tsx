@@ -1,5 +1,5 @@
 const DashboardPostLoading = () => {
-  return <>Loading post ...</>
+  return <></>
 }
 
 export default DashboardPostLoading

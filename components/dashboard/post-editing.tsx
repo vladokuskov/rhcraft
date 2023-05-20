@@ -120,11 +120,13 @@ const PostEditing = ({ post }: { post: Post }) => {
 
       if (!response.ok) {
         setIsPublishing(false)
+      } else {
+        await new Promise((resolve) => {
+          router.refresh()
+          setTimeout(resolve, 100)
+        })
+        setIsPublishing(false)
       }
-
-      setIsPublishing(false)
-
-      router.refresh()
     } catch (err) {
       setIsPublishing(false)
     }
@@ -172,7 +174,6 @@ const PostEditing = ({ post }: { post: Post }) => {
         value={title}
       />
 
-      <input type="file" />
       <div
         id="editor"
         className=" w-full min-h-screen font-roboto flex items-start justify-start prose-h2:text-3xl prose-h2:font-roboto prose-h2:font-medium prose-h2:!text-white-200 prose-div:!text-white-300  prose-div:!tracking-wider"

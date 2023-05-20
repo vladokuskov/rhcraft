@@ -37,3 +37,35 @@ export async function DELETE(
     return new Response(null, { status: 500 })
   }
 }
+
+export async function PATCH(
+  req: Request,
+  context: z.infer<typeof routeContextSchema>,
+) {
+  try {
+    const { params } = routeContextSchema.parse(context)
+
+    const session = await getServerSession(authOptions)
+    if (!session?.user) {
+      return new Response(null, { status: 403 })
+    }
+
+    const body = await req.json()
+
+    // update post
+    await db.post.update({
+      where: {
+        id: params.postId,
+      },
+      data: {
+        title: body.title,
+        content: body.content,
+        published: body.published,
+      },
+    })
+
+    return new Response(null, { status: 200 })
+  } catch (error) {
+    return new Response(null, { status: 500 })
+  }
+}

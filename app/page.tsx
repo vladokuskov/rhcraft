@@ -1,10 +1,17 @@
 import { db } from '@/lib/db'
+import Link from 'next/link'
 
 async function getRecentPosts() {
   const posts = await db.post.findMany({
     where: { published: true },
     orderBy: {
       createdAt: 'desc',
+    },
+    select: {
+      id: true,
+      title: true,
+      createdAt: true,
+      author: true,
     },
     take: 3,
   })
@@ -30,6 +37,7 @@ export default async function Home() {
               <p>Post id: {post.id}</p>
               <p>Post title: {post.title}</p>
               <p>Post date: {post.createdAt.toDateString()}</p>
+              <Link href={`blog/${post.id}`}>open post</Link>
             </li>
           ))}
       </ul>

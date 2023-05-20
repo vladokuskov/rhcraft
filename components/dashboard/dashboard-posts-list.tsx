@@ -21,7 +21,7 @@ async function getAllPosts() {
   return posts
 }
 
-const DraftsList = async () => {
+const DashboardPostsList = async () => {
   const posts = await getAllPosts()
 
   if (!posts) {
@@ -42,4 +42,4 @@ const DraftsList = async () => {
   )
 }
 
-export default DraftsList as unknown as () => JSX.Element
+export default DashboardPostsList as unknown as () => JSX.Element

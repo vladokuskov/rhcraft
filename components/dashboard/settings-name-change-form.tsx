@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { Input } from '../input'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useRouter } from 'next/navigation'
 
 interface NameChange {
   userName: string | null | undefined
@@ -16,6 +17,7 @@ interface NameChange {
 }
 
 const SettingsNameChange = ({ userName, user }: NameChange) => {
+  const router = useRouter()
   const [name, setName] = useState(userName ? userName : '')
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
@@ -42,9 +44,10 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
 
         if (!response?.ok) {
           setError('Your name was not updated. Please try again.')
+        } else {
+          router.refresh()
+          setIsSaving(false)
         }
-
-        setIsSaving(false)
       } catch (err) {
         if (err instanceof Error) setError(err.message)
         setIsSaving(false)

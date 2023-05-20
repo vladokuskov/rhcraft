@@ -8,7 +8,7 @@ const DashboardSidebar = () => {
   return (
     <aside className=" w-full flex flex-col items-start justify-center gap-3">
       <NavigationLink
-        title="Drafts"
+        title="Posts"
         destination="/dashboard"
         icon={faFile}
         variant="dashboard"

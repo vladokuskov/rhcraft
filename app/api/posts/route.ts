@@ -5,9 +5,6 @@ import { z } from 'zod'
 
 export async function POST(req: Request) {
   try {
-    // Validate the route context.
-
-    // Ensure user is authentication and has access to this user.
     const session = await getServerSession(authOptions)
     if (!session?.user) {
       return new Response(null, { status: 403 })
@@ -20,7 +17,6 @@ export async function POST(req: Request) {
       data: {
         title: body.title,
         content: body.content,
-        published: true,
         authorId: session.user.id,
       },
       select: {

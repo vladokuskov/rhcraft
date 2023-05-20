@@ -1,23 +1,46 @@
 'use client'
 
 import { Button } from '../button'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 const NewPostButton = () => {
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const handleRedirect = () => {
-    router.push('/dashboard/create')
+  const handleCreating = async () => {
+    setIsLoading(true)
+
+    const response = await fetch('/api/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: 'Untitled Post',
+      }),
+    })
+
+    const post = await response.json()
+
+    router.refresh()
+
+    router.push(`/dashboard/${post.id}`)
+
+    setIsLoading(false)
   }
+
   return (
     <Button
       className="max-sm:self-end"
       size="sm2"
-      onClick={handleRedirect}
+      onClick={handleCreating}
       variant="primary"
-      title="New post"
-      icon={faPlus}
+      title={isLoading ? 'Creating' : 'New post'}
+      icon={isLoading ? faSpinner : faPlus}
+      isDisabled={isLoading}
+      isLoading={isLoading}
     />
   )
 }

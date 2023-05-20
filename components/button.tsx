@@ -60,7 +60,7 @@ const Button = ({
         'hover:text-red-600 focus:text-red-600 text-red-500':
           status === 'danger' &&
           (variant === 'transparent' || variant === 'icon'),
-        'bg-neutral-400 hover:bg-neutral-400 focus:bg-neutral-400 text-white border-2 border-neutral-300 hover:border-neutral-300 focus:border-neutral-300':
+        '!bg-neutral-400 hover:!bg-neutral-400 focus:!bg-neutral-400 text-white !border-2 !border-neutral-300 hover:!border-neutral-300 focus:!border-neutral-300':
           isDisabled &&
           (variant === 'primary' ||
             variant === 'secondary' ||

@@ -35,10 +35,12 @@ export default async function PostPage({ params }: PostPageProps) {
       <p>Post detail page</p>
       <ul>
         {post && (
-          <li key={post.id}>
-            <p>Post id: {post.id}</p>
-            <p>Post title: {post.title}</p>
-          </li>
+          <>
+            <li key={post.id}>
+              <p>Post id: {post.id}</p>
+              <p>Post title: {post.title}</p>
+            </li>
+          </>
         )}
       </ul>
     </>

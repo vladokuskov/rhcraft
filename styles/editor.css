@@ -1,0 +1,89 @@
+.dark .ce-block--selected .ce-block__content,
+.dark .ce-inline-toolbar,
+.dark .codex-editor--narrow .ce-toolbox,
+.dark .ce-conversion-toolbar,
+.dark .ce-settings,
+.dark .ce-settings__button,
+.dark .ce-toolbar__settings-btn,
+.dark .cdx-button,
+.dark .ce-popover,
+.dark .ce-toolbar__plus:hover {
+  background-color: #171717 !important;
+  color: #171717 !important;
+  border-color: #171717;
+}
+
+.dark .ce-inline-tool,
+.dark .ce-conversion-toolbar__label,
+.dark .ce-toolbox__button,
+.dark .cdx-settings-button,
+.dark .ce-toolbar__plus {
+  color: #171717 !important;
+  background-color: #171717 !important;
+}
+
+.ce-toolbar__plus {
+  background-color: transparent !important;
+  color: #f4f4f4 !important;
+}
+
+.ce-inline-too,
+.ce-inline-tool--italic,
+.ce-inline-tool--bold,
+.ce-inline-toolbar__dropdown,
+.ce-inline-tool--link,
+.ce-conversion-tool--focused,
+.ce-conversion-tool__icon,
+.ce-conversion-tool {
+  color: #171717 !important;
+}
+
+.cdx-search-field__input {
+  color: #171717 !important;
+}
+
+.dark .ce-popover__item-icon,
+.dark .ce-conversion-tool__icon {
+  background-color: #171717 !important;
+  box-shadow: none;
+}
+
+.dark .cdx-search-field {
+  border-color: #171717;
+  background-color: #f4f4f4 !important;
+  color: inherit;
+}
+
+.dark ::selection {
+  background-color: #f4f4f4 !important;
+}
+
+.cdx-notify,
+.cdx-notify--error,
+.cdx-notify--bounce-in {
+  background: #f4f4f450 !important;
+  color: #171717 !important;
+}
+
+.dark .cdx-settings-button:hover,
+.dark .ce-settings__button:hover,
+.dark .ce-toolbox__button--active,
+.dark .ce-toolbox__button:hover,
+.dark .cdx-button:hover,
+.dark .ce-inline-toolbar__dropdown:hover,
+.dark .ce-inline-tool:hover,
+.dark .ce-popover__item:hover,
+.dark .ce-conversion-tool:hover,
+.dark .ce-toolbar__settings-btn:hover {
+  background-color: #f4f4f4;
+  color: white;
+}
+
+.dark .cdx-notify--error {
+  background: red !important;
+}
+
+.dark .cdx-notify__cross::after,
+.dark .cdx-notify__cross::before {
+  background: #f4f4f4;
+}

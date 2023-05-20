@@ -1,18 +1,6 @@
 const DashboardLoading = () => {
   return (
     <div className="flex flex-col w-full items-start justify-start gap-8">
-      <div className="w-full flex justify-between items-center gap-4 max-sm:flex-col max-sm:items-start">
-        <div>
-          <h2 className=" text-white text-3xl font-tabloid tracking-wider">
-            POSTS
-          </h2>
-          <p className="font-sans text-neutral-500 font-semibold tracking-wide">
-            Create and manage posts
-          </p>
-        </div>
-        <div className="] bg-neutral-700 rounded animate-pulse max-sm:self-end p-4 px-12" />
-      </div>
-
       {[...Array(20)].map((i) => (
         <div
           key={i}

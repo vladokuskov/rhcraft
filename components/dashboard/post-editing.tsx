@@ -139,7 +139,7 @@ const PostEditing = ({ post }: { post: Post }) => {
       <div className="flex items-center justify-end gap-2">
         <Button
           isRequired
-          isDisabled={isSaving || title.length === 0}
+          isDisabled={isSaving || title.length === 0 || title.length > 165}
           isLoading={isSaving}
           icon={isSaving ? faSpinner : null}
           title={isSaving ? undefined : 'Save'}

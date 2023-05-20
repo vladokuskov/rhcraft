@@ -1,14 +1,15 @@
 'use client'
 
+import '../../styles/editor.css'
+import EditorJS from '@editorjs/editorjs'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '../button'
 import { useRouter } from 'next/navigation'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { postPatchSchema } from '@/lib/validations/post'
-import EditorJS from '@editorjs/editorjs'
 import { Post } from '@prisma/client'
 
-const CreatePostForm = ({ post }: { post: Post }) => {
+const PostEditing = ({ post }: { post: Post }) => {
   const ref = useRef<EditorJS>()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
@@ -20,8 +21,14 @@ const CreatePostForm = ({ post }: { post: Post }) => {
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default
     const Header = (await import('@editorjs/header')).default
+    // @ts-ignore
     const LinkTool = (await import('@editorjs/link')).default
+    // @ts-ignore
     const List = (await import('@editorjs/list')).default
+    // @ts-ignore
+    const CheckList = (await import('@editorjs/checklist')).default
+    // @ts-ignore
+    const Embed = (await import('@editorjs/embed')).default
 
     const body = postPatchSchema.parse(post)
 
@@ -38,6 +45,8 @@ const CreatePostForm = ({ post }: { post: Post }) => {
           header: Header,
           list: List,
           linkTool: LinkTool,
+          checklist: CheckList,
+          embed: Embed,
         },
       })
     }
@@ -166,4 +175,4 @@ const CreatePostForm = ({ post }: { post: Post }) => {
   )
 }
 
-export { CreatePostForm }
+export { PostEditing }

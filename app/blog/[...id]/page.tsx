@@ -1,6 +1,5 @@
 import { db } from '@/lib/db'
 import { notFound } from 'next/navigation'
-import { marked } from 'marked'
 
 interface PostPageProps {
   params: {

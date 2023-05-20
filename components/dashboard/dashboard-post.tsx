@@ -7,7 +7,7 @@ import {
 import { Button } from '../button'
 import { useRef, useState } from 'react'
 import { useClickOutside } from '@/hooks/useClickOutside'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type DashboardPost = {

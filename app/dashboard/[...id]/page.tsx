@@ -1,4 +1,4 @@
-import { CreatePostForm } from '@/components/dashboard/create-post-form'
+import { PostEditing } from '@/components/dashboard/post-editing'
 import { db } from '@/lib/db'
 import { getCurrentUser } from '@/lib/session'
 import { notFound, redirect } from 'next/navigation'
@@ -42,7 +42,7 @@ export default async function DashboardCreationPage({
 
   return (
     <div className=" flex flex-col w-full gap-3">
-      <CreatePostForm post={post} />
+      <PostEditing post={post} />
     </div>
   )
 }

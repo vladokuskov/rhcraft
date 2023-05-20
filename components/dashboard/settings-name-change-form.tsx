@@ -89,7 +89,7 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
         icon={isSaving ? faSpinner : null}
         isLoading={isSaving}
         full={false}
-        isDisabled={isSaving}
+        isDisabled={isSaving || name.length === 0}
       />
     </form>
   )

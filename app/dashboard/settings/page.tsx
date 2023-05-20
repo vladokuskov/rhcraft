@@ -1,7 +1,9 @@
 import { SettingsNameChange } from '@/components/dashboard/settings-name-change-form'
 import { SettingsSignOut } from '@/components/dashboard/settings-signout'
+import DashboardNameChangeLoading from '@/components/dashboard/skeletons/dashboard-name-change-loading'
 import { getCurrentUser } from '@/lib/session'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
 export const metadata = {
   title: 'rhcraft - Dashboard settings',
@@ -24,7 +26,9 @@ export default async function DashboardSettings() {
           User settings
         </p>
       </div>
-      <SettingsNameChange userName={user.name} user={user} />
+      <Suspense fallback={<DashboardNameChangeLoading />}>
+        <SettingsNameChange userName={user.name} user={user} />
+      </Suspense>
       <SettingsSignOut />
     </main>
   )

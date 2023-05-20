@@ -14,6 +14,7 @@ const PostEditing = ({ post }: { post: Post }) => {
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
+  const [previewImage, setPreviewImage] = useState<File | null>(null)
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [title, setTitle] = useState(post.title)
@@ -119,11 +120,13 @@ const PostEditing = ({ post }: { post: Post }) => {
 
       if (!response.ok) {
         setIsPublishing(false)
+      } else {
+        await new Promise((resolve) => {
+          router.refresh()
+          setTimeout(resolve, 100)
+        })
+        setIsPublishing(false)
       }
-
-      setIsPublishing(false)
-
-      router.refresh()
     } catch (err) {
       setIsPublishing(false)
     }
@@ -138,7 +141,7 @@ const PostEditing = ({ post }: { post: Post }) => {
       <div className="flex items-center justify-end gap-2">
         <Button
           isRequired
-          isDisabled={isSaving}
+          isDisabled={isSaving || title.length === 0 || title.length > 165}
           isLoading={isSaving}
           icon={isSaving ? faSpinner : null}
           title={isSaving ? undefined : 'Save'}
@@ -148,7 +151,7 @@ const PostEditing = ({ post }: { post: Post }) => {
         <Button
           isRequired
           onClick={handlePostPublishing}
-          isDisabled={isPublishing}
+          isDisabled={isPublishing || title.length === 0}
           isLoading={isPublishing}
           icon={isPublishing ? faSpinner : null}
           title={
@@ -170,6 +173,7 @@ const PostEditing = ({ post }: { post: Post }) => {
         disabled={isSaving}
         value={title}
       />
+
       <div
         id="editor"
         className=" w-full min-h-screen font-roboto flex items-start justify-start prose-h2:text-3xl prose-h2:font-roboto prose-h2:font-medium prose-h2:!text-white-200 prose-div:!text-white-300  prose-div:!tracking-wider"

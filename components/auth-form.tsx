@@ -34,12 +34,16 @@ const AuthForm = () => {
         })
 
         if (logging?.error) {
-          setError(logging.error)
+          await new Promise((resolve) => {
+            router.refresh()
+            setTimeout(resolve, 100)
+          })
+          setIsLoading(false)
         } else {
           router.refresh()
-        }
 
-        setIsLoading(false)
+          setIsLoading(false)
+        }
       } catch (err) {
         if (err instanceof Error) setError(err.message)
       }

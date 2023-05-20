@@ -1,5 +1,7 @@
 import DashboardPostsList from '@/components/dashboard/dashboard-posts-list'
 import { NewPostButton } from '@/components/dashboard/new-post-button'
+import { Suspense } from 'react'
+import DashboardLoading from '../../components/dashboard/skeletons/dashboard-home-loading'
 
 export const metadata = {
   title: 'rhcraft - Dashboard',
@@ -19,7 +21,9 @@ export default async function Dashboard() {
         </div>
         <NewPostButton />
       </div>
-      <DashboardPostsList />
+      <Suspense fallback={<DashboardLoading />}>
+        <DashboardPostsList />
+      </Suspense>
     </main>
   )
 }

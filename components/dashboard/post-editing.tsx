@@ -170,7 +170,10 @@ const PostEditing = ({ post }: { post: Post }) => {
         disabled={isSaving}
         value={title}
       />
-      <div id="editor" className=" w-full min-h-screen font-roboto" />
+      <div
+        id="editor"
+        className=" w-full min-h-screen font-roboto flex items-start justify-start prose-h2:text-3xl prose-h2:font-roboto prose-h2:font-medium prose-h2:!text-white-200 prose-div:!text-white-300  prose-div:!tracking-wider"
+      />
     </form>
   )
 }

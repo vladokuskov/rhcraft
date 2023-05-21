@@ -14,7 +14,6 @@ const PostEditing = ({ post }: { post: Post }) => {
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
-  const [previewImage, setPreviewImage] = useState<File | null>(null)
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [title, setTitle] = useState(post.title)
@@ -47,7 +46,15 @@ const PostEditing = ({ post }: { post: Post }) => {
           list: List,
           linkTool: LinkTool,
           checklist: CheckList,
-          embed: Embed,
+          embed: {
+            class: Embed,
+            config: {
+              services: {
+                youtube: true,
+                imgur: true,
+              },
+            },
+          },
         },
       })
     }
@@ -121,10 +128,8 @@ const PostEditing = ({ post }: { post: Post }) => {
       if (!response.ok) {
         setIsPublishing(false)
       } else {
-        await new Promise((resolve) => {
-          router.refresh()
-          setTimeout(resolve, 100)
-        })
+        router.refresh()
+
         setIsPublishing(false)
       }
     } catch (err) {

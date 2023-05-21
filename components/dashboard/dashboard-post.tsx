@@ -76,11 +76,18 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
             onClick={async () => {
               setIsDeleting(true)
 
-              const deleted = await handlePostDelete(id)
+              const isConfirmed = window.confirm(
+                'Are you sure you want to delete post from database?',
+              )
+              if (isConfirmed) {
+                const deleted = await handlePostDelete(id)
 
-              if (deleted) {
+                if (deleted) {
+                  setIsDeleting(false)
+                  router.refresh()
+                }
+              } else {
                 setIsDeleting(false)
-                router.refresh()
               }
             }}
           >

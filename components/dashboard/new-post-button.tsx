@@ -24,18 +24,21 @@ const NewPostButton = () => {
 
     const post = await response.json()
 
-    router.refresh()
-
     router.push(`/dashboard/${post.id}`)
 
     setIsLoading(false)
+  }
+
+  const handleClick = async () => {
+    setIsLoading(true)
+    await handleCreating()
   }
 
   return (
     <Button
       className="max-sm:self-end"
       size="sm2"
-      onClick={handleCreating}
+      onClick={handleClick}
       variant="primary"
       title={isLoading ? 'Creating' : 'New post'}
       icon={isLoading ? faSpinner : faPlus}

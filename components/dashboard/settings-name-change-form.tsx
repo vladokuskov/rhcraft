@@ -57,13 +57,18 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
 
   return (
     <form
-      className="w-full flex flex-col gap-2 py-6 px-4 border border-neutral-600 rounded"
+      className="w-full flex flex-col gap-6 py-6 px-4 border border-neutral-600 rounded"
       onSubmit={handleNameSave}
     >
-      <h3 className="font-sans text-white font-semibold text-xl">Your name</h3>
-      <p className="font-sans text-neutral-500 font-semibold tracking-wide">
-        Here you can change your name
-      </p>
+      <div>
+        <h3 className="font-sans text-white font-semibold text-xl leading-4">
+          Your name
+        </h3>
+        <p className="font-sans text-neutral-500 font-semibold tracking-wide">
+          Here you can change your name
+        </p>
+      </div>
+
       <Input
         title="Name"
         variant="outlined"
@@ -82,7 +87,7 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
       )}
       <Button
         size="sm2"
-        className=" max-w-[7rem] mt-3"
+        className=" max-w-[7rem]"
         variant="primary"
         title={isSaving ? 'Saving' : 'Save'}
         isRequired

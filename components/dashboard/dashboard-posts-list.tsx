@@ -24,7 +24,7 @@ async function getAllPosts() {
 const DashboardPostsList = async () => {
   const posts = await getAllPosts()
 
-  if (!posts) {
+  if (!posts || posts.length == 0) {
     return <></>
   }
 

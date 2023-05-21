@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-const DashboardPostNotFound = () => {
+export default function DashboardPostNotFound() {
   return (
     <div className=" w-full flex flex-col items-center justify-start gap-3 pt-8">
       <Image
@@ -22,5 +22,3 @@ const DashboardPostNotFound = () => {
     </div>
   )
 }
-
-export default DashboardPostNotFound

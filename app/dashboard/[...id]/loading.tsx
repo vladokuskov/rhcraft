@@ -1,4 +1,4 @@
-const DashboardEditingLoading = () => {
+export default function DashboardEditingLoading() {
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="w-full flex items-end justify-end gap-2">
@@ -20,5 +20,3 @@ const DashboardEditingLoading = () => {
     </div>
   )
 }
-
-export default DashboardEditingLoading

@@ -67,7 +67,10 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
       {isMenuOpen && (
         <div className=" z-20 absolute right-6 bottom-[-3rem] flex flex-col font-roboto bg-black p-2 rounded border-neutral-600 border gap-2">
           <button
-            className=" min-w-[6rem] text-red-500 hover:text-red-600 focus:text-red-600"
+            className={`min-w-[6rem] text-red-500 hover:text-red-600 focus:text-red-600 ${
+              isDeleting &&
+              `!text-neutral-400 hover:!neutral-400 focus:!neutral-400`
+            }`}
             disabled={isDeleting}
             title="Delete post"
             onClick={async () => {

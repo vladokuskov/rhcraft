@@ -2,7 +2,7 @@
 
 import '../../styles/editor.css'
 import EditorJS from '@editorjs/editorjs'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '../button'
 import { useRouter } from 'next/navigation'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
@@ -14,6 +14,10 @@ const PostEditing = ({ post }: { post: Post }) => {
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
+  const [previewImage, setPreviewImage] = useState<File | null>(null)
+  const [previewImageURL, setPreviewImageURL] = useState<string | null>(
+    post.image,
+  )
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [title, setTitle] = useState(post.title)
@@ -84,6 +88,8 @@ const PostEditing = ({ post }: { post: Post }) => {
 
     setIsSaving(true)
 
+    const image = await previewImageUpload()
+
     try {
       const response = await fetch(`/api/posts/${post.id}`, {
         method: 'PATCH',
@@ -93,6 +99,7 @@ const PostEditing = ({ post }: { post: Post }) => {
         body: JSON.stringify({
           title: title,
           content: blocks,
+          image: image,
         }),
       })
 
@@ -137,6 +144,69 @@ const PostEditing = ({ post }: { post: Post }) => {
     }
   }
 
+  const previewImageUpload = async () => {
+    const api_key = process.env.NEXT_PUBLIC_BUCKET_API_KEY
+    const api_url = process.env.NEXT_PUBLIC_BUCKET_API
+
+    if (previewImage && api_key && api_url) {
+      try {
+        const formData = new FormData()
+        formData.append('file', previewImage)
+        formData.append('upload_preset', 'ml_default')
+
+        const timestamp = Math.round(new Date().getTime() / 1000)
+
+        const signatureResponse = await fetch('/api/signature/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            timestamp,
+          }),
+        })
+
+        if (!signatureResponse.ok) {
+          throw new Error('Failed to generate signature')
+        }
+
+        const signature = await signatureResponse.json()
+
+        formData.append('timestamp', timestamp.toString())
+        formData.append('api_key', api_key)
+        formData.append('signature', signature)
+
+        const uploadResponse = await fetch(api_url, {
+          method: 'POST',
+          body: formData,
+        })
+
+        if (uploadResponse.ok) {
+          const data = await uploadResponse.json()
+          const imageUrl = data.secure_url
+
+          return imageUrl
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      return previewImageURL
+    }
+  }
+
+  const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newImage = e.target.files[0]
+
+      setPreviewImage(newImage)
+
+      setPreviewImageURL(URL.createObjectURL(newImage))
+    }
+  }
+
+  const handleImageDeleting = async () => {}
+
   if (!isMounted) {
     return null
   }
@@ -166,6 +236,12 @@ const PostEditing = ({ post }: { post: Post }) => {
           className="h-12"
         />
       </div>
+
+      {previewImageURL?.length !== 0 && previewImageURL && (
+        <img src={previewImageURL} />
+      )}
+
+      <input type="file" id="fileupload" onChange={handleImageInputChange} />
 
       <input
         onChange={handleChange}

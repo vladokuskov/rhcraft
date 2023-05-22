@@ -15,7 +15,6 @@ model Post {
   title     String     @db.VarChar(255)
   content   Json?
   imageURL  String?
-  imageID   String?
   published Boolean @default(false)
   author    User?   @relation(fields: [authorId], references: [id])
   authorId  String?

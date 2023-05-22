@@ -8,14 +8,23 @@ import { useRouter } from 'next/navigation'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { postPatchSchema } from '@/lib/validations/post'
 import { Post } from '@prisma/client'
+import { storage } from '@/lib/firebase'
+import {
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+  deleteObject,
+  uploadBytes,
+} from 'firebase/storage'
 
 const PostEditing = ({ post }: { post: Post }) => {
-  const ref = useRef<EditorJS>()
+  const editorRef = useRef<EditorJS>()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
-  const [previewImage, setPreviewImage] = useState<File | null>(null)
-  const [previewImageURL, setPreviewImageURL] = useState<string | null>(
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null)
+
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(
     post.imageURL,
   )
 
@@ -36,11 +45,11 @@ const PostEditing = ({ post }: { post: Post }) => {
 
     const body = postPatchSchema.parse(post)
 
-    if (!ref.current) {
+    if (!editorRef.current) {
       const editor = new EditorJS({
         holder: 'editor',
         onReady() {
-          ref.current = editor
+          editorRef.current = editor
         },
         placeholder: 'Type here to write your post...',
         inlineToolbar: true,
@@ -75,8 +84,8 @@ const PostEditing = ({ post }: { post: Post }) => {
       initializeEditor()
 
       return () => {
-        ref.current?.destroy()
-        ref.current = undefined
+        editorRef.current?.destroy()
+        editorRef.current = undefined
       }
     }
   }, [isMounted, initializeEditor])
@@ -84,11 +93,11 @@ const PostEditing = ({ post }: { post: Post }) => {
   const handlePostEditing = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const blocks = await ref.current?.save()
+    const blocks = await editorRef.current?.save()
+
+    const imageURL = await handleImageUpload()
 
     setIsSaving(true)
-
-    const { imageURL, imageID } = await previewImageUpload()
 
     try {
       const response = await fetch(`/api/posts/${post.id}`, {
@@ -100,7 +109,6 @@ const PostEditing = ({ post }: { post: Post }) => {
           title: title,
           content: blocks,
           imageURL: imageURL,
-          imageID: imageID,
         }),
       })
 
@@ -145,69 +153,64 @@ const PostEditing = ({ post }: { post: Post }) => {
     }
   }
 
-  const previewImageUpload = async () => {
-    const api_key = process.env.NEXT_PUBLIC_BUCKET_API_KEY
-    const api_url = process.env.NEXT_PUBLIC_BUCKET_API
+  const handleImageUpload = async () => {
+    if (uploadedImage && !post.imageURL) {
+      const storageRef = ref(storage, `blog/${post.id}/${uploadedImage.name}`)
+      await uploadBytes(storageRef, uploadedImage)
+      const downloadURL = await getDownloadURL(storageRef)
+      if (downloadURL) {
+        return downloadURL
+      }
+    } else if (uploadedImage && post.imageURL) {
+      const storageRef = ref(storage, post.imageURL)
+      await deleteObject(storageRef)
+      await uploadBytes(storageRef, uploadedImage)
+      const downloadURL = await getDownloadURL(storageRef)
+      if (downloadURL) {
+        return downloadURL
+      }
+    } else {
+      return post.imageURL
+    }
+  }
 
-    if (previewImage && api_key && api_url) {
+  const handleImageDelete = async () => {
+    if (post.imageURL) {
       try {
-        const formData = new FormData()
-        formData.append('file', previewImage)
-        formData.append('upload_preset', 'ml_default')
+        const storageRef = ref(storage, post.imageURL)
 
-        const timestamp = Math.round(new Date().getTime() / 1000)
+        await deleteObject(storageRef)
 
-        const signatureResponse = await fetch('/api/signature/', {
-          method: 'POST',
+        setPreviewImageUrl(null)
+
+        const response = await fetch(`/api/posts/${post.id}`, {
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            timestamp,
+            imageURL: null,
           }),
         })
 
-        if (!signatureResponse.ok) {
-          throw new Error('Failed to generate signature')
+        if (response.ok) {
+          router.refresh()
         }
-
-        const signature = await signatureResponse.json()
-
-        formData.append('timestamp', timestamp.toString())
-        formData.append('api_key', api_key)
-        formData.append('signature', signature)
-
-        const uploadResponse = await fetch(api_url, {
-          method: 'POST',
-          body: formData,
-        })
-
-        if (uploadResponse.ok) {
-          const data = await uploadResponse.json()
-          const imageURL = data.secure_url as string
-          const imageID = data.public_id as string
-
-          return { imageURL, imageID }
-        }
-      } catch (error) {
-        console.log(error)
+      } catch (err) {
+        console.error(err)
       }
     }
-
-    return { imageURL: post.imageURL, imageID: post.imageID }
   }
 
   const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newImage = e.target.files[0]
 
-      setPreviewImage(newImage)
+      setUploadedImage(newImage)
 
-      setPreviewImageURL(URL.createObjectURL(newImage))
+      setPreviewImageUrl(URL.createObjectURL(newImage))
     }
   }
-
-  const handleImageDeleting = async () => {}
 
   if (!isMounted) {
     return null
@@ -239,8 +242,12 @@ const PostEditing = ({ post }: { post: Post }) => {
         />
       </div>
 
-      {previewImageURL?.length !== 0 && previewImageURL && (
-        <img src={previewImageURL} />
+      {previewImageUrl && <img src={previewImageUrl} />}
+
+      {post.imageURL && (
+        <button onClick={handleImageDelete} type="button">
+          Delete image
+        </button>
       )}
 
       <input type="file" id="fileupload" onChange={handleImageInputChange} />

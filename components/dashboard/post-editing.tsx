@@ -16,7 +16,7 @@ const PostEditing = ({ post }: { post: Post }) => {
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<File | null>(null)
   const [previewImageURL, setPreviewImageURL] = useState<string | null>(
-    post.image,
+    post.imageURL,
   )
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
@@ -81,14 +81,14 @@ const PostEditing = ({ post }: { post: Post }) => {
     }
   }, [isMounted, initializeEditor])
 
-  const handlePostCreation = async (e: React.FormEvent) => {
+  const handlePostEditing = async (e: React.FormEvent) => {
     e.preventDefault()
 
     const blocks = await ref.current?.save()
 
     setIsSaving(true)
 
-    const image = await previewImageUpload()
+    const { imageURL, imageID } = await previewImageUpload()
 
     try {
       const response = await fetch(`/api/posts/${post.id}`, {
@@ -99,7 +99,8 @@ const PostEditing = ({ post }: { post: Post }) => {
         body: JSON.stringify({
           title: title,
           content: blocks,
-          image: image,
+          imageURL: imageURL,
+          imageID: imageID,
         }),
       })
 
@@ -183,16 +184,17 @@ const PostEditing = ({ post }: { post: Post }) => {
 
         if (uploadResponse.ok) {
           const data = await uploadResponse.json()
-          const imageUrl = data.secure_url
+          const imageURL = data.secure_url as string
+          const imageID = data.public_id as string
 
-          return imageUrl
+          return { imageURL, imageID }
         }
       } catch (error) {
         console.log(error)
       }
-    } else {
-      return previewImageURL
     }
+
+    return { imageURL: post.imageURL, imageID: post.imageID }
   }
 
   const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -212,7 +214,7 @@ const PostEditing = ({ post }: { post: Post }) => {
   }
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={handlePostCreation}>
+    <form className="flex flex-col gap-2" onSubmit={handlePostEditing}>
       <div className="flex items-center justify-end gap-2">
         <Button
           isRequired

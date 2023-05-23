@@ -4,7 +4,6 @@ import '../../styles/editor.css'
 import EditorJS from '@editorjs/editorjs'
 import {
   ChangeEvent,
-  RefObject,
   useCallback,
   useEffect,
   useRef,
@@ -83,23 +82,6 @@ const PostEditing = ({ post }: { post: Post }) => {
       })
     }
   }, [post])
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setIsMounted(true)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (isMounted) {
-      initializeEditor()
-
-      return () => {
-        editorRef.current?.destroy()
-        editorRef.current = undefined
-      }
-    }
-  }, [isMounted, initializeEditor])
 
   const handlePostEditing = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -214,6 +196,23 @@ const PostEditing = ({ post }: { post: Post }) => {
       setPreviewImageUrl(URL.createObjectURL(newImage))
     }
   }
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsMounted(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isMounted) {
+      initializeEditor()
+
+      return () => {
+        editorRef.current?.destroy()
+        editorRef.current = undefined
+      }
+    }
+  }, [isMounted, initializeEditor])
 
   if (!isMounted) {
     return null

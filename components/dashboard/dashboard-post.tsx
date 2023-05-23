@@ -56,6 +56,7 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
             year: 'numeric',
           })}`}
         </p>
+        
       </div>
       <Button
         variant="icon"

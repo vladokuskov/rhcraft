@@ -25,6 +25,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-regular-svg-icons'
 import clsx from 'clsx'
+import Image from 'next/image'
 
 const PostEditing = ({ post }: { post: Post }) => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -253,7 +254,7 @@ const PostEditing = ({ post }: { post: Post }) => {
           className={clsx(
             `text-white-100 p-4 inline-flex justify-start items-center font-sans border rounded border-neutral-600 border-dashed gap-4 cursor-pointer
           hover:text-neutral-300 transition-colors`,
-            { 'border-hidden cursor-default': previewImageUrl },
+            { 'border-hidden cursor-default p-0 mt-2': previewImageUrl },
           )}
         >
           {!previewImageUrl ? (
@@ -263,12 +264,14 @@ const PostEditing = ({ post }: { post: Post }) => {
             </span>
           ) : (
             <div className="rounded w-full h-full relative">
-              <img
+              <Image
+              width={500}
+              height={300}
                 src={previewImageUrl}
                 alt="Image preview picture"
                 className="h-full max-h-80 rounded object-cover"
               />
-              <div className="rounded h-full w-full bg-neutral-500 opacity-70 absolute top-0 left-0 flex items-center justify-center text-opacity-100"><FontAwesomeIcon icon={faImage} size='7x' /></div>
+              <div className="rounded h-full w-full bg-neutral-500 opacity-70 absolute top-0 left-0 flex items-center justify-center text-opacity-100 text-6xl"><FontAwesomeIcon icon={faImage} /></div>
             </div>
           )}
         </div>
@@ -286,7 +289,7 @@ const PostEditing = ({ post }: { post: Post }) => {
         <button
           type="button"
           onClick={handleImageDelete}
-          className="ml-4 max-w-[8rem] justify-self-start text-red-500 font-sans p-2 border rounded border-red-500 hover:border-red-600 hover:text-red-600"
+          className="max-w-[8rem] justify-self-start text-red-500 font-sans p-2 border rounded border-red-500 hover:border-red-600 hover:text-red-600"
         >
           Delete image
         </button>

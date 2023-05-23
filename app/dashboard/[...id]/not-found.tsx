@@ -13,11 +13,11 @@ export default function DashboardPostNotFound() {
       />
       <h2 className="font-sans font-bolder text-2xl">Post not found</h2>
       <Link
-        href="dashboard/create"
-        title="Create new post"
+        href="dashboard/"
+        title="Back to posts"
         className="underline font-roboto hover:text-neutral-300 focus:text-neutral-300 "
       >
-        Create new post
+        Back to posts
       </Link>
     </div>
   )

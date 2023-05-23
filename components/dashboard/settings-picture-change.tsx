@@ -95,7 +95,7 @@ const SettingsPictureChange = ({ userImage, user }: PictureChange) => {
         })
 
         if (!response?.ok) {
-          setError('Your name was not updated. Please try again.')
+          setError('Your picture was not updated. Please try again.')
         } else {
           router.refresh()
           setIsSaving(false)

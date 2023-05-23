@@ -4,7 +4,7 @@ import { getCurrentUser } from '@/lib/session'
 import { notFound, redirect } from 'next/navigation'
 
 export const metadata = {
-  title: 'rhcraft - Dashboard create post',
+  title: 'rhcraft - Dashboard editing post',
 }
 
 async function getPostFromParams(params: any) {

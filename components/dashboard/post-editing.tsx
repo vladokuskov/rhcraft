@@ -2,18 +2,37 @@
 
 import '../../styles/editor.css'
 import EditorJS from '@editorjs/editorjs'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { Button } from '../button'
 import { useRouter } from 'next/navigation'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { postPatchSchema } from '@/lib/validations/post'
 import { Post } from '@prisma/client'
+import { storage } from '@/lib/firebase'
+import {
+  ref,
+  getDownloadURL,
+  deleteObject,
+  uploadBytes,
+} from 'firebase/storage'
+import { ImageUploader } from './image-uploader'
 
 const PostEditing = ({ post }: { post: Post }) => {
-  const ref = useRef<EditorJS>()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const editorRef = useRef<EditorJS>()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null)
+
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(
+    post.imageURL,
+  )
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [title, setTitle] = useState(post.title)
@@ -32,11 +51,11 @@ const PostEditing = ({ post }: { post: Post }) => {
 
     const body = postPatchSchema.parse(post)
 
-    if (!ref.current) {
+    if (!editorRef.current) {
       const editor = new EditorJS({
         holder: 'editor',
         onReady() {
-          ref.current = editor
+          editorRef.current = editor
         },
         placeholder: 'Type here to write your post...',
         inlineToolbar: true,
@@ -60,27 +79,12 @@ const PostEditing = ({ post }: { post: Post }) => {
     }
   }, [post])
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setIsMounted(true)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (isMounted) {
-      initializeEditor()
-
-      return () => {
-        ref.current?.destroy()
-        ref.current = undefined
-      }
-    }
-  }, [isMounted, initializeEditor])
-
-  const handlePostCreation = async (e: React.FormEvent) => {
+  const handlePostEditing = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const blocks = await ref.current?.save()
+    const blocks = await editorRef.current?.save()
+
+    const imageURL = await handleImageUpload()
 
     setIsSaving(true)
 
@@ -93,6 +97,7 @@ const PostEditing = ({ post }: { post: Post }) => {
         body: JSON.stringify({
           title: title,
           content: blocks,
+          imageURL: imageURL,
         }),
       })
 
@@ -137,12 +142,61 @@ const PostEditing = ({ post }: { post: Post }) => {
     }
   }
 
+  const handleImageUpload = async () => {
+    if (uploadedImage && !post.imageURL) {
+      const storageRef = ref(storage, `blog/${post.id}/${uploadedImage.name}`)
+      await uploadBytes(storageRef, uploadedImage)
+      const downloadURL = await getDownloadURL(storageRef)
+      if (downloadURL) {
+        return downloadURL
+      }
+    } else if (uploadedImage && post.imageURL) {
+      const storageRef = ref(storage, post.imageURL)
+      await deleteObject(storageRef)
+      await uploadBytes(storageRef, uploadedImage)
+      const downloadURL = await getDownloadURL(storageRef)
+      if (downloadURL) {
+        return downloadURL
+      }
+    } else if (!uploadedImage && previewImageUrl && post.imageURL) {
+      return post.imageURL
+    } else if (!uploadedImage && !previewImageUrl && post.imageURL) {
+      const storageRef = ref(storage, post.imageURL)
+
+      await deleteObject(storageRef)
+
+      setPreviewImageUrl(null)
+
+      return null
+    } else {
+      return null
+    }
+  }
+
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsMounted(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isMounted) {
+      initializeEditor()
+
+      return () => {
+        editorRef.current?.destroy()
+        editorRef.current = undefined
+      }
+    }
+  }, [isMounted, initializeEditor])
+
   if (!isMounted) {
     return null
   }
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={handlePostCreation}>
+    <form className="flex flex-col gap-2" onSubmit={handlePostEditing}>
       <div className="flex items-center justify-end gap-2">
         <Button
           isRequired
@@ -167,6 +221,8 @@ const PostEditing = ({ post }: { post: Post }) => {
         />
       </div>
 
+<ImageUploader previewImageUrl={previewImageUrl} setUploadedImage={setUploadedImage} setPreviewImageUrl={setPreviewImageUrl} inputRef={inputRef}/>
+
       <input
         onChange={handleChange}
         maxLength={165}
@@ -181,7 +237,7 @@ const PostEditing = ({ post }: { post: Post }) => {
 
       <div
         id="editor"
-        className=" w-full min-h-screen font-roboto flex items-start justify-start prose-h2:text-2xl prose-h2:font-roboto prose-h2:font-medium  prose-div:!tracking-wider"
+        className=" w-full min-h-screen font-roboto flex items-start justify-start prose-h2:text-2xl prose-h2:font-roboto prose-h2:font-medium prose-div:!tracking-wider"
       />
     </form>
   )

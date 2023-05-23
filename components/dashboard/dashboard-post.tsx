@@ -45,8 +45,8 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
       className="w-full flex items-center justify-between py-4 px-4 border border-neutral-600 rounded relative"
       ref={dashboardPostRef}
     >
-      <div>
-        <h4 className="font-sans text-white font-xl font-semibold text-lg">
+      <div className='flex flex-col gap-2 justify-center items-start'>
+        <h4 className="font-sans text-white font-xl font-semibold text-lg leading-5">
           {title}
         </h4>
         <p className="font-sans text-neutral-500 tracking-tight">
@@ -56,6 +56,7 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
             year: 'numeric',
           })}`}
         </p>
+        
       </div>
       <Button
         variant="icon"

@@ -35,6 +35,13 @@
   color: #d9d9d9 !important;
 }
 
+.cdx-list__item {
+  &::marker {
+   color: #d9d9d9
+  }
+   color: #c1c1c1;
+}
+
 .ce-inline-too,
 .ce-inline-tool--italic,
 .ce-inline-tool--bold,

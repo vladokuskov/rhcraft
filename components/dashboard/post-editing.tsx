@@ -264,6 +264,7 @@ const PostEditing = ({ post }: { post: Post }) => {
           ) : (
             <div className="rounded w-full h-full relative">
               <Image
+              priority={true}
               width={500}
               height={300}
                 src={previewImageUrl}

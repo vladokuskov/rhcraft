@@ -6,7 +6,14 @@ import { Button } from '../button'
 const SettingsSignOut = () => {
   return (
     <Button
-      onClick={() => signOut()}
+      onClick={async () => {
+        const result = window.confirm(
+          'Are you sure you want to sign out from account?',
+        )
+        if (result) {
+          signOut()
+        }
+      }}
       variant="outlined"
       status="danger"
       title="Sign Out"

@@ -87,9 +87,9 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
       )}
       <Button
         size="sm2"
-        className=" max-w-[7rem]"
+        className=" max-w-[7rem] h-10"
         variant="primary"
-        title={isSaving ? 'Saving' : 'Save'}
+        title={isSaving ? undefined : 'Save'}
         isRequired
         icon={isSaving ? faSpinner : null}
         isLoading={isSaving}

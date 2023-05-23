@@ -3,7 +3,6 @@
 import '../../styles/editor.css'
 import EditorJS from '@editorjs/editorjs'
 import {
-  ChangeEvent,
   useCallback,
   useEffect,
   useRef,
@@ -21,10 +20,6 @@ import {
   deleteObject,
   uploadBytes,
 } from 'firebase/storage'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImage } from '@fortawesome/free-regular-svg-icons'
-import clsx from 'clsx'
-import Image from 'next/image'
 import { ImageUploader } from './image-uploader'
 
 const PostEditing = ({ post }: { post: Post }) => {

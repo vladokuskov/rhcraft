@@ -237,7 +237,7 @@ const PostEditing = ({ post }: { post: Post }) => {
 
       <div
         id="editor"
-        className=" w-full min-h-screen font-roboto flex items-start justify-start prose-h2:text-2xl prose-h2:font-roboto prose-h2:font-medium  prose-div:!tracking-wider"
+        className=" w-full min-h-screen font-roboto flex items-start justify-start prose-h2:text-2xl prose-h2:font-roboto prose-h2:font-medium prose-div:!tracking-wider"
       />
     </form>
   )

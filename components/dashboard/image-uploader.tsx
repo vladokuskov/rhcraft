@@ -3,10 +3,10 @@
 import React, { ChangeEvent, RefObject } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImage } from '@fortawesome/free-regular-svg-icons'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { Button } from '../button'
+import { faImages } from '@fortawesome/free-solid-svg-icons'
 
 interface ImageUploader {
   previewImageUrl: string | null
@@ -52,13 +52,8 @@ const ImageUploader = ({
           { 'border-hidden cursor-default !p-0 mt-2': previewImageUrl },
         )}
       >
-        {!previewImageUrl ? (
-          <span className="inline-flex justify-center items-center gap-4">
-            Upload image
-            <FontAwesomeIcon icon={faImage} />
-          </span>
-        ) : (
-          <div className="rounded w-full h-full relative">
+        {previewImageUrl ? (
+          <div className="w-full h-full relative text-white-100 hover:text-neutral-300 focus:text-neutral-300 transition-colors rounded">
             <Image
               priority={true}
               width={500}
@@ -67,10 +62,15 @@ const ImageUploader = ({
               alt="Image preview picture"
               className="h-full max-h-80 rounded object-cover"
             />
-            <div className="rounded h-full w-full bg-neutral-500 opacity-70 absolute top-0 left-0 flex items-center justify-center text-opacity-100 text-6xl">
-              <FontAwesomeIcon icon={faImage} />
+            <div className="w-full absolute bottom-0 left-0 flex items-center justify-center gap-4 py-5 bg-neutral-400 bg-opacity-60 rounded">
+              Upload another <FontAwesomeIcon icon={faImages} />
             </div>
           </div>
+        ) : (
+          <span className="inline-flex justify-center items-center gap-4">
+            Upload image
+            <FontAwesomeIcon icon={faImages} />
+          </span>
         )}
       </div>
 

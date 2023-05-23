@@ -133,7 +133,7 @@ const SettingsPictureChange = ({ userImage, user }: PictureChange) => {
         role="button"
         onClick={() => inputRef.current?.click()}
         title="Upload profile picture"
-        className=" w-20 h-20  border-2 border-inherit border-neutral-400 border-opacity-70"
+        className=" w-20 h-20  border-2 border-inherit border-neutral-300 border-opacity-70"
       >
         {previewImageUrl ? (
           <div className="w-full h-full relative text-white-100 hover:text-neutral-300 focus:text-neutral-300 transition-colors">
@@ -144,7 +144,7 @@ const SettingsPictureChange = ({ userImage, user }: PictureChange) => {
               alt="Profile picture"
               className=" object-cover w-full h-full"
             />
-            <div className="w-full absolute bottom-0 left-0 flex items-center justify-center p-1 bg-neutral-400 bg-opacity-50">
+            <div className="w-full absolute bottom-0 left-0 flex items-center justify-center p-1 bg-neutral-400 bg-opacity-60">
               <FontAwesomeIcon icon={faCamera} />
             </div>
           </div>

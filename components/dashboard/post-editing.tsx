@@ -2,7 +2,14 @@
 
 import '../../styles/editor.css'
 import EditorJS from '@editorjs/editorjs'
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { Button } from '../button'
 import { useRouter } from 'next/navigation'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
@@ -12,12 +19,15 @@ import { storage } from '@/lib/firebase'
 import {
   ref,
   getDownloadURL,
-  uploadBytesResumable,
   deleteObject,
   uploadBytes,
 } from 'firebase/storage'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faImage } from '@fortawesome/free-regular-svg-icons'
+import clsx from 'clsx'
 
 const PostEditing = ({ post }: { post: Post }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const editorRef = useRef<EditorJS>()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
@@ -169,36 +179,28 @@ const PostEditing = ({ post }: { post: Post }) => {
       if (downloadURL) {
         return downloadURL
       }
-    } else {
+    } else if (!uploadedImage && previewImageUrl && post.imageURL) {
       return post.imageURL
+    } else if (!uploadedImage && !previewImageUrl && post.imageURL) {
+      const storageRef = ref(storage, post.imageURL)
+
+      await deleteObject(storageRef)
+
+      setPreviewImageUrl(null)
+
+      return null
+    } else {
+      return null
     }
   }
 
   const handleImageDelete = async () => {
-    if (post.imageURL) {
-      try {
-        const storageRef = ref(storage, post.imageURL)
-
-        await deleteObject(storageRef)
-
-        setPreviewImageUrl(null)
-
-        const response = await fetch(`/api/posts/${post.id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            imageURL: null,
-          }),
-        })
-
-        if (response.ok) {
-          router.refresh()
-        }
-      } catch (err) {
-        console.error(err)
-      }
+    const result = window.confirm(
+      'Are you sure you want to delete image preview?',
+    )
+    if (result) {
+      setUploadedImage(null)
+      setPreviewImageUrl(null)
     }
   }
 
@@ -242,15 +244,53 @@ const PostEditing = ({ post }: { post: Post }) => {
         />
       </div>
 
-      {previewImageUrl && <img src={previewImageUrl} />}
+      <div>
+        <div
+        tabIndex={0}
+          role="button"
+          onClick={() => inputRef.current?.click()}
+          title="Upload image"
+          className={clsx(
+            `text-white-100 p-4 inline-flex justify-start items-center font-sans border rounded border-neutral-600 border-dashed gap-4 cursor-pointer
+          hover:text-neutral-300 transition-colors`,
+            { 'border-hidden cursor-default': previewImageUrl },
+          )}
+        >
+          {!previewImageUrl ? (
+            <span className="inline-flex justify-center items-center gap-4">
+              Upload image
+              <FontAwesomeIcon icon={faImage} />
+            </span>
+          ) : (
+            <div className="rounded w-full h-full relative">
+              <img
+                src={previewImageUrl}
+                alt="Image preview picture"
+                className="h-full max-h-80 rounded object-cover"
+              />
+              <div className="rounded h-full w-full bg-neutral-500 opacity-70 absolute top-0 left-0 flex items-center justify-center text-opacity-100"><FontAwesomeIcon icon={faImage} size='7x' /></div>
+            </div>
+          )}
+        </div>
 
-      {post.imageURL && (
-        <button onClick={handleImageDelete} type="button">
+        <input
+          type="file"
+          ref={inputRef}
+          className="hidden"
+          onChange={handleImageInputChange}
+          accept="image/png, image/jpeg, image/webp"
+        />
+      </div>
+
+      {previewImageUrl && (
+        <button
+          type="button"
+          onClick={handleImageDelete}
+          className="ml-4 max-w-[8rem] justify-self-start text-red-500 font-sans p-2 border rounded border-red-500 hover:border-red-600 hover:text-red-600"
+        >
           Delete image
         </button>
       )}
-
-      <input type="file" id="fileupload" onChange={handleImageInputChange} />
 
       <input
         onChange={handleChange}

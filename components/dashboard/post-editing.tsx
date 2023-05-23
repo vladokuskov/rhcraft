@@ -2,12 +2,7 @@
 
 import '../../styles/editor.css'
 import EditorJS from '@editorjs/editorjs'
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '../button'
 import { useRouter } from 'next/navigation'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
@@ -173,7 +168,6 @@ const PostEditing = ({ post }: { post: Post }) => {
     }
   }
 
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setIsMounted(true)
@@ -221,7 +215,12 @@ const PostEditing = ({ post }: { post: Post }) => {
         />
       </div>
 
-<ImageUploader previewImageUrl={previewImageUrl} setUploadedImage={setUploadedImage} setPreviewImageUrl={setPreviewImageUrl} inputRef={inputRef}/>
+      <ImageUploader
+        previewImageUrl={previewImageUrl}
+        setUploadedImage={setUploadedImage}
+        setPreviewImageUrl={setPreviewImageUrl}
+        inputRef={inputRef}
+      />
 
       <input
         onChange={handleChange}

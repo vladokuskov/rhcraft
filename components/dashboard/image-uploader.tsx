@@ -6,18 +6,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-regular-svg-icons'
 import clsx from 'clsx'
 import Image from 'next/image'
+import { Button } from '../button'
 
 interface ImageUploader {
-    previewImageUrl: string | null;
-    setUploadedImage: React.Dispatch<React.SetStateAction<File | null>>;
-    setPreviewImageUrl: React.Dispatch<React.SetStateAction<string | null>>;
-inputRef: RefObject<HTMLInputElement>
-
+  previewImageUrl: string | null
+  setUploadedImage: React.Dispatch<React.SetStateAction<File | null>>
+  setPreviewImageUrl: React.Dispatch<React.SetStateAction<string | null>>
+  inputRef: RefObject<HTMLInputElement>
 }
 
-const ImageUploader = ({  previewImageUrl, setUploadedImage, setPreviewImageUrl, inputRef }: ImageUploader) => {
+const ImageUploader = ({
+  previewImageUrl,
+  setUploadedImage,
+  setPreviewImageUrl,
+  inputRef,
+}: ImageUploader) => {
   const handleImageDelete = () => {
-    const result = window.confirm('Are you sure you want to delete the image preview?')
+    const result = window.confirm(
+      'Are you sure you want to delete the image preview?',
+    )
     if (result) {
       setUploadedImage(null)
       setPreviewImageUrl(null)
@@ -33,7 +40,7 @@ const ImageUploader = ({  previewImageUrl, setUploadedImage, setPreviewImageUrl,
   }
 
   return (
-    <div className='flex flex-col gap-4 items-start justify-start'>
+    <div className="flex flex-col gap-4 items-start justify-start">
       <div
         tabIndex={0}
         role="button"
@@ -76,16 +83,18 @@ const ImageUploader = ({  previewImageUrl, setUploadedImage, setPreviewImageUrl,
       />
 
       {previewImageUrl && (
-        <button
-          type="button"
+        <Button
+          size="sm2"
+          className=" max-w-[7rem] h-10"
+          variant="outlined"
           onClick={handleImageDelete}
-          className="max-w-[8rem] justify-self-start text-red-500 font-sans p-2 border rounded border-red-500 hover:border-red-600 hover:text-red-600"
-        >
-          Delete image
-        </button>
+          title={'Delete image'}
+          isRequired={false}
+          full={false}
+        />
       )}
     </div>
   )
 }
 
-export {ImageUploader}
+export { ImageUploader }

@@ -1,4 +1,5 @@
 import { SettingsNameChange } from '@/components/dashboard/settings-name-change-form'
+import { SettingsPictureChange } from '@/components/dashboard/settings-picture-change'
 import { SettingsSignOut } from '@/components/dashboard/settings-signout'
 import DashboardNameChangeLoading from '@/components/dashboard/skeletons/dashboard-name-change-loading'
 import { getCurrentUser } from '@/lib/session'
@@ -28,6 +29,9 @@ export default async function DashboardSettings() {
       </div>
       <Suspense fallback={<DashboardNameChangeLoading />}>
         <SettingsNameChange userName={user.name} user={user} />
+      </Suspense>
+      <Suspense fallback={<DashboardNameChangeLoading />}>
+        <SettingsPictureChange userImage={user.image} user={user} />
       </Suspense>
       <SettingsSignOut />
     </main>

@@ -43,7 +43,7 @@ async function getRecentPosts() {
   return posts
 }
 
-export const revalidate = 60
+export const revalidate = 1800
 
 const HomePostsList = async () => {
   const posts = await getRecentPosts()

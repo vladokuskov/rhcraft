@@ -1,8 +1,27 @@
 import { db } from '@/lib/db'
-import { Post } from '../post'
+import PostCard from '../post-card'
+import Link from 'next/link'
+
+async function getAuthorInfo(authorID: string | null) {
+  if (authorID) {
+    const author = db.user.findUnique({
+      where: { id: authorID },
+      select: {
+        name: true,
+        image: true,
+      },
+    })
+
+    if (!author) {
+      null
+    }
+
+    return author
+  }
+}
 
 async function getRecentPosts() {
-  const posts = await db.post.findMany({
+  const fetchedPosts = await db.post.findMany({
     where: { published: true },
     orderBy: {
       createdAt: 'desc',
@@ -10,14 +29,21 @@ async function getRecentPosts() {
     take: 3,
   })
 
-  if (!posts) {
-    null
+  if (!fetchedPosts) {
+    return null
   }
+
+  const posts = await Promise.all(
+    fetchedPosts.map(async (fetchedPost) => {
+      const author = await getAuthorInfo(fetchedPost.authorId)
+      return { post: fetchedPost, author }
+    }),
+  )
 
   return posts
 }
 
-export const revalidate = 60
+export const revalidate = 1800
 
 const HomePostsList = async () => {
   const posts = await getRecentPosts()
@@ -27,9 +53,9 @@ const HomePostsList = async () => {
   }
 
   return (
-    <ul className="flex items-center justify-start gap-4 w-full">
+    <ul className="no-scrollbar flex items-start justify-between gap-4 w-full overflow-x-auto p-2 pl-0">
       {posts.map((post) => (
-        <Post key={post.id} post={post} />
+        <PostCard key={post.post.id} post={post.post} author={post.author} />
       ))}
     </ul>
   )

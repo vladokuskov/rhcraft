@@ -11,6 +11,7 @@ async function getAllPosts() {
       id: true,
       title: true,
       createdAt: true,
+      imageURL: true,
     },
   })
 
@@ -35,6 +36,7 @@ const DashboardPostsList = async () => {
           key={post.id}
           title={post.title}
           date={post.createdAt}
+          imageURL={post.imageURL}
           id={post.id}
         />
       ))}

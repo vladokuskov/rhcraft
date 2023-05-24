@@ -9,10 +9,13 @@ import { useRef, useState } from 'react'
 import { useClickOutside } from '@/hooks/useClickOutside'
 import { useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { deleteObject, ref } from 'firebase/storage'
+import { storage } from '@/lib/firebase'
 
 type DashboardPost = {
   title: string
   date: Date
+  imageURL: string | null
   id: string
   key: string
 }
@@ -34,7 +37,7 @@ const handlePostDelete = async (id: string) => {
   }
 }
 
-const DashboardPost = ({ title, date, id }: DashboardPost) => {
+const DashboardPost = ({ title, date, imageURL, id }: DashboardPost) => {
   const router = useRouter()
   const dashboardPostRef = useRef(null)
   const [isMenuOpen, setIsMenuOpen] = useClickOutside(dashboardPostRef, false)
@@ -45,7 +48,7 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
       className="w-full flex items-center justify-between py-4 px-4 border border-neutral-600 rounded relative"
       ref={dashboardPostRef}
     >
-      <div className='flex flex-col gap-2 justify-center items-start'>
+      <div className="flex flex-col gap-2 justify-center items-start">
         <h4 className="font-sans text-white font-xl font-semibold text-lg leading-5">
           {title}
         </h4>
@@ -56,7 +59,6 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
             year: 'numeric',
           })}`}
         </p>
-        
       </div>
       <Button
         variant="icon"
@@ -81,6 +83,11 @@ const DashboardPost = ({ title, date, id }: DashboardPost) => {
                 'Are you sure you want to delete post from database?',
               )
               if (isConfirmed) {
+                if (imageURL) {
+                  const storageRef = ref(storage, imageURL)
+                  await deleteObject(storageRef)
+                }
+
                 const deleted = await handlePostDelete(id)
 
                 if (deleted) {

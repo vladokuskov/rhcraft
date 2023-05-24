@@ -10,9 +10,12 @@ import HomePostsLoading from '@/components/home/skeletons/home-posts-skeleton'
 export const metadata = {
   title: 'rhcraft',
   description:
-    'RHCraft - the ultimate Minecraft server for survival. We offer a unique and engaging experience for players of all skill levels',
+    'RHCraft - the ultimate Minecraft server for survival. tep into a vast and meticulously crafted world, where creativity knows no bounds and endless possibilities await.',
   keywords: ['Minecraft', 'RealmInHear', 'RHCraft', 'Survival', 'Server'],
 }
+
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   return (

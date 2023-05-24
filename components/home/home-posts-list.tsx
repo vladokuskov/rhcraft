@@ -1,6 +1,5 @@
 import { db } from '@/lib/db'
 import PostCard from '../post-card'
-import Link from 'next/link'
 
 async function getAuthorInfo(authorID: string | null) {
   if (authorID) {
@@ -42,8 +41,6 @@ async function getRecentPosts() {
 
   return posts
 }
-
-export const revalidate = 1800
 
 const HomePostsList = async () => {
   const posts = await getRecentPosts()

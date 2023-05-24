@@ -1,6 +1,5 @@
 import { db } from '@/lib/db'
 import PostCard from '../post-card'
-import Link from 'next/link'
 
 async function getAuthorInfo(authorID: string | null) {
   if (authorID) {
@@ -43,8 +42,6 @@ async function getRecentPosts() {
   return posts
 }
 
-export const revalidate = 1800
-
 const HomePostsList = async () => {
   const posts = await getRecentPosts()
 
@@ -53,7 +50,7 @@ const HomePostsList = async () => {
   }
 
   return (
-    <ul className="no-scrollbar flex items-start justify-between gap-4 w-full overflow-x-auto p-2 pl-0">
+    <ul className="no-scrollbar flex items-start justify-start gap-8 w-full overflow-x-auto p-2 pl-0">
       {posts.map((post) => (
         <PostCard key={post.post.id} post={post.post} author={post.author} />
       ))}

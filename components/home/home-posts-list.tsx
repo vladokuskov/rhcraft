@@ -1,5 +1,6 @@
 import { db } from '@/lib/db'
 import PostCard from '../post-card'
+import Link from 'next/link'
 
 async function getAuthorInfo(authorID: string | null) {
   if (authorID) {

@@ -53,7 +53,7 @@ const HomePostsList = async () => {
   }
 
   return (
-    <ul className="no-scrollbar flex items-start justify-between gap-4 w-full overflow-x-auto p-2 pl-0">
+    <ul className="no-scrollbar flex items-start justify-start gap-8 w-full overflow-x-auto p-2 pl-0">
       {posts.map((post) => (
         <PostCard key={post.post.id} post={post.post} author={post.author} />
       ))}

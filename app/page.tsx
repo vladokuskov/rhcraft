@@ -4,6 +4,8 @@ import bannerImage from '../public/banner.webp'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExternalLink } from '@fortawesome/free-solid-svg-icons'
+import { Suspense } from 'react'
+import HomePostsLoading from '@/components/home/skeletons/home-posts-skeleton'
 
 export const metadata = {
   title: 'rhcraft',
@@ -46,7 +48,9 @@ export default async function Home() {
             Check out our blog for the latest news and updates
           </p>
         </div>
-        <HomePostsList />
+        <Suspense fallback={<HomePostsLoading />}>
+          <HomePostsList />
+        </Suspense>
         <Link
           href="/blog"
           className=" self-center font-sans font-bold tracking-wide text-white-100 hover:text-neutral-400 transition-colors text-lg flex items-center justify-center gap-4 whitespace-nowrap"

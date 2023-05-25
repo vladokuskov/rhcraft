@@ -49,7 +49,7 @@ async function getPostFromParams(params: Params): Promise<{
     },
   })
 
-  if (!fetchedPost) {
+  if (!fetchedPost || fetchedPost.published === false) {
     return null
   }
 

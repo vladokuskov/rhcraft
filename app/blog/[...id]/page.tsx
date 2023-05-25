@@ -37,19 +37,21 @@ export async function generateMetadata(
     },
   })
 
-  if (!post || !post.imageURL) {
+  if (!post || post === undefined) {
     return {
       title: 'RHCraft',
       openGraph: {
-        images: ['/logo.svg'],
+        images: [''],
       },
     }
   }
 
   return {
-    title: post.title,
+    title: post.title && post.title !== undefined ? post.title : '',
     openGraph: {
-      images: [post.imageURL],
+      images: [
+        post.imageURL && post.imageURL !== undefined ? post.imageURL : '',
+      ],
     },
     keywords: ['Minecraft', 'RHCraft', 'Blog', 'Post', 'RealmInHeart'],
   }

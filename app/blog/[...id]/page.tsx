@@ -1,6 +1,7 @@
 import { db } from '@/lib/db'
 import { parseEditorJson } from '@/utils/parseEditorJson'
 import { Post } from '@prisma/client'
+import { Metadata, ResolvingMetadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
@@ -17,6 +18,41 @@ interface PostPageProps {
 
 interface Params {
   id?: string[]
+}
+
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent?: ResolvingMetadata,
+): Promise<Metadata> {
+  const id = params.id[0]
+
+  const post = await db.post.findUnique({
+    where: {
+      id: id,
+    },
+  })
+
+  if (!post || !post.imageURL) {
+    return {
+      title: 'RHCraft',
+      openGraph: {
+        images: [''],
+      },
+    }
+  }
+
+  return {
+    title: post.title,
+    openGraph: {
+      images: [post.imageURL],
+    },
+    keywords: ['Minecraft', 'RHCraft', 'Blog', 'Post', 'RealmInHeart'],
+  }
 }
 
 async function getAuthorInfo(authorID: string | null) {

@@ -35,13 +35,6 @@ const PostEditing = ({ post }: { post: Post }) => {
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default
     const Header = (await import('@editorjs/header')).default
-    // @ts-ignore
-    const List = (await import('@editorjs/list')).default
-    // @ts-ignore
-    const CheckList = (await import('@editorjs/checklist')).default
-    // @ts-ignore
-    const Embed = (await import('@editorjs/embed')).default
-
     const body = postPatchSchema.parse(post)
 
     if (!editorRef.current) {
@@ -55,17 +48,6 @@ const PostEditing = ({ post }: { post: Post }) => {
         data: body.content,
         tools: {
           header: Header,
-          list: List,
-          checklist: CheckList,
-          embed: {
-            class: Embed,
-            config: {
-              services: {
-                youtube: true,
-                imgur: true,
-              },
-            },
-          },
         },
       })
     }

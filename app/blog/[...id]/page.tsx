@@ -37,9 +37,7 @@ async function getAuthorInfo(authorID: string | null) {
   }
 }
 
-async function getPostFromParams(
-  params: Params,
-): Promise<{
+async function getPostFromParams(params: Params): Promise<{
   post: Post
   author: { name: string | null; image: string | null }
 } | null> {
@@ -141,6 +139,15 @@ export default async function PostPage({ params }: PostPageProps) {
                     <p key={index} className=" text-[#c1c1c1] tracking-wide">
                       {element.text}
                     </p>
+                  )
+                } else if (element.type === 'list') {
+                  console.log(element.text)
+                  return (
+                    <ol key={index}>
+                      <li className=" text-[#c1c1c1] tracking-wide">
+                        {element.text}
+                      </li>
+                    </ol>
                   )
                 }
                 return null

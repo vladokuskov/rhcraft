@@ -1,6 +1,7 @@
 import { db } from '@/lib/db'
 import { parseEditorJson } from '@/utils/parseEditorJson'
 import { Post } from '@prisma/client'
+import { Metadata, ResolvingMetadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
@@ -17,6 +18,43 @@ interface PostPageProps {
 
 interface Params {
   id?: string[]
+}
+
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const id = params.id[0]
+
+  const post = await db.post.findUnique({
+    where: {
+      id: id,
+    },
+  })
+
+  if (!post || post === undefined) {
+    return {
+      title: 'RHCraft',
+      openGraph: {
+        images: [''],
+      },
+    }
+  }
+
+  return {
+    title: post.title && post.title !== undefined ? post.title : '',
+    openGraph: {
+      images: [
+        post.imageURL && post.imageURL !== undefined ? post.imageURL : '',
+      ],
+    },
+    keywords: ['Minecraft', 'RHCraft', 'Blog', 'Post', 'RealmInHeart'],
+  }
 }
 
 async function getAuthorInfo(authorID: string | null) {
@@ -49,7 +87,7 @@ async function getPostFromParams(params: Params): Promise<{
     },
   })
 
-  if (!fetchedPost) {
+  if (!fetchedPost || fetchedPost.published === false) {
     return null
   }
 
@@ -86,7 +124,7 @@ export default async function PostPage({ params }: PostPageProps) {
             alt="Picture of post preview"
             width={600}
             height={300}
-            className="rounded"
+            className="rounded bg-neutral-700"
             priority
           />
         </div>

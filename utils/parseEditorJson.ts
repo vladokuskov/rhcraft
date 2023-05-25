@@ -19,7 +19,6 @@ const parseEditorJson = async (
       const parsedElements: { type: string; text: string }[] = []
 
       for (const block of blocks) {
-        console.log(block)
         if (block.type === 'header') {
           const headerText = block.data.text
           parsedElements.push({ type: 'header', text: headerText })

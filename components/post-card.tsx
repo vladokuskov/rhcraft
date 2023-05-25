@@ -14,7 +14,7 @@ const PostCard = ({ post, author }: PostCard) => {
   return (
     <li>
       <Link href={`/blog/${post.id}`} title="Go to post">
-        <div className=" w-full rounded flex flex-col items-start justify-center max-w-[24rem] min-w-[20rem] z-10  bg-neutral-700 hover:bg-neutral-600   focus:bg-neutral-60 transition-colors border-2 border-neutral-600">
+        <div className=" w-full rounded flex flex-col items-start justify-center max-w-[22rem] min-w-[20rem] z-10  bg-neutral-700 hover:bg-neutral-600   focus:bg-neutral-60 transition-colors border-2 border-neutral-600">
           {post.imageURL && (
             <Image
               className=" rounded-t w-full h-full max-h-44 object-cover"

@@ -3,7 +3,6 @@ import { parseEditorJson } from '@/utils/parseEditorJson'
 import { Post } from '@prisma/client'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import BlogDetailLoading from './loading'
 
 interface Element {
   type: string
@@ -19,22 +18,6 @@ interface PostPageProps {
 interface Params {
   id?: string[]
 }
-
-// export async function generateMetadata(params: Params, searchParams: any) {
-//   const id = params?.id?.join('/')
-
-//   const fetchedPost = await db.post.findUnique({
-//     where: {
-//       id: id,
-//     },
-//   })
-
-//   if (!fetchedPost) {
-//     return { title: 'RHCraft' }
-//   }
-
-//   return { title: fetchedPost.title }
-// }
 
 async function getAuthorInfo(authorID: string | null) {
   if (authorID) {
@@ -78,7 +61,7 @@ async function getPostFromParams(params: Params): Promise<{
 
   return { post: fetchedPost, author }
 }
-export const revalidate = 0
+export const revalidate = 600
 export const dynamic = 'force-dynamic'
 
 export default async function PostPage({ params }: PostPageProps) {

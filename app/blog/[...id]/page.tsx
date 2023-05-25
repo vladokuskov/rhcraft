@@ -3,6 +3,7 @@ import { parseEditorJson } from '@/utils/parseEditorJson'
 import { Post } from '@prisma/client'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
+import BlogDetailLoading from './loading'
 
 interface Element {
   type: string
@@ -18,6 +19,22 @@ interface PostPageProps {
 interface Params {
   id?: string[]
 }
+
+// export async function generateMetadata(params: Params, searchParams: any) {
+//   const id = params?.id?.join('/')
+
+//   const fetchedPost = await db.post.findUnique({
+//     where: {
+//       id: id,
+//     },
+//   })
+
+//   if (!fetchedPost) {
+//     return { title: 'RHCraft' }
+//   }
+
+//   return { title: fetchedPost.title }
+// }
 
 async function getAuthorInfo(authorID: string | null) {
   if (authorID) {
@@ -87,6 +104,7 @@ export default async function PostPage({ params }: PostPageProps) {
             width={600}
             height={300}
             className="rounded"
+            priority
           />
         </div>
       )}
@@ -154,6 +172,16 @@ export default async function PostPage({ params }: PostPageProps) {
               },
             )}
         </div>
+        <p className="font-sans text-neutral-400 leading-3 mt-8 whitespace-nowrap">
+          Last updated:
+          {` ${post.post.updatedAt.toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+          })}`}
+        </p>
       </div>
     </div>
   )

@@ -1,20 +1,16 @@
-export default function DashboardEditingLoading() {
+export default function BlogDetailLoading() {
   return (
     <div className="w-full flex flex-col gap-2">
-      <div className="w-full flex items-end justify-end gap-2">
-        {[...Array(2)].map((i) => (
-          <div
-            key={i}
-            className=" p-2 bg-neutral-700 py-5 px-12 rounded animate-pulse"
-          />
-        ))}
+      <div className="w-full h-96 max-w-2xl bg-neutral-700 rounded animate-pulse" />
+      <div className="flex items-center justify-start gap-2">
+        <div className=" w-12 rounded-full mt-4 h-12 p-3 bg-neutral-700 animate-pulse" />
+        <div className="w-64 mt-4 p-3 bg-neutral-700 rounded animate-pulse" />
       </div>
-
-      <div className="w-full p-6 bg-neutral-700 rounded animate-pulse" />
-      {[...Array(10)].map((i) => (
+      <div className=" w-full rounded mt-4 h-12 p-3 bg-neutral-700 animate-pulse" />
+      {[...Array(20)].map((i) => (
         <div
           key={i}
-          className="w-full mt-4 p-3 bg-neutral-700 rounded animate-pulse"
+          className="w-full max-w-[50rem] mt-4 p-3 bg-neutral-700 rounded animate-pulse"
         />
       ))}
     </div>

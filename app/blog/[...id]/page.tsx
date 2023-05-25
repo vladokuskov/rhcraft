@@ -86,7 +86,7 @@ export default async function PostPage({ params }: PostPageProps) {
             alt="Picture of post preview"
             width={600}
             height={300}
-            className="rounded"
+            className="rounded bg-neutral-700"
             priority
           />
         </div>

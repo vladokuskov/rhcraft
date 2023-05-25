@@ -36,8 +36,6 @@ const PostEditing = ({ post }: { post: Post }) => {
     const EditorJS = (await import('@editorjs/editorjs')).default
     const Header = (await import('@editorjs/header')).default
     // @ts-ignore
-    const LinkTool = (await import('@editorjs/link')).default
-    // @ts-ignore
     const List = (await import('@editorjs/list')).default
     // @ts-ignore
     const CheckList = (await import('@editorjs/checklist')).default
@@ -58,7 +56,6 @@ const PostEditing = ({ post }: { post: Post }) => {
         tools: {
           header: Header,
           list: List,
-          linkTool: LinkTool,
           checklist: CheckList,
           embed: {
             class: Embed,

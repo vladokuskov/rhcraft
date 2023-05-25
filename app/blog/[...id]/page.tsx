@@ -41,7 +41,7 @@ export async function generateMetadata(
     return {
       title: 'RHCraft',
       openGraph: {
-        images: [''],
+        images: ['/logo.svg'],
       },
     }
   }

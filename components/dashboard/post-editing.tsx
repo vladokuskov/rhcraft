@@ -201,6 +201,17 @@ const PostEditing = ({ post }: { post: Post }) => {
         inputRef={inputRef}
       />
 
+      <p className="font-sans text-neutral-400 leading-3 mt-8 whitespace-nowrap">
+        Last updated:
+        {` ${post.updatedAt.toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        })}`}
+      </p>
+
       <input
         onChange={handleChange}
         maxLength={165}

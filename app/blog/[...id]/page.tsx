@@ -109,11 +109,13 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound()
   }
 
-  if (!post.post || !post.post.content) {
+  if (!post.post) {
     return null
   }
 
-  const content = (await parseEditorJson(post.post.content)) as Element[]
+  const content =
+    post.post.content &&
+    ((await parseEditorJson(post.post.content)) as Element[])
 
   return (
     <div className=" mt-4 w-full flex flex-col items-start justify-start gap-4 mb-12">

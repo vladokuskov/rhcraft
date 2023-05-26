@@ -1,40 +1,26 @@
-import { db } from '@/lib/db'
+import BlogSidebar from '@/components/blog-sidebar'
+import BlogPostsList from '@/components/blog/blog-posts-list'
+import BlogPostsLoading from '@/components/blog/skeletons/blog-posts-skeleton'
+import { Suspense } from 'react'
 
 export const metadata = {
   title: 'rhcraft - Blog',
+  description:
+    'RHCraft - the ultimate Minecraft server for survival. tep into a vast and meticulously crafted world, where creativity knows no bounds and endless possibilities await.',
+  keywords: ['Minecraft', 'RealmInHear', 'RHCraft', 'Survival', 'Server'],
 }
 
-async function getAllPosts() {
-  const posts = await db.post.findMany({
-    where: { published: true },
-    orderBy: {
-      createdAt: 'desc',
-    },
-  })
-
-  if (!posts) {
-    null
-  }
-
-  return posts
-}
-
+export const revalidate = 600
+export const dynamic = 'force-dynamic'
 export default async function Blog() {
-  const posts = await getAllPosts()
-
   return (
-    <>
-      <p>Blog page</p>
-      <ul className="flex flex-col gap-5">
-        {posts &&
-          posts.map((post) => (
-            <li key={post.id}>
-              <p>Post id: {post.id}</p>
-              <p>Post title: {post.title}</p>
-              <p>Post date: {post.createdAt.toDateString()}</p>
-            </li>
-          ))}
-      </ul>
-    </>
+    <div className="w-full h-full min-h-screen mx-auto my-0 grid grid-cols-withSidebar max-sm:flex max-sm:gap-8 flex-col items-start justify-center gap-16">
+      <BlogSidebar />
+      <div className="w-full h-1 w-full h-full min-h-screen flex flex-col items-start justify-start">
+        <Suspense fallback={<BlogPostsLoading />}>
+          <BlogPostsList />
+        </Suspense>
+      </div>
+    </div>
   )
 }

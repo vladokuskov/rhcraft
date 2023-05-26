@@ -20,24 +20,13 @@ async function getAuthorInfo(authorID: string | null) {
 }
 
 async function getRecentPosts() {
-  const fetchedPosts = await db.post.findMany({
+  const posts = await db.post.findMany({
     where: { published: true },
     orderBy: {
       createdAt: 'desc',
     },
     take: 3,
   })
-
-  if (!fetchedPosts) {
-    return null
-  }
-
-  const posts = await Promise.all(
-    fetchedPosts.map(async (fetchedPost) => {
-      const author = await getAuthorInfo(fetchedPost.authorId)
-      return { post: fetchedPost, author }
-    }),
-  )
 
   return posts
 }
@@ -52,7 +41,7 @@ const HomePostsList = async () => {
   return (
     <ul className="no-scrollbar flex items-start justify-start gap-8 w-full overflow-x-auto p-2 pl-0">
       {posts.map((post) => (
-        <PostCard key={post.post.id} post={post.post} author={post.author} />
+        <PostCard key={post.id} post={post} />
       ))}
     </ul>
   )

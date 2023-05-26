@@ -3,6 +3,23 @@ import { db } from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import { z } from 'zod'
 
+export async function GET() {
+  try {
+    const posts = await db.post.findMany({
+      where: {
+        published: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
+
+    return new Response(JSON.stringify(posts))
+  } catch (error) {
+    return new Response(null, { status: 500 })
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)

@@ -4,17 +4,14 @@ import Link from 'next/link'
 
 interface PostCard {
   post: Post
-  author?: null | {
-    name: string | null
-    image: string | null
-  }
 }
 
-const PostCard = ({ post, author }: PostCard) => {
+const PostCard = ({ post }: PostCard) => {
+  const createdAt = new Date(post.createdAt)
   return (
     <li>
       <Link href={`/blog/${post.id}`} title="Go to post">
-        <div className=" w-full rounded flex flex-col items-start justify-center max-w-[22rem] min-w-[20rem] z-10  bg-neutral-700 hover:bg-neutral-600   focus:bg-neutral-60 transition-colors border-2 border-neutral-600">
+        <div className="w-full rounded flex flex-col items-start justify-center min-w-[20rem] max-w-[20rem] z-10  bg-neutral-700 hover:bg-neutral-600   focus:bg-neutral-60 transition-colors border-2 border-neutral-600">
           {post.imageURL && (
             <Image
               className=" rounded-t w-full h-full max-h-44 object-cover"
@@ -26,24 +23,9 @@ const PostCard = ({ post, author }: PostCard) => {
           )}
           <div className="flex flex-col items-start justify-start p-2 gap-2  w-full">
             <div className="flex items-center justify-center gap-2">
-              {author?.image && (
-                <div className="w-8 h-8">
-                  <Image
-                    className=" rounded-full w-full h-full z-20"
-                    src={author?.image}
-                    alt="Author picture"
-                    width={30}
-                    height={30}
-                    priority
-                  />
-                </div>
-              )}
               <div className="flex flex-col items-start justify-start gap-1">
-                <p className="font-sans text-base font-semibold text-orange-200 leading-4">
-                  {author?.name}
-                </p>
                 <p className="font-sans text-neutral-400 leading-3">
-                  {`${post.createdAt.toLocaleString('en-US', {
+                  {`${createdAt.toLocaleString('en-US', {
                     month: 'short',
                     day: 'numeric',
                     year: 'numeric',

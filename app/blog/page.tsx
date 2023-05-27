@@ -1,4 +1,4 @@
-import BlogSidebar from '@/components/blog-sidebar'
+import BlogSidebar from '@/components/blog/blog-sidebar'
 import BlogPostsList from '@/components/blog/blog-posts-list'
 import BlogPostsLoading from '@/components/blog/skeletons/blog-posts-skeleton'
 import { Suspense } from 'react'

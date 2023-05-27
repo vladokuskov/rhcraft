@@ -24,7 +24,11 @@ const parseEditorJson = async (
           parsedElements.push({ type: 'header', text: headerText })
         } else if (block.type === 'paragraph') {
           const paragraphText = block.data.text
-          parsedElements.push({ type: 'paragraph', text: paragraphText })
+          const processedText = paragraphText.replace(
+            /<a href="(.*?)"[^>]*>(.*?)<\/a>/g,
+            '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>',
+          )
+          parsedElements.push({ type: 'paragraph', text: processedText })
         }
       }
 

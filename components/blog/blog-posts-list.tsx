@@ -7,15 +7,14 @@ import { useInView } from 'react-intersection-observer'
 
 import { Post } from '@prisma/client'
 import PostCard from '../post-card'
-import { checkEnvironment } from '@/utils/checkEnviroment'
 import BlogPostsLoading from './skeletons/blog-posts-skeleton'
 
-type UserQueryParams = {
+type PostsQueryParams = {
   take?: number
   lastCursor?: string
 }
 
-const allPosts = async ({ take, lastCursor }: UserQueryParams) => {
+const allPosts = async ({ take, lastCursor }: PostsQueryParams) => {
   const response = await axios.get('/api/posts', {
     params: { take, lastCursor },
   })

@@ -5,6 +5,8 @@
 
 Live - https://rhcraft.vercel.app/
 
+Full-stack blog for private minecraft server.
+
 
 ### Technology Stack
 

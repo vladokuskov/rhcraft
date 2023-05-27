@@ -6,7 +6,7 @@ const BlogPostsLoading = () => {
       {[...Array(20)].map((_, i) => (
         <div
           key={i}
-          className="w-full h-[5rem] rounded flex flex-col items-start justify-center max-w-[20rem] min-w-[20rem] z-10 bg-neutral-700 animate-pulse"
+          className="w-full h-[5rem] rounded flex flex-col items-start justify-center max-w-[19rem] min-w-[19rem] z-10 bg-neutral-700 animate-pulse"
           style={{ height: randomHeight() }}
         />
       ))}

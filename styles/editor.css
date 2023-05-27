@@ -13,6 +13,10 @@
   border-color: #171717;
 }
 
+.ce-block__content input {
+  color: #171717 !important;
+}
+
 .dark .ce-inline-tool,
 .dark .ce-conversion-toolbar__label,
 .dark .ce-toolbox__button,

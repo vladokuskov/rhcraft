@@ -38,6 +38,8 @@ const PostEditing = ({ post }: { post: Post }) => {
     // @ts-ignore
     const LinkAutocomplete = (await import('@editorjs/link-autocomplete'))
       .default
+    // @ts-ignore
+    const YoutubeEmbed = (await import('editorjs-youtube-embed')).default
     const body = postPatchSchema.parse(post)
 
     if (!editorRef.current) {
@@ -58,6 +60,7 @@ const PostEditing = ({ post }: { post: Post }) => {
               queryParam: 'search',
             },
           },
+          youtubeEmbed: YoutubeEmbed,
         },
       })
     }

@@ -4,8 +4,9 @@ export interface EditorData {
     id: string
     data: {
       text: string
+      url?: string
     }
-    type: 'header' | 'paragraph'
+    type: 'header' | 'paragraph' | 'youtubeEmbed'
   }[]
   version: string
 }
@@ -16,7 +17,7 @@ const parseEditorJson = async (
   return new Promise((resolve, reject) => {
     try {
       const blocks = data.blocks
-      const parsedElements: { type: string; text: string }[] = []
+      const parsedElements: { type: string; text: string; url?: string }[] = []
 
       for (const block of blocks) {
         if (block.type === 'header') {
@@ -29,6 +30,14 @@ const parseEditorJson = async (
             '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>',
           )
           parsedElements.push({ type: 'paragraph', text: processedText })
+        } else if (block.type === 'youtubeEmbed') {
+          if (block.data.url && block.data.url.includes('youtube.com')) {
+            parsedElements.push({
+              type: 'youtubeEmbed',
+              text: '',
+              url: block.data.url,
+            })
+          }
         }
       }
 

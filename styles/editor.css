@@ -56,7 +56,8 @@
 .ce-conversion-tool,
 .ce-link-autocomplete__icon-wrapper,
 .ce-link-autocomplete__field-input,
-.ce-link-autocomplete__search-item {
+.ce-link-autocomplete__search-item,
+.ce-link-autocomplete__link-data-url {
   color: #171717 !important;
 }
 

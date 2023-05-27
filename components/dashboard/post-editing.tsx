@@ -54,7 +54,7 @@ const PostEditing = ({ post }: { post: Post }) => {
           link: {
             class: LinkAutocomplete,
             config: {
-              endpoint: 'http://localhost:3000/',
+              endpoint: 'https://rhcraft.vercel.app/',
               queryParam: 'search',
             },
           },

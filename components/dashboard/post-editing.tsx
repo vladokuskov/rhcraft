@@ -35,6 +35,11 @@ const PostEditing = ({ post }: { post: Post }) => {
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default
     const Header = (await import('@editorjs/header')).default
+    // @ts-ignore
+    const LinkAutocomplete = (await import('@editorjs/link-autocomplete'))
+      .default
+    // @ts-ignore
+    const YoutubeEmbed = (await import('editorjs-youtube-embed')).default
     const body = postPatchSchema.parse(post)
 
     if (!editorRef.current) {
@@ -48,6 +53,14 @@ const PostEditing = ({ post }: { post: Post }) => {
         data: body.content,
         tools: {
           header: Header,
+          link: {
+            class: LinkAutocomplete,
+            config: {
+              endpoint: 'https://rhcraft.vercel.app/',
+              queryParam: 'search',
+            },
+          },
+          youtubeEmbed: YoutubeEmbed,
         },
       })
     }

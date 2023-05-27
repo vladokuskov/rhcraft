@@ -1,3 +1,4 @@
+import { Player } from '@/components/Player'
 import { db } from '@/lib/db'
 import { parseEditorJson } from '@/utils/parseEditorJson'
 import { Post } from '@prisma/client'
@@ -165,30 +166,35 @@ export default async function PostPage({ params }: PostPageProps) {
         <div className="w-full max-w-[50rem] font-roboto flex flex-col justify-start items-start gap-2">
           {content &&
             content.map(
-              (element: { type: string; text: string }, index: number) => {
+              (
+                element: { type: string; text: string; url?: string },
+                index: number,
+              ) => {
                 if (element.type === 'header') {
                   return (
                     <h3
                       key={index}
-                      className=" text-[#d9d9d9] text-2xl font-medium "
+                      className="text-[#d9d9d9] text-2xl font-medium"
                     >
                       {element.text}
                     </h3>
                   )
                 } else if (element.type === 'paragraph') {
                   return (
-                    <p key={index} className=" text-[#c1c1c1] tracking-wide">
-                      {element.text}
-                    </p>
+                    <p
+                      key={index}
+                      className="text-[#c1c1c1] tracking-wide prose-a:text-[#a1e780] hover:prose-a:text-[#bbf0a2]"
+                      dangerouslySetInnerHTML={{ __html: element.text }}
+                    />
                   )
-                } else if (element.type === 'list') {
-                  console.log(element.text)
+                } else if (element.type === 'youtubeEmbed') {
                   return (
-                    <ol key={index}>
-                      <li className=" text-[#c1c1c1] tracking-wide">
-                        {element.text}
-                      </li>
-                    </ol>
+                    <div
+                      key={index}
+                      className="youtube-embed w-full h-full mt-4"
+                    >
+                      <Player url={element.url ? element.url : ''} />
+                    </div>
                   )
                 }
                 return null

@@ -13,6 +13,10 @@
   border-color: #171717;
 }
 
+.ce-block__content input {
+  color: #171717 !important;
+}
+
 .dark .ce-inline-tool,
 .dark .ce-conversion-toolbar__label,
 .dark .ce-toolbox__button,
@@ -31,15 +35,19 @@
   color: #c1c1c1 !important;
 }
 
+.ce-paragraph a {
+  color: #a1e780;
+}
+
 .ce-header {
   color: #d9d9d9 !important;
 }
 
 .cdx-list__item {
   &::marker {
-   color: #d9d9d9
+    color: #d9d9d9;
   }
-   color: #c1c1c1;
+  color: #c1c1c1;
 }
 
 .ce-inline-too,
@@ -49,7 +57,11 @@
 .ce-inline-tool--link,
 .ce-conversion-tool--focused,
 .ce-conversion-tool__icon,
-.ce-conversion-tool {
+.ce-conversion-tool,
+.ce-link-autocomplete__icon-wrapper,
+.ce-link-autocomplete__field-input,
+.ce-link-autocomplete__search-item,
+.ce-link-autocomplete__link-data-url {
   color: #171717 !important;
 }
 

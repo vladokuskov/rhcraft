@@ -14,6 +14,13 @@ Live - https://rhcraft.vercel.app/
     TypeScript
     PlanetScale
     Prisma
+    
+### Features
+
+    Infinite scroll
+    Dashboard to manage posts and drafts
+    Authentication
+    Image uploading
 
 ### How to start?
 

@@ -4,7 +4,7 @@ const HomePostsLoading = () => {
       {[...Array(3)].map((i) => (
         <div
           key={i}
-          className="w-full h-[20rem] rounded flex flex-col items-start justify-center max-w-[24rem] min-w-[20rem] z-10  bg-neutral-700 animate-pulse"
+          className="w-full h-[4rem] rounded flex flex-col items-start justify-center max-w-[24rem] min-w-[20rem] z-10  bg-neutral-700 animate-pulse"
         />
       ))}
     </div>

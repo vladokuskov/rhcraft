@@ -22,7 +22,6 @@ Full-stack blog for private minecraft server.
     Infinite scroll
     Dashboard to manage posts and drafts
     Authentication
-    Image uploading
 
 ### How to start?
 

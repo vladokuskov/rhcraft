@@ -1,4 +1,5 @@
 import { Player } from '@/components/Player'
+import { PostTopicBadge } from '@/components/post-topic-badge'
 import { db } from '@/lib/db'
 import { parseEditorJson } from '@/utils/parseEditorJson'
 import { Post } from '@prisma/client'
@@ -120,19 +121,6 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className=" mt-4 w-full flex flex-col items-start justify-start gap-4 mb-12">
-      {post.post.imageURL && (
-        <div className=" w-full max-h-96 h-full rounded flex items-start justify-start ml-0 object-contain">
-          <Image
-            src={post.post.imageURL}
-            alt="Picture of post preview"
-            width={600}
-            height={300}
-            className="rounded bg-neutral-700"
-            priority
-          />
-        </div>
-      )}
-
       <div className=" w-full flex flex-col items-start justify-start gap-4">
         <div className="flex items-center justify-center gap-2">
           {post.author?.image && (
@@ -160,6 +148,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </p>
           </div>
         </div>
+        {post.post.topic && <PostTopicBadge topic={post.post.topic} />}
         <h1 className="font-inter font-medium tracking-wide text-2xl leading-7">
           {post.post.title}
         </h1>

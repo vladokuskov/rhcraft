@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { postPatchSchema } from '@/lib/validations/post'
 import { Post } from '@prisma/client'
+import { TopicSelection } from './topic-selection'
 
 const PostEditing = ({ post }: { post: Post }) => {
   const editorRef = useRef<EditorJS>()
@@ -16,6 +17,7 @@ const PostEditing = ({ post }: { post: Post }) => {
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [title, setTitle] = useState(post.title)
+  const [selectedTopic, setSelectedTopic] = useState<string | null>(post.topic)
 
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default
@@ -67,6 +69,7 @@ const PostEditing = ({ post }: { post: Post }) => {
         body: JSON.stringify({
           title: title,
           content: blocks,
+          topic: selectedTopic,
         }),
       })
 
@@ -109,6 +112,10 @@ const PostEditing = ({ post }: { post: Post }) => {
     } catch (err) {
       setIsPublishing(false)
     }
+  }
+
+  const handleTopicChange = (e: 'News' | 'Story' | 'Puzzle') => {
+    setSelectedTopic(e)
   }
 
   useEffect(() => {
@@ -179,6 +186,11 @@ const PostEditing = ({ post }: { post: Post }) => {
         className=" font-inter font-medium text-white-100 text-3xl p-4 pl-0 bg-transparent focus:outline-none placeholder:text-neutral-600"
         disabled={isSaving}
         value={title}
+      />
+
+      <TopicSelection
+        selectedTopic={selectedTopic}
+        handleTopicChange={handleTopicChange}
       />
 
       <div

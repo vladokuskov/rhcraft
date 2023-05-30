@@ -8,27 +8,12 @@ import { useRouter } from 'next/navigation'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { postPatchSchema } from '@/lib/validations/post'
 import { Post } from '@prisma/client'
-import { storage } from '@/lib/firebase'
-import {
-  ref,
-  getDownloadURL,
-  deleteObject,
-  uploadBytes,
-} from 'firebase/storage'
-import { ImageUploader } from './image-uploader'
 
 const PostEditing = ({ post }: { post: Post }) => {
-  const inputRef = useRef<HTMLInputElement>(null)
   const editorRef = useRef<EditorJS>()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
   const [isPublishing, setIsPublishing] = useState<boolean>(false)
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null)
-
-  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(
-    post.imageURL,
-  )
-
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [title, setTitle] = useState(post.title)
 
@@ -71,8 +56,6 @@ const PostEditing = ({ post }: { post: Post }) => {
 
     const blocks = await editorRef.current?.save()
 
-    const imageURL = await handleImageUpload()
-
     setIsSaving(true)
 
     try {
@@ -84,7 +67,6 @@ const PostEditing = ({ post }: { post: Post }) => {
         body: JSON.stringify({
           title: title,
           content: blocks,
-          imageURL: imageURL,
         }),
       })
 
@@ -126,37 +108,6 @@ const PostEditing = ({ post }: { post: Post }) => {
       }
     } catch (err) {
       setIsPublishing(false)
-    }
-  }
-
-  const handleImageUpload = async () => {
-    if (uploadedImage && !post.imageURL) {
-      const storageRef = ref(storage, `blog/${post.id}/${uploadedImage.name}`)
-      await uploadBytes(storageRef, uploadedImage)
-      const downloadURL = await getDownloadURL(storageRef)
-      if (downloadURL) {
-        return downloadURL
-      }
-    } else if (uploadedImage && post.imageURL) {
-      const storageRef = ref(storage, post.imageURL)
-      await deleteObject(storageRef)
-      await uploadBytes(storageRef, uploadedImage)
-      const downloadURL = await getDownloadURL(storageRef)
-      if (downloadURL) {
-        return downloadURL
-      }
-    } else if (!uploadedImage && previewImageUrl && post.imageURL) {
-      return post.imageURL
-    } else if (!uploadedImage && !previewImageUrl && post.imageURL) {
-      const storageRef = ref(storage, post.imageURL)
-
-      await deleteObject(storageRef)
-
-      setPreviewImageUrl(null)
-
-      return null
-    } else {
-      return null
     }
   }
 
@@ -206,13 +157,6 @@ const PostEditing = ({ post }: { post: Post }) => {
           className="h-12"
         />
       </div>
-
-      <ImageUploader
-        previewImageUrl={previewImageUrl}
-        setUploadedImage={setUploadedImage}
-        setPreviewImageUrl={setPreviewImageUrl}
-        inputRef={inputRef}
-      />
 
       <p className="font-sans text-neutral-400 leading-3 mt-8 whitespace-nowrap">
         Last updated:

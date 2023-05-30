@@ -1,5 +1,4 @@
 import { Post } from '@prisma/client'
-import Image from 'next/image'
 import Link from 'next/link'
 
 interface PostCard {
@@ -12,15 +11,6 @@ const PostCard = ({ post }: PostCard) => {
     <li>
       <Link href={`/blog/${post.id}`} title="Go to post">
         <div className="w-full rounded flex flex-col items-start justify-center min-w-[20rem] max-w-[20rem] z-10  bg-neutral-700 hover:bg-neutral-600   focus:bg-neutral-60 transition-colors border-2 border-neutral-600">
-          {post.imageURL && (
-            <Image
-              className=" rounded-t w-full h-full max-h-44 object-cover"
-              src={post.imageURL}
-              alt="Post picture"
-              width={400}
-              height={240}
-            />
-          )}
           <div className="flex flex-col items-start justify-start p-2 gap-2  w-full">
             <div className="flex items-center justify-center gap-2">
               <div className="flex flex-col items-start justify-start gap-1">

@@ -1,4 +1,5 @@
 import { PostTopicBadge } from '@/components/post-topic-badge'
+import YoutubeVideoPlayer from '@/components/video-player'
 import { db } from '@/lib/db'
 import { parseEditorJson } from '@/utils/parseEditorJson'
 import { Post } from '@prisma/client'
@@ -155,7 +156,7 @@ export default async function PostPage({ params }: PostPageProps) {
           {content &&
             content.map(
               (
-                element: { type: string; text: string; url?: string },
+                element: { type: string; text: string; id?: string },
                 index: number,
               ) => {
                 if (element.type === 'header') {
@@ -180,7 +181,9 @@ export default async function PostPage({ params }: PostPageProps) {
                     <div
                       key={index}
                       className="youtube-embed w-full h-full mt-4"
-                    ></div>
+                    >
+                      <YoutubeVideoPlayer id={element.id ? element.id : ''} />
+                    </div>
                   )
                 }
                 return null

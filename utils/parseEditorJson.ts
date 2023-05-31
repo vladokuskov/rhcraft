@@ -17,7 +17,7 @@ const parseEditorJson = async (
   return new Promise((resolve, reject) => {
     try {
       const blocks = data.blocks
-      const parsedElements: { type: string; text: string; url?: string }[] = []
+      const parsedElements: { type: string; text: string; id?: string }[] = []
 
       for (const block of blocks) {
         if (block.type === 'header') {
@@ -32,10 +32,14 @@ const parseEditorJson = async (
           parsedElements.push({ type: 'paragraph', text: processedText })
         } else if (block.type === 'youtubeEmbed') {
           if (block.data.url && block.data.url.includes('youtube.com')) {
+            const regex = /[?&]v=([^&]+)/
+            const match = block.data.url.match(regex)
+            const videoId = match && match[1]
+
             parsedElements.push({
               type: 'youtubeEmbed',
               text: '',
-              url: block.data.url,
+              id: videoId,
             })
           }
         }

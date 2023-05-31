@@ -67,25 +67,26 @@ const AuthForm = () => {
     >
       <Input
         title="Email"
-        variant="outlined"
+        variant="outline"
         type="email"
         placeholder="name@example.com"
         value={email}
         onChange={handleEmailChange}
-        isDisabled={isLoading}
-        full
+        disabled={isLoading}
+        className="w-full font-medium"
         label="Email"
       />
       <Input
         title="Password"
-        variant="outlined"
+        variant="outline"
         type="password"
         value={password}
         onChange={handlePasswordChange}
-        isDisabled={isLoading}
-        full
+        disabled={isLoading}
+        className="w-full font-medium"
         label="Password"
       />
+
       {error && (
         <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">
           <FontAwesomeIcon icon={faExclamationTriangle} />

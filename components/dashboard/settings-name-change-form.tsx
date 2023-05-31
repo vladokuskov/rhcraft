@@ -70,15 +70,15 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
       </div>
 
       <Input
-        title="Name"
-        variant="outlined"
+        title="Your name"
+        variant="outline"
         type="text"
         value={name}
         onChange={handleNameChange}
-        isDisabled={isSaving}
-        full
-        className="max-w-xs"
+        disabled={isSaving}
+        className="max-w-xs w-full font-medium"
       />
+
       {error && (
         <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">
           <FontAwesomeIcon icon={faExclamationTriangle} />

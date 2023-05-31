@@ -1,69 +1,46 @@
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import clsx from 'clsx'
-import { HTMLInputTypeAttribute } from 'react'
+import { InputHTMLAttributes } from 'react'
 
-type Input = {
-  placeholder?: string
-  label?: string
-  variant: 'search' | 'outlined'
-  type?: HTMLInputTypeAttribute
-  isRequired?: boolean
-  isDisabled?: boolean
-  full?: boolean
+type inputVariant = 'regular' | 'outline'
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  variant: inputVariant
   className?: string
-  value?: string
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  title?: string
+  label?: string | null
+  id?: string
 }
 
 const Input = ({
-  title,
-  variant,
-  label,
-  placeholder,
-  type = 'text',
-  isRequired = false,
-  isDisabled = false,
-  full = false,
+  variant = 'regular',
   className,
-  onChange,
-  value,
-}: Input) => {
-  const getButtonClassNames = () => {
-    return clsx(
-      'py-2 px-4 rounded focus:outline-none font-roboto font-medium tracking-wide transition-colors',
-      {
-        ' bg-transparent border-2 border-neutral-500 text-neutral-200 placeholder:text-neutral-500 hover:border-neutral-400 focus:border-neutral-400 active:border-neutral-400':
-          variant === 'outlined',
-        'bg-neutral-600 border-2 border-neutral-500 placeholder:text-neutral-400 text-neutral-200 hover:bg-neutral-700 focus:border-neutral-600 hover:border-neutral-600 focus:bg-neutral-700 active:bg-neutral-700 active:border-neutral-600':
-          variant === 'search',
-        'w-full': full === true,
-      },
-      className,
-    )
-  }
+  children,
+  label = null,
+  id,
+  ...props
+}: InputProps) => {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="w-full flex flex-col gap-1">
       {label && (
         <label
-          htmlFor={title}
+          htmlFor={id}
           className=" text-white opacity-40 font-inter text-sm tracking-wide"
         >
           {label}
         </label>
       )}
       <input
-        title={title}
-        type={type}
-        placeholder={placeholder}
-        onChange={onChange}
-        disabled={isDisabled}
-        value={value}
-        required={isRequired}
-        className={getButtonClassNames()}
-        autoComplete={type === 'email' ? 'email' : 'off'}
-        autoCorrect="off"
-        autoCapitalize="none"
+        id={id}
+        className={clsx(
+          'px-4 py-2 text-sm rounded focus:outline-none font-roboto tracking-wide transition-colors',
+          'disabled:cursor-not-allowed disabled:opacity-50',
+          variant === 'regular' &&
+            'bg-neutral-600 border-2 border-neutral-500 placeholder:text-neutral-400 text-neutral-200 hover:bg-neutral-700 focus:border-neutral-600 hover:border-neutral-600 focus:bg-neutral-700 active:bg-neutral-700 active:border-neutral-600',
+          variant === 'outline' &&
+            'bg-transparent border-2 border-neutral-500 text-neutral-200 placeholder:text-neutral-500 hover:border-neutral-400 focus:border-neutral-400 active:border-neutral-400 disabled:border-neutral-500 disabled:text-neutral-200',
+
+          className,
+        )}
+        {...props}
       />
     </div>
   )

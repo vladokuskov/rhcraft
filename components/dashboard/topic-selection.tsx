@@ -10,9 +10,9 @@ const TopicSelection = ({
   selectedTopic,
 }: TopicSelection) => {
   return (
-    <div className=" w-full inline-flex justify-start items-center gap-4 mb-2">
+    <div className=" w-full inline-flex justify-start items-center gap-4 mt-4">
       <button
-        className=" hover:opacity-80 transition-opacity"
+        className="hover:opacity-80 transition-opacity"
         type="button"
         onClick={() => handleTopicChange('News')}
         title="Select News topic"

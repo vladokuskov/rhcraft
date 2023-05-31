@@ -20,6 +20,14 @@ const PostEditing = ({ post }: { post: Post }) => {
   const [title, setTitle] = useState(post.title)
   const [selectedTopic, setSelectedTopic] = useState<string | null>(post.topic)
 
+  const lastUpdatedDate = post.updatedAt.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  })
+
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default
     const Header = (await import('@editorjs/header')).default
@@ -175,16 +183,10 @@ const PostEditing = ({ post }: { post: Post }) => {
         </Button>
       </div>
 
-      <p className="font-sans text-neutral-400 leading-3 mt-8 whitespace-nowrap">
-        Last updated:
-        {` ${post.updatedAt.toLocaleString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-        })}`}
-      </p>
+      <TopicSelection
+        selectedTopic={selectedTopic}
+        handleTopicChange={handleTopicChange}
+      />
 
       <input
         onChange={handleChange}
@@ -198,10 +200,10 @@ const PostEditing = ({ post }: { post: Post }) => {
         value={title}
       />
 
-      <TopicSelection
-        selectedTopic={selectedTopic}
-        handleTopicChange={handleTopicChange}
-      />
+      <p className="font-sans text-neutral-400 leading-3 mb-2 whitespace-nowrap">
+        Last updated:
+        {` ${lastUpdatedDate}`}
+      </p>
 
       <div
         id="editor"

@@ -16,7 +16,7 @@ export default async function Blog() {
   return (
     <div className="w-full h-full min-h-screen mx-auto my-0 grid grid-cols-withSidebar max-sm:flex max-sm:gap-8 flex-col items-start justify-center gap-16">
       <BlogSidebar />
-      <div className="w-full h-1 w-full h-full min-h-screen flex flex-col items-start justify-start">
+      <div className="w-full h-full min-h-screen flex flex-col items-start justify-start">
         <Suspense fallback={<BlogPostsLoading />}>
           <BlogPostsList />
         </Suspense>

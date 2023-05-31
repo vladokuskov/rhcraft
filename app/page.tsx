@@ -54,13 +54,6 @@ export default async function Home() {
         <Suspense fallback={<HomePostsLoading />}>
           <HomePostsList />
         </Suspense>
-        <Link
-          href="/blog"
-          className=" self-center font-sans font-bold tracking-wide text-white-100 hover:text-neutral-400 transition-colors text-lg flex items-center justify-center gap-4 whitespace-nowrap"
-        >
-          See more
-          <FontAwesomeIcon icon={faExternalLink} />
-        </Link>
       </section>
     </div>
   )

@@ -1,4 +1,4 @@
-import { Player } from '@/components/Player'
+import { Player } from '@/components/player'
 import { PostTopicBadge } from '@/components/post-topic-badge'
 import { db } from '@/lib/db'
 import { parseEditorJson } from '@/utils/parseEditorJson'

@@ -85,17 +85,20 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
           <p className=" font-roboto font-medium">{error}</p>
         </div>
       )}
+
       <Button
-        size="sm2"
-        className=" max-w-[7rem] h-10"
-        variant="primary"
-        title={isSaving ? undefined : 'Save'}
-        isRequired
-        icon={isSaving ? faSpinner : null}
-        isLoading={isSaving}
-        full={false}
-        isDisabled={isSaving || name.length === 0}
-      />
+        variant="regular"
+        title="Save change"
+        size="regular"
+        className="max-w-[4rem] font-semibold h-10"
+        disabled={isSaving || name.length === 0}
+      >
+        {isSaving ? (
+          <FontAwesomeIcon icon={faSpinner} className=" animate-spin" />
+        ) : (
+          'Save'
+        )}
+      </Button>
     </form>
   )
 }

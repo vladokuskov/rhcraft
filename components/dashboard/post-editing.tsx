@@ -9,6 +9,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { postPatchSchema } from '@/lib/validations/post'
 import { Post } from '@prisma/client'
 import { TopicSelection } from './topic-selection'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const PostEditing = ({ post }: { post: Post }) => {
   const editorRef = useRef<EditorJS>()
@@ -143,26 +144,35 @@ const PostEditing = ({ post }: { post: Post }) => {
     <form className="flex flex-col gap-2" onSubmit={handlePostEditing}>
       <div className="flex items-center justify-end gap-2">
         <Button
-          isRequired
-          isDisabled={isSaving || title.length === 0 || title.length > 165}
-          isLoading={isSaving}
-          icon={isSaving ? faSpinner : null}
-          title={isSaving ? undefined : 'Save'}
-          variant="primary"
-          className=" w-[4rem] h-12"
-        />
+          variant="regular"
+          title="Save"
+          size="regular"
+          className=" w-[4rem] h-12 font-semibold"
+          disabled={isSaving || title.length === 0 || title.length > 165}
+        >
+          {isSaving ? (
+            <FontAwesomeIcon icon={faSpinner} className=" animate-spin" />
+          ) : (
+            'Save'
+          )}
+        </Button>
         <Button
-          isRequired
+          type="button"
+          variant={post.published ? 'outline' : 'service'}
+          title={post.published ? 'Un publish' : 'Publish'}
+          size="regular"
+          className=" w-[6rem] h-12 font-semibold"
+          disabled={isPublishing}
           onClick={handlePostPublishing}
-          isDisabled={isPublishing || title.length === 0}
-          isLoading={isPublishing}
-          icon={isPublishing ? faSpinner : null}
-          title={
-            isPublishing ? undefined : post.published ? 'Unpublish' : 'Publish'
-          }
-          variant={post.published ? 'secondary' : 'service'}
-          className="h-12"
-        />
+        >
+          {isPublishing ? (
+            <FontAwesomeIcon icon={faSpinner} className=" animate-spin" />
+          ) : post.published ? (
+            'Unpublish'
+          ) : (
+            'Publish'
+          )}
+        </Button>
       </div>
 
       <p className="font-sans text-neutral-400 leading-3 mt-8 whitespace-nowrap">

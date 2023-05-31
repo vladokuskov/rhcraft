@@ -76,3 +76,12 @@ body {
 *::selection {
   background: #9e9e9e50;
 }
+
+*:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+*:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

@@ -1,4 +1,3 @@
-import { Player } from '@/components/player'
 import { PostTopicBadge } from '@/components/post-topic-badge'
 import { db } from '@/lib/db'
 import { parseEditorJson } from '@/utils/parseEditorJson'
@@ -181,9 +180,7 @@ export default async function PostPage({ params }: PostPageProps) {
                     <div
                       key={index}
                       className="youtube-embed w-full h-full mt-4"
-                    >
-                      <Player url={element.url ? element.url : ''} />
-                    </div>
+                    ></div>
                   )
                 }
                 return null

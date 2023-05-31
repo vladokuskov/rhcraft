@@ -70,32 +70,35 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
       </div>
 
       <Input
-        title="Name"
-        variant="outlined"
+        title="Your name"
+        variant="outline"
         type="text"
         value={name}
         onChange={handleNameChange}
-        isDisabled={isSaving}
-        full
-        className="max-w-xs"
+        disabled={isSaving}
+        className="max-w-xs w-full font-medium"
       />
+
       {error && (
         <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">
           <FontAwesomeIcon icon={faExclamationTriangle} />
           <p className=" font-roboto font-medium">{error}</p>
         </div>
       )}
+
       <Button
-        size="sm2"
-        className=" max-w-[7rem] h-10"
-        variant="primary"
-        title={isSaving ? undefined : 'Save'}
-        isRequired
-        icon={isSaving ? faSpinner : null}
-        isLoading={isSaving}
-        full={false}
-        isDisabled={isSaving || name.length === 0}
-      />
+        variant="regular"
+        title="Save change"
+        size="regular"
+        className="max-w-[4rem] font-semibold h-10"
+        disabled={isSaving || name.length === 0}
+      >
+        {isSaving ? (
+          <FontAwesomeIcon icon={faSpinner} className=" animate-spin" />
+        ) : (
+          'Save'
+        )}
+      </Button>
     </form>
   )
 }

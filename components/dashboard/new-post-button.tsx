@@ -2,6 +2,7 @@
 
 import { Button } from '../button'
 import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -33,15 +34,17 @@ const NewPostButton = () => {
 
   return (
     <Button
-      className="max-sm:self-end"
-      size="sm2"
+      className="max-sm:self-end font-semibold h-10 w-[6rem]"
       onClick={handleCreating}
-      variant="primary"
-      title={isLoading ? 'Creating' : 'New post'}
-      icon={isLoading ? faSpinner : faPlus}
-      isDisabled={isLoading}
-      isLoading={isLoading}
-    />
+      variant="regular"
+      disabled={isLoading}
+    >
+      {isLoading ? (
+        <FontAwesomeIcon icon={faSpinner} className=" animate-spin" />
+      ) : (
+        'New post'
+      )}
+    </Button>
   )
 }
 

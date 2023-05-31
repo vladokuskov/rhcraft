@@ -23,10 +23,10 @@ const AuthForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    setIsLoading(true)
-
-    if (email.length !== 0 && password.length !== 0)
+    if (email.length !== 0 && password.length !== 0) {
       try {
+        setIsLoading(true)
+
         const logging = await signIn('credentials', {
           email: email.toLowerCase(),
           password: password,
@@ -47,6 +47,9 @@ const AuthForm = () => {
       } catch (err) {
         if (err instanceof Error) setError(err.message)
       }
+    } else {
+      setError('Please type email and password')
+    }
   }
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,40 +67,46 @@ const AuthForm = () => {
     >
       <Input
         title="Email"
-        variant="outlined"
+        variant="outline"
         type="email"
         placeholder="name@example.com"
         value={email}
         onChange={handleEmailChange}
-        isDisabled={isLoading}
-        full
+        disabled={isLoading}
+        className="w-full font-medium"
         label="Email"
       />
       <Input
         title="Password"
-        variant="outlined"
+        variant="outline"
         type="password"
         value={password}
         onChange={handlePasswordChange}
-        isDisabled={isLoading}
-        full
+        disabled={isLoading}
+        className="w-full font-medium"
         label="Password"
       />
+
       {error && (
         <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">
           <FontAwesomeIcon icon={faExclamationTriangle} />
           <p className=" font-roboto font-medium">{error}</p>
         </div>
       )}
+
       <Button
         variant="service"
         title="Login"
-        isRequired
-        icon={isLoading ? faSpinner : null}
-        isLoading={isLoading}
-        full={false}
-        isDisabled={isLoading}
-      />
+        size="regular"
+        className="w-20 font-semibold h-10 self-center"
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <FontAwesomeIcon icon={faSpinner} className=" animate-spin" />
+        ) : (
+          'Login'
+        )}
+      </Button>
     </form>
   )
 }

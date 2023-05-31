@@ -2,6 +2,7 @@ import { PostEditing } from '@/components/dashboard/post-editing'
 import { db } from '@/lib/db'
 import { getCurrentUser } from '@/lib/session'
 import { notFound, redirect } from 'next/navigation'
+import DashboardEditingLoading from './loading'
 
 export const metadata = {
   title: 'rhcraft - Dashboard editing post',

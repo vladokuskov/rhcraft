@@ -61,12 +61,14 @@ const DashboardPost = ({ title, date, imageURL, id }: DashboardPost) => {
         </p>
       </div>
       <Button
-        variant="icon"
-        icon={faEllipsisVertical}
-        title="Post menu"
-        className=" text-2xl"
+        variant="ghost"
         onClick={() => setIsMenuOpen((prev) => !prev)}
-      />
+        title="Post menu"
+        size="large"
+        className=" !text-2xl"
+      >
+        <FontAwesomeIcon icon={faEllipsisVertical} />
+      </Button>
       {isMenuOpen && (
         <div className=" z-20 absolute right-6 bottom-[-3rem] flex flex-col font-roboto bg-black p-2 rounded border-neutral-600 border gap-2">
           <button

@@ -20,14 +20,18 @@ const Footer = () => {
           />
         </Link>
         <div className="flex flex-col items-start justify-center gap-2">
-          <NavigationLink title="Home" destination="/" />
-          <NavigationLink title="Blog" destination="/blog" />
-          <NavigationLink title="Dashboard" destination="/dashboard" />
+          <NavigationLink variant="regular" href="/" title="Home">
+            Home
+          </NavigationLink>
+          <NavigationLink variant="regular" href="/blog" title="Blog">
+            Blog
+          </NavigationLink>
+
           <a
             title="YouTube channel"
             href="https://www.youtube.com/@realminheart"
             target="_blank"
-            className="font-inter hover:text-neutral-300 focus:text-neutral-300 hover:transition-colors hover:underline underline-offset-2"
+            className="font-inter hover:text-neutral-300 focus:text-neutral-300 hover:transition-colors hover:underline underline-offset-2 focus:underline"
           >
             YT Channel
           </a>

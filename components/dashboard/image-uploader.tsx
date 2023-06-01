@@ -50,7 +50,7 @@ const ImageUploader = ({
 
   const handleImageDelete = () => {
     const result = window.confirm(
-      'Are you sure you want to delete the image preview?',
+      'Are you sure you want to delete the image from post?',
     )
     if (result) {
       setUploadedImage(null)
@@ -79,7 +79,7 @@ const ImageUploader = ({
   }
 
   return (
-    <div className="flex flex-col gap-4 items-start justify-start">
+    <div className="flex flex-col gap-4 items-start justify-start mt-8">
       <div
         tabIndex={0}
         role="button"
@@ -110,7 +110,7 @@ const ImageUploader = ({
               <span className="flex-col inline-flex justify-center items-center gap-2 leading-3 text-neutral-100">
                 <FontAwesomeIcon icon={faCloudArrowUp} />
                 <span>Drop your image or</span>
-                <span className=" underline underline-offset-2">Browse</span>
+                <span className=" font-bold">Browse</span>
               </span>
             </div>
           </div>
@@ -118,7 +118,7 @@ const ImageUploader = ({
           <span className="flex-col inline-flex justify-center items-center gap-2 leading-3 ">
             <FontAwesomeIcon icon={faCloudArrowUp} />
             <span>Drop your image or</span>
-            <span className=" underline underline-offset-2">Browse</span>
+            <span className=" font-bold">Browse</span>
             <span className=" text-neutral-500 mt-3">JPG, PNG, WEBP</span>
           </span>
         )}
@@ -134,7 +134,7 @@ const ImageUploader = ({
 
       {previewImageUrl && (
         <Button
-          className=" max-w-[8rem] h-10"
+          className=" max-w-[8rem] h-10 font-semibold"
           variant="outline"
           onClick={handleImageDelete}
           title={'Delete image'}

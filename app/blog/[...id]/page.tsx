@@ -121,6 +121,18 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className=" mt-4 w-full flex flex-col items-start justify-start gap-4 mb-12">
+      {post.post.imageURL && (
+        <div className=" w-full max-h-96 h-full rounded flex items-start justify-start ml-0 object-contain">
+          <Image
+            src={post.post.imageURL}
+            alt="Picture of post preview"
+            width={600}
+            height={300}
+            className="rounded bg-neutral-700"
+            priority
+          />
+        </div>
+      )}
       <div className=" w-full flex flex-col items-start justify-start gap-4">
         <div className="flex items-center justify-center gap-2">
           {post.author?.image && (

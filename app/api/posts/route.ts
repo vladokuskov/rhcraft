@@ -9,84 +9,59 @@ export async function GET(req: Request) {
 
     const take = url.searchParams.get('take')
     const lastCursor = url.searchParams.get('lastCursor')
-    const searchQuery = url.searchParams.get('searchQuery')
 
-    if (searchQuery && searchQuery.length > 0) {
-      const result = await db.post.findMany({
-        where: {
-          published: true,
-          title: {
-            search: 'has',
-          },
+    let result = await db.post.findMany({
+      where: {
+        published: true,
+      },
+      take: take ? parseInt(take as string) : 10,
+      ...(lastCursor && {
+        skip: 1,
+        cursor: {
+          id: lastCursor as string,
         },
-        orderBy: {
-          createdAt: 'desc',
-        },
-      })
+      }),
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })
 
+    if (result.length == 0) {
       return new Response(
         JSON.stringify({
-          data: result,
+          data: [],
+          metaData: {
+            lastCursor: null,
+            hasNextPage: false,
+          },
         }),
         { status: 200 },
       )
     }
 
-    // let result = await db.post.findMany({
-    //   where: {
-    //     published: true,
-    //   },
-    //   take: take ? parseInt(take as string) : 10,
-    //   ...(lastCursor && {
-    //     skip: 1,
-    //     cursor: {
-    //       id: lastCursor as string,
-    //     },
-    //   }),
-    //   orderBy: {
-    //     createdAt: 'desc',
-    //   },
-    // })
+    const lastPostInResults: any = result[result.length - 1]
+    const cursor: any = lastPostInResults.id
 
-    // if (result.length === 0) {
-    //   return new Response(
-    //     JSON.stringify({
-    //       data: [],
-    //       metaData: {
-    //         lastCursor: null,
-    //         hasNextPage: false,
-    //       },
-    //     }),
-    //     { status: 200 },
-    //   )
-    // }
+    const nextPage = await db.post.findMany({
+      where: {
+        published: true,
+      },
+      take: take ? parseInt(take as string) : 7,
+      skip: 1,
+      cursor: {
+        id: cursor,
+      },
+    })
 
-    // const lastPostInResults = result[result.length - 1]
-    // const cursor = lastPostInResults.id
+    const data = {
+      data: result,
+      metaData: {
+        lastCursor: cursor,
+        hasNextPage: nextPage.length > 0,
+      },
+    }
 
-    // const nextPage = await db.post.findMany({
-    //   where: {
-    //     published: true,
-    //   },
-    //   take: take ? parseInt(take as string) : 7,
-    //   skip: 1,
-    //   cursor: {
-    //     id: cursor,
-    //   },
-    //   orderBy: {
-    //     createdAt: 'desc',
-    //   },
-    // })
-
-    // const data = {
-    //   data: result,
-    //   metaData: {
-    //     lastCursor: cursor,
-    //     hasNextPage: nextPage.length > 0,
-    //   },
-    // }
-
-    // return new Response(JSON.stringify(data), { status: 200 })
+    return new Response(JSON.stringify(data), { status: 200 })
   } catch (error) {
     return new Response(null, { status: 500 })
   }

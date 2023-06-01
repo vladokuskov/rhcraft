@@ -62,6 +62,7 @@ export async function PATCH(
         content: body.content,
         published: body.published,
         topic: body.topic,
+        imageURL: body.imageURL,
       },
     })
 

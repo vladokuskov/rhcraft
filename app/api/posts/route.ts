@@ -9,59 +9,84 @@ export async function GET(req: Request) {
 
     const take = url.searchParams.get('take')
     const lastCursor = url.searchParams.get('lastCursor')
+    const searchQuery = url.searchParams.get('searchQuery')
 
-    let result = await db.post.findMany({
-      where: {
-        published: true,
-      },
-      take: take ? parseInt(take as string) : 10,
-      ...(lastCursor && {
-        skip: 1,
-        cursor: {
-          id: lastCursor as string,
+    if (searchQuery && searchQuery.length > 0) {
+      const result = await db.post.findMany({
+        where: {
+          published: true,
+          title: {
+            search: 'has',
+          },
         },
-      }),
-      orderBy: {
-        createdAt: 'desc',
-      },
-    })
+        orderBy: {
+          createdAt: 'desc',
+        },
+      })
 
-    if (result.length == 0) {
       return new Response(
         JSON.stringify({
-          data: [],
-          metaData: {
-            lastCursor: null,
-            hasNextPage: false,
-          },
+          data: result,
         }),
         { status: 200 },
       )
     }
 
-    const lastPostInResults: any = result[result.length - 1]
-    const cursor: any = lastPostInResults.id
+    // let result = await db.post.findMany({
+    //   where: {
+    //     published: true,
+    //   },
+    //   take: take ? parseInt(take as string) : 10,
+    //   ...(lastCursor && {
+    //     skip: 1,
+    //     cursor: {
+    //       id: lastCursor as string,
+    //     },
+    //   }),
+    //   orderBy: {
+    //     createdAt: 'desc',
+    //   },
+    // })
 
-    const nextPage = await db.post.findMany({
-      where: {
-        published: true,
-      },
-      take: take ? parseInt(take as string) : 7,
-      skip: 1,
-      cursor: {
-        id: cursor,
-      },
-    })
+    // if (result.length === 0) {
+    //   return new Response(
+    //     JSON.stringify({
+    //       data: [],
+    //       metaData: {
+    //         lastCursor: null,
+    //         hasNextPage: false,
+    //       },
+    //     }),
+    //     { status: 200 },
+    //   )
+    // }
 
-    const data = {
-      data: result,
-      metaData: {
-        lastCursor: cursor,
-        hasNextPage: nextPage.length > 0,
-      },
-    }
+    // const lastPostInResults = result[result.length - 1]
+    // const cursor = lastPostInResults.id
 
-    return new Response(JSON.stringify(data), { status: 200 })
+    // const nextPage = await db.post.findMany({
+    //   where: {
+    //     published: true,
+    //   },
+    //   take: take ? parseInt(take as string) : 7,
+    //   skip: 1,
+    //   cursor: {
+    //     id: cursor,
+    //   },
+    //   orderBy: {
+    //     createdAt: 'desc',
+    //   },
+    // })
+
+    // const data = {
+    //   data: result,
+    //   metaData: {
+    //     lastCursor: cursor,
+    //     hasNextPage: nextPage.length > 0,
+    //   },
+    // }
+
+    // return new Response(JSON.stringify(data), { status: 200 })
   } catch (error) {
     return new Response(null, { status: 500 })
   }

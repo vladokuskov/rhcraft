@@ -10,8 +10,11 @@ import { postPatchSchema } from '@/lib/validations/post'
 import { Post } from '@prisma/client'
 import { TopicSelection } from './topic-selection'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ImageUploader } from './image-uploader'
+import axios from 'axios'
 
 const PostEditing = ({ post }: { post: Post }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const editorRef = useRef<EditorJS>()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
@@ -19,6 +22,11 @@ const PostEditing = ({ post }: { post: Post }) => {
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [title, setTitle] = useState(post.title)
   const [selectedTopic, setSelectedTopic] = useState<string | null>(post.topic)
+  const [uploadedImage, setUploadedImage] = useState<any | null>(null)
+
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(
+    post.imageURL,
+  )
 
   const lastUpdatedDate = post.updatedAt.toLocaleString('en-US', {
     month: 'short',
@@ -36,6 +44,8 @@ const PostEditing = ({ post }: { post: Post }) => {
       .default
     // @ts-ignore
     const YoutubeEmbed = (await import('editorjs-youtube-embed')).default
+    // @ts-ignore
+    const InlineImage = (await import('editorjs-inline-image')).default
     const body = postPatchSchema.parse(post)
 
     if (!editorRef.current) {
@@ -57,6 +67,15 @@ const PostEditing = ({ post }: { post: Post }) => {
             },
           },
           youtubeEmbed: YoutubeEmbed,
+          image: {
+            class: InlineImage,
+            inlineToolbar: true,
+            config: {
+              embed: {
+                display: true,
+              },
+            },
+          },
         },
       })
     }
@@ -70,6 +89,8 @@ const PostEditing = ({ post }: { post: Post }) => {
     setIsSaving(true)
 
     try {
+      const imageURL = await uploadImage()
+
       const response = await fetch(`/api/posts/${post.id}`, {
         method: 'PATCH',
         headers: {
@@ -79,6 +100,7 @@ const PostEditing = ({ post }: { post: Post }) => {
           title: title,
           content: blocks,
           topic: selectedTopic,
+          imageURL: imageURL,
         }),
       })
 
@@ -120,6 +142,31 @@ const PostEditing = ({ post }: { post: Post }) => {
       }
     } catch (err) {
       setIsPublishing(false)
+    }
+  }
+
+  const uploadImage = async () => {
+    const formData = new FormData()
+    formData.append('file', uploadedImage)
+
+    try {
+      const res = await fetch('/api/media/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!res.ok) {
+        console.error('something went wrong, check your console.')
+        return
+      }
+
+      const data: { imageURL: string } = await res.json()
+
+      console.log(data.imageURL)
+
+      return data.imageURL
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -182,6 +229,13 @@ const PostEditing = ({ post }: { post: Post }) => {
           )}
         </Button>
       </div>
+
+      <ImageUploader
+        previewImageUrl={previewImageUrl}
+        setUploadedImage={setUploadedImage}
+        setPreviewImageUrl={setPreviewImageUrl}
+        inputRef={inputRef}
+      />
 
       <TopicSelection
         selectedTopic={selectedTopic}

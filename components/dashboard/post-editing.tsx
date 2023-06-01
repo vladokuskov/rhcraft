@@ -89,7 +89,7 @@ const PostEditing = ({ post }: { post: Post }) => {
     setIsSaving(true)
 
     try {
-      const imageURL = await uploadImage()
+      const imageURL = await getImageURL()
 
       const response = await fetch(`/api/posts/${post.id}`, {
         method: 'PATCH',
@@ -145,28 +145,79 @@ const PostEditing = ({ post }: { post: Post }) => {
     }
   }
 
-  const uploadImage = async () => {
-    const formData = new FormData()
-    formData.append('file', uploadedImage)
+  const getImageURL = async () => {
+    if (uploadedImage && !post.imageURL) {
+      try {
+        const formData = new FormData()
+        formData.append('file', uploadedImage)
 
-    try {
-      const res = await fetch('/api/media/upload', {
-        method: 'POST',
-        body: formData,
+        const res = await fetch('/api/media/upload', {
+          method: 'POST',
+          body: formData,
+        })
+
+        if (!res.ok) {
+          console.error('Something went wrong, check your console.')
+          return
+        }
+
+        const data: { imageURL: string } = await res.json()
+
+        return data.imageURL
+      } catch (err) {
+        console.error(err)
+      }
+    } else if (uploadedImage && post.imageURL) {
+      const deleted = await deleteImage(post.imageURL)
+
+      if (deleted) {
+        const formData = new FormData()
+        formData.append('file', uploadedImage)
+
+        const res = await fetch('/api/media/upload', {
+          method: 'POST',
+          body: formData,
+        })
+
+        if (!res.ok) {
+          console.error('Something went wrong, check your console.')
+          return
+        }
+
+        const data: { imageURL: string } = await res.json()
+
+        return data.imageURL
+      } else {
+        return post.imageURL
+      }
+    } else if (!uploadedImage && previewImageUrl && post.imageURL) {
+      return post.imageURL
+    } else if (!uploadedImage && !previewImageUrl && post.imageURL) {
+      const deleted = await deleteImage(post.imageURL)
+
+      if (deleted) {
+        return null
+      } else {
+        return post.imageURL
+      }
+    }
+  }
+
+  const deleteImage = async (url: string) => {
+    const imageUrl = new URL(url)
+    const key = imageUrl.pathname.split('/').pop()
+
+    if (key) {
+      const res = await fetch(`/api/media/delete/${key}`, {
+        method: 'DELETE',
       })
 
       if (!res.ok) {
-        console.error('something went wrong, check your console.')
-        return
+        console.error('Something went wrong.')
+        return false
       }
 
-      const data: { imageURL: string } = await res.json()
-
-      console.log(data.imageURL)
-
-      return data.imageURL
-    } catch (err) {
-      console.error(err)
+      return true
     }
   }
 

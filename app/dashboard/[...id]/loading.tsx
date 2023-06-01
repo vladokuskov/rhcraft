@@ -9,7 +9,7 @@ export default function DashboardEditingLoading() {
           />
         ))}
       </div>
-
+      <div className="w-full max-w-ful h-[14rem] bg-neutral-700 rounded animate-pulse mt-8" />
       <div className="w-full max-w-[22rem] mt-4 h-10 bg-neutral-700 rounded animate-pulse" />
       <div className="w-full mt-4 h-14 bg-neutral-700 rounded animate-pulse" />
       {[...Array(20)].map((i) => (

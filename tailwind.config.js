@@ -30,6 +30,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         withSidebar: '2fr 8fr',
+        withSidebarLarge: '3ft 7fr'
       },
     },
   },

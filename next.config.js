@@ -5,7 +5,7 @@ const nextConfig = {
     BASE_URL: process.env.BASE_URL,
   },
   images: {
-    domains: ['firebasestorage.googleapis.com'],
+    domains: ['rhcraft.s3.us-west-004.backblazeb2.com'],
   },
 }
 

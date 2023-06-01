@@ -10,8 +10,10 @@ import { postPatchSchema } from '@/lib/validations/post'
 import { Post } from '@prisma/client'
 import { TopicSelection } from './topic-selection'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ImageUploader } from './image-uploader'
 
 const PostEditing = ({ post }: { post: Post }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const editorRef = useRef<EditorJS>()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
@@ -19,6 +21,11 @@ const PostEditing = ({ post }: { post: Post }) => {
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [title, setTitle] = useState(post.title)
   const [selectedTopic, setSelectedTopic] = useState<string | null>(post.topic)
+  const [uploadedImage, setUploadedImage] = useState<any | null>(null)
+
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(
+    post.imageURL,
+  )
 
   const lastUpdatedDate = post.updatedAt.toLocaleString('en-US', {
     month: 'short',
@@ -70,6 +77,8 @@ const PostEditing = ({ post }: { post: Post }) => {
     setIsSaving(true)
 
     try {
+      const imageURL = await getImageURL()
+
       const response = await fetch(`/api/posts/${post.id}`, {
         method: 'PATCH',
         headers: {
@@ -79,6 +88,7 @@ const PostEditing = ({ post }: { post: Post }) => {
           title: title,
           content: blocks,
           topic: selectedTopic,
+          imageURL: imageURL,
         }),
       })
 
@@ -120,6 +130,84 @@ const PostEditing = ({ post }: { post: Post }) => {
       }
     } catch (err) {
       setIsPublishing(false)
+    }
+  }
+
+  const getImageURL = async () => {
+    if (uploadedImage && !post.imageURL && post.authorId) {
+      try {
+        const formData = new FormData()
+        formData.append('file', uploadedImage)
+        formData.append('authorId', post.authorId)
+
+        const res = await fetch('/api/posts/media/upload', {
+          method: 'POST',
+          body: formData,
+        })
+
+        if (!res.ok) {
+          console.error('Something went wrong, check your console.')
+          return
+        }
+
+        const data: { imageURL: string } = await res.json()
+
+        return data.imageURL
+      } catch (err) {
+        console.error(err)
+      }
+    } else if (uploadedImage && post.imageURL && post.authorId) {
+      const deleted = await deleteImage(post.imageURL)
+
+      if (deleted) {
+        const formData = new FormData()
+        formData.append('file', uploadedImage)
+        formData.append('authorId', post.authorId)
+
+        const res = await fetch('/api/posts/media/upload', {
+          method: 'POST',
+          body: formData,
+        })
+
+        if (!res.ok) {
+          console.error('Something went wrong, check your console.')
+          return
+        }
+
+        const data: { imageURL: string } = await res.json()
+
+        return data.imageURL
+      } else {
+        return post.imageURL
+      }
+    } else if (!uploadedImage && previewImageUrl && post.imageURL) {
+      return post.imageURL
+    } else if (!uploadedImage && !previewImageUrl && post.imageURL) {
+      const deleted = await deleteImage(post.imageURL)
+
+      if (deleted) {
+        return null
+      } else {
+        return post.imageURL
+      }
+    }
+  }
+
+  const deleteImage = async (url: string) => {
+    const imageUrl = new URL(url)
+    const key = imageUrl.pathname.split('/').pop()
+
+    if (key) {
+      const res = await fetch(`/api/posts/media/delete/${key}`, {
+        method: 'DELETE',
+      })
+
+      if (!res.ok) {
+        console.error('Something went wrong.')
+        return false
+      }
+
+      return true
     }
   }
 
@@ -182,6 +270,13 @@ const PostEditing = ({ post }: { post: Post }) => {
           )}
         </Button>
       </div>
+
+      <ImageUploader
+        previewImageUrl={previewImageUrl}
+        setUploadedImage={setUploadedImage}
+        setPreviewImageUrl={setPreviewImageUrl}
+        inputRef={inputRef}
+      />
 
       <TopicSelection
         selectedTopic={selectedTopic}

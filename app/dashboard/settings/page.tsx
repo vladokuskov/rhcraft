@@ -28,10 +28,10 @@ export default async function DashboardSettings() {
         </p>
       </div>
       <Suspense fallback={<DashboardNameChangeLoading />}>
-        <SettingsNameChange userName={user.name} user={user} />
+        <SettingsNameChange userName={user.name} userId={user.id} />
       </Suspense>
       <Suspense fallback={<DashboardNameChangeLoading />}>
-        <SettingsPicture userImage={user.image} />
+        <SettingsPicture userImage={user.image} userId={user.id} />
       </Suspense>
       <SettingsSignOut />
     </main>

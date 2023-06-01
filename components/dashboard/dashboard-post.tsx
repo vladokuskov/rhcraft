@@ -9,8 +9,6 @@ import { useRef, useState } from 'react'
 import { useClickOutside } from '@/hooks/useClickOutside'
 import { useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { deleteObject, ref } from 'firebase/storage'
-import { storage } from '@/lib/firebase'
 
 type DashboardPost = {
   title: string
@@ -86,8 +84,21 @@ const DashboardPost = ({ title, date, imageURL, id }: DashboardPost) => {
               )
               if (isConfirmed) {
                 if (imageURL) {
-                  const storageRef = ref(storage, imageURL)
-                  await deleteObject(storageRef)
+                  const imageUrl = new URL(imageURL)
+                  const key = imageUrl.pathname.split('/').pop()
+
+                  if (key) {
+                    const res = await fetch(`/api/posts/media/delete/${key}`, {
+                      method: 'DELETE',
+                    })
+
+                    if (!res.ok) {
+                      console.error('Something went wrong.')
+                      return false
+                    }
+
+                    return true
+                  }
                 }
 
                 const deleted = await handlePostDelete(id)

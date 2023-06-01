@@ -140,7 +140,7 @@ const PostEditing = ({ post }: { post: Post }) => {
         formData.append('file', uploadedImage)
         formData.append('authorId', post.authorId)
 
-        const res = await fetch('/api/media/upload', {
+        const res = await fetch('/api/posts/media/upload', {
           method: 'POST',
           body: formData,
         })
@@ -164,7 +164,7 @@ const PostEditing = ({ post }: { post: Post }) => {
         formData.append('file', uploadedImage)
         formData.append('authorId', post.authorId)
 
-        const res = await fetch('/api/media/upload', {
+        const res = await fetch('/api/posts/media/upload', {
           method: 'POST',
           body: formData,
         })
@@ -198,7 +198,7 @@ const PostEditing = ({ post }: { post: Post }) => {
     const key = imageUrl.pathname.split('/').pop()
 
     if (key) {
-      const res = await fetch(`/api/media/delete/${key}`, {
+      const res = await fetch(`/api/posts/media/delete/${key}`, {
         method: 'DELETE',
       })
 

@@ -50,7 +50,7 @@ const ImageUploader = ({
 
   const handleImageDelete = () => {
     const result = window.confirm(
-      'Are you sure you want to delete the image from post?',
+      'Are you sure you want to delete image from post?',
     )
     if (result) {
       setUploadedImage(null)

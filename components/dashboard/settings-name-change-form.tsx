@@ -13,10 +13,10 @@ import { useRouter } from 'next/navigation'
 
 interface NameChange {
   userName: string | null | undefined
-  user: User | null | undefined
+  userId: string
 }
 
-const SettingsNameChange = ({ userName, user }: NameChange) => {
+const SettingsNameChange = ({ userName, userId }: NameChange) => {
   const router = useRouter()
   const [name, setName] = useState(userName ? userName : '')
   const [isSaving, setIsSaving] = useState<boolean>(false)
@@ -30,28 +30,27 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
     e.preventDefault()
 
     setIsSaving(true)
-    if (user) {
-      try {
-        const response = await fetch(`/api/users/${user.id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: name,
-          }),
-        })
 
-        if (!response?.ok) {
-          setError('Your name was not updated. Please try again.')
-        } else {
-          router.refresh()
-          setIsSaving(false)
-        }
-      } catch (err) {
-        if (err instanceof Error) setError(err.message)
+    try {
+      const response = await fetch(`/api/users/${userId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name,
+        }),
+      })
+
+      if (!response?.ok) {
+        setError('Your name was not updated. Please try again.')
+      } else {
+        router.refresh()
         setIsSaving(false)
       }
+    } catch (err) {
+      if (err instanceof Error) setError(err.message)
+      setIsSaving(false)
     }
   }
 
@@ -90,7 +89,7 @@ const SettingsNameChange = ({ userName, user }: NameChange) => {
         variant="regular"
         title="Save change"
         size="regular"
-        className="max-w-[4rem] font-semibold h-10"
+        className="max-w-[4rem] font-semibold h-10 w-14"
         disabled={isSaving || name.length === 0}
       >
         {isSaving ? (

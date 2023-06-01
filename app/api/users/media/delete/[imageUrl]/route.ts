@@ -1,28 +1,33 @@
-import mime from 'mime'
 import { NextRequest, NextResponse } from 'next/server'
 import AWS from 'aws-sdk'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
+import { z } from 'zod'
 
-export async function POST(request: NextRequest) {
+const routeContextSchema = z.object({
+  params: z.object({
+    imageUrl: z.string(),
+  }),
+})
+
+export async function DELETE(
+  request: NextRequest,
+  context: z.infer<typeof routeContextSchema>,
+) {
   const session = await getServerSession(authOptions)
 
   if (!session?.user) {
     return NextResponse.json({ error: 'Not authenticated.' }, { status: 401 })
   }
 
-  const formData = await request.formData()
+  const { params } = routeContextSchema.parse(context)
 
-  const file = formData.get('file') as Blob | null
-  if (!file) {
+  if (params.imageUrl.length === 0) {
     return NextResponse.json(
-      { error: 'File blob is required.' },
-      { status: 400 },
+      { error: 'Provide correct image URL.' },
+      { status: 401 },
     )
   }
-  const authorId = formData.get('authorId') as string
-
-  const buffer = Buffer.from(await file.arrayBuffer())
 
   try {
     const s3 = new AWS.S3({
@@ -32,22 +37,14 @@ export async function POST(request: NextRequest) {
       region: process.env.BUCKET_REGION,
     })
 
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`
-    const filename = `postsAssets/${authorId}/${file.name.replace(
-      /\.[^/.]+$/,
-      '',
-    )}-${uniqueSuffix}.${mime.getExtension(file.type)}`
     await s3
-      .putObject({
+      .deleteObject({
         Bucket: process.env.BUCKET_NAME as string,
-        Key: filename,
-        Body: buffer,
+        Key: params.imageUrl,
       })
       .promise()
 
-    return NextResponse.json({
-      imageURL: `https://${process.env.BUCKET_NAME}.s3.${process.env.BUCKET_REGION}.backblazeb2.com/${filename}`,
-    })
+    return NextResponse.json({ status: 200 })
   } catch (err) {
     return NextResponse.json(
       { error: 'Something went wrong.' },

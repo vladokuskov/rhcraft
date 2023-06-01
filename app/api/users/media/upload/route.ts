@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     )
   }
-  const authorId = formData.get('authorId') as string
+  const userId = formData.get('userId') as string
 
   const buffer = Buffer.from(await file.arrayBuffer())
 
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     })
 
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`
-    const filename = `postsAssets/${authorId}/${file.name.replace(
+    const filename = `usersAssets/${userId}/${file.name.replace(
       /\.[^/.]+$/,
       '',
     )}-${uniqueSuffix}.${mime.getExtension(file.type)}`

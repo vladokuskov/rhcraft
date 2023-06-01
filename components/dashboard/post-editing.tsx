@@ -146,10 +146,11 @@ const PostEditing = ({ post }: { post: Post }) => {
   }
 
   const getImageURL = async () => {
-    if (uploadedImage && !post.imageURL) {
+    if (uploadedImage && !post.imageURL && post.authorId) {
       try {
         const formData = new FormData()
         formData.append('file', uploadedImage)
+        formData.append('authorId', post.authorId)
 
         const res = await fetch('/api/media/upload', {
           method: 'POST',
@@ -167,12 +168,13 @@ const PostEditing = ({ post }: { post: Post }) => {
       } catch (err) {
         console.error(err)
       }
-    } else if (uploadedImage && post.imageURL) {
+    } else if (uploadedImage && post.imageURL && post.authorId) {
       const deleted = await deleteImage(post.imageURL)
 
       if (deleted) {
         const formData = new FormData()
         formData.append('file', uploadedImage)
+        formData.append('authorId', post.authorId)
 
         const res = await fetch('/api/media/upload', {
           method: 'POST',

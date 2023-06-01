@@ -39,6 +39,7 @@ const AuthForm = () => {
             setTimeout(resolve, 100)
           })
           setIsLoading(false)
+          setError('Something happen, try again.')
         } else {
           router.refresh()
 
@@ -48,7 +49,7 @@ const AuthForm = () => {
         if (err instanceof Error) setError(err.message)
       }
     } else {
-      setError('Please type email and password')
+      setError('Please type email and password.')
     }
   }
 

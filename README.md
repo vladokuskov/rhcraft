@@ -16,12 +16,14 @@ Full-stack blog for private minecraft server.
     TypeScript
     PlanetScale
     Prisma
+    Backblaze bucket
     
 ### Features
 
     Infinite scroll
     Dashboard to manage posts and drafts
     Authentication
+    Image uploading
 
 ### How to start?
 

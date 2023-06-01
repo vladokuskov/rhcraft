@@ -11,7 +11,6 @@ import { Post } from '@prisma/client'
 import { TopicSelection } from './topic-selection'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ImageUploader } from './image-uploader'
-import axios from 'axios'
 
 const PostEditing = ({ post }: { post: Post }) => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -44,8 +43,6 @@ const PostEditing = ({ post }: { post: Post }) => {
       .default
     // @ts-ignore
     const YoutubeEmbed = (await import('editorjs-youtube-embed')).default
-    // @ts-ignore
-    const InlineImage = (await import('editorjs-inline-image')).default
     const body = postPatchSchema.parse(post)
 
     if (!editorRef.current) {
@@ -67,15 +64,6 @@ const PostEditing = ({ post }: { post: Post }) => {
             },
           },
           youtubeEmbed: YoutubeEmbed,
-          image: {
-            class: InlineImage,
-            inlineToolbar: true,
-            config: {
-              embed: {
-                display: true,
-              },
-            },
-          },
         },
       })
     }

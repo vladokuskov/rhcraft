@@ -28,7 +28,6 @@
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "clsx": "^1.2.1",
-    "editorjs-inline-image": "^1.2.4",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "firebase": "^9.22.0",

@@ -48,8 +48,15 @@ export async function generateMetadata(
     }
   }
 
+  const createdAtDate = post.createdAt.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+
   return {
     title: post.title && post.title !== undefined ? post.title : '',
+    description: `Created - ${createdAtDate}`,
     openGraph: {
       images: [
         post.imageURL && post.imageURL !== undefined ? post.imageURL : '',

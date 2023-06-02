@@ -33,14 +33,32 @@
 
 .ce-paragraph {
   color: #c1c1c1 !important;
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .ce-paragraph a {
   color: #a1e780;
+  text-decoration: none;
+  &:hover {
+    color: #bbf0a2;
+    text-decoration: underline;
+  }
+}
+
+.cdx-list {
+  color: #c1c1c1 !important;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  ::marker {
+    color: #d9d9d9 !important;
+  }
 }
 
 .ce-header {
   color: #d9d9d9 !important;
+  font-size: 1.5rem /* 24px */;
+  line-height: 2rem /* 32px */;
 }
 
 .cdx-list__item {
@@ -48,6 +66,18 @@
     color: #d9d9d9;
   }
   color: #c1c1c1;
+}
+
+@media (min-width: 640px) {
+  .ce-paragraph {
+    font-size: 1.125rem /* 18px */;
+    line-height: 1.75rem /* 28px */;
+  }
+
+  .cdx-list {
+    font-size: 1.125rem /* 18px */;
+    line-height: 1.75rem /* 28px */;
+  }
 }
 
 .ce-inline-too,

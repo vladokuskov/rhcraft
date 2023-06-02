@@ -5,8 +5,10 @@ export interface EditorData {
     data: {
       text: string
       url?: string
+      style?: string
+      items?: string[]
     }
-    type: 'header' | 'paragraph' | 'youtubeEmbed'
+    type: 'header' | 'paragraph' | 'youtubeEmbed' | 'list'
   }[]
   version: string
 }
@@ -17,7 +19,13 @@ const parseEditorJson = async (
   return new Promise((resolve, reject) => {
     try {
       const blocks = data.blocks
-      const parsedElements: { type: string; text: string; id?: string }[] = []
+      const parsedElements: {
+        type: string
+        text: string
+        id?: string
+        style?: string
+        items?: string[]
+      }[] = []
 
       for (const block of blocks) {
         if (block.type === 'header') {
@@ -42,6 +50,22 @@ const parseEditorJson = async (
               id: videoId,
             })
           }
+        } else if (block.type === 'list') {
+          const listStyle = block.data.style
+          const listItems = block.data.items
+
+          let listType = 'unordered'
+
+          if (listStyle === 'ordered') {
+            listType = 'ordered'
+          }
+
+          parsedElements.push({
+            type: 'list',
+            text: '',
+            style: listType,
+            items: listItems,
+          })
         }
       }
 

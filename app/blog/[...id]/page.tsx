@@ -122,6 +122,14 @@ export default async function PostPage({ params }: PostPageProps) {
     return null
   }
 
+  const lastUpdatedDate = post.post.updatedAt.toLocaleString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  })
+
   const content =
     post.post.content &&
     ((await parseEditorJson(post.post.content)) as Element[])
@@ -175,7 +183,13 @@ export default async function PostPage({ params }: PostPageProps) {
           {content &&
             content.map(
               (
-                element: { type: string; text: string; id?: string },
+                element: {
+                  type: string
+                  text: string
+                  id?: string
+                  style?: string
+                  items?: string[]
+                },
                 index: number,
               ) => {
                 if (element.type === 'header') {
@@ -191,7 +205,7 @@ export default async function PostPage({ params }: PostPageProps) {
                   return (
                     <p
                       key={index}
-                      className="text-[#c1c1c1] tracking-wide prose-a:text-[#a1e780] hover:prose-a:text-[#bbf0a2]"
+                      className="text-[#c1c1c1] text-lg max-sm:text-base tracking-wide prose-a:text-[#a1e780] hover:prose-a:text-[#bbf0a2] hover:prose-a:underline"
                       dangerouslySetInnerHTML={{ __html: element.text }}
                     />
                   )
@@ -204,6 +218,36 @@ export default async function PostPage({ params }: PostPageProps) {
                       <YoutubeVideoPlayer id={element.id ? element.id : ''} />
                     </div>
                   )
+                } else if (element.type === 'list') {
+                  if (element.style === 'ordered') {
+                    return (
+                      <ol
+                        key={index}
+                        className="list-decimal pl-8 text-[#c1c1c1] text-lg max-sm:text-base marker:text-[#d9d9d9]"
+                      >
+                        {element.items &&
+                          element.items.map((item, itemIndex) => (
+                            <li key={itemIndex} className="mb-2">
+                              {item}
+                            </li>
+                          ))}
+                      </ol>
+                    )
+                  } else if (element.style === 'unordered') {
+                    return (
+                      <ul
+                        key={index}
+                        className="list-disc pl-8 text-[#c1c1c1] text-lg max-sm:text-base marker:text-[#d9d9d9]"
+                      >
+                        {element.items &&
+                          element.items.map((item, itemIndex) => (
+                            <li key={itemIndex} className="mb-2">
+                              {item}
+                            </li>
+                          ))}
+                      </ul>
+                    )
+                  }
                 }
                 return null
               },
@@ -211,13 +255,7 @@ export default async function PostPage({ params }: PostPageProps) {
         </div>
         <p className="font-sans text-neutral-400 leading-3 mt-8 whitespace-nowrap">
           Last updated:
-          {` ${post.post.updatedAt.toLocaleString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-          })}`}
+          {` ${lastUpdatedDate}`}
         </p>
       </div>
     </div>

@@ -43,6 +43,11 @@ const PostEditing = ({ post }: { post: Post }) => {
       .default
     // @ts-ignore
     const YoutubeEmbed = (await import('editorjs-youtube-embed')).default
+    // @ts-ignore
+    const List = (await import('@editorjs/list')).default
+    // @ts-ignore
+    const Delimiter = (await import('@editorjs/delimiter')).default
+
     const body = postPatchSchema.parse(post)
 
     if (!editorRef.current) {
@@ -64,6 +69,14 @@ const PostEditing = ({ post }: { post: Post }) => {
             },
           },
           youtubeEmbed: YoutubeEmbed,
+          list: {
+            class: List,
+            inlineToolbar: true,
+            config: {
+              defaultStyle: 'unordered',
+            },
+          },
+          delimiter: Delimiter,
         },
       })
     }

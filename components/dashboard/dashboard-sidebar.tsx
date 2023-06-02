@@ -39,7 +39,8 @@ const DashboardSidebar = () => {
           title="Back to dashboard"
           className="w-full"
         >
-          <FontAwesomeIcon icon={faArrowLeftLong} /> Back
+          <FontAwesomeIcon icon={faArrowLeftLong} />
+          Back
         </NavigationLink>
       )}
     </aside>

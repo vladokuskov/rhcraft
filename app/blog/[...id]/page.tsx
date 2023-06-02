@@ -248,6 +248,15 @@ export default async function PostPage({ params }: PostPageProps) {
                       </ul>
                     )
                   }
+                } else if (element.type === 'delimiter') {
+                  return (
+                    <p
+                      key={index}
+                      className="text-neutral-500 tracking-widest text-3xl font-medium w-full text-center my-6"
+                    >
+                      {element.text}
+                    </p>
+                  )
                 }
                 return null
               },

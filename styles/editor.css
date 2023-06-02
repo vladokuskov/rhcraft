@@ -37,6 +37,22 @@
   line-height: 1.5rem;
 }
 
+.ce-delimiter {
+  --tw-text-opacity: 1;
+  color: rgb(115 115 115) !important;
+  letter-spacing: 0.1em;
+  font-size: 1.875rem /* 30px */;
+  line-height: 2.25rem /* 36px */;
+}
+
+.ce-delimiter ::before {
+  --tw-text-opacity: 1;
+  color: rgb(115 115 115) !important;
+  letter-spacing: 0.1em;
+  font-size: 1.875rem /* 30px */;
+  line-height: 2.25rem /* 36px */;
+}
+
 .ce-paragraph a {
   color: #a1e780;
   text-decoration: none;

@@ -8,7 +8,7 @@ export interface EditorData {
       style?: string
       items?: string[]
     }
-    type: 'header' | 'paragraph' | 'youtubeEmbed' | 'list'
+    type: 'header' | 'paragraph' | 'youtubeEmbed' | 'list' | 'delimiter'
   }[]
   version: string
 }
@@ -66,6 +66,8 @@ const parseEditorJson = async (
             style: listType,
             items: listItems,
           })
+        } else if (block.type === 'delimiter') {
+          parsedElements.push({ type: 'delimiter', text: '***' })
         }
       }
 

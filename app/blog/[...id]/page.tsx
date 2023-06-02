@@ -1,7 +1,7 @@
 import { PostTopicBadge } from '@/components/post-topic-badge'
 import YoutubeVideoPlayer from '@/components/video-player'
 import { db } from '@/lib/db'
-import { parseEditorJson } from '@/utils/parseEditorJson'
+import { parseEditorJson } from '@/lib/parseEditorJson'
 import { Post } from '@prisma/client'
 import { Metadata, ResolvingMetadata } from 'next'
 import Image from 'next/image'

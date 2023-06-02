@@ -1,14 +1,14 @@
-import { usePathname } from 'next/navigation'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useClickOutside } from '@/hooks/useClickOutside'
 import {
+  faAngleRight,
   faBars,
   faClose,
-  faAngleRight,
 } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef } from 'react'
-import { useClickOutside } from '@/hooks/useClickOutside'
-import { NavigationLink } from '../navigation-link'
 import { Button } from '../button'
+import { NavigationLink } from '../navigation-link'
 
 const NavBarMenu = () => {
   const pathname = usePathname()

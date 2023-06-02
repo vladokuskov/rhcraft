@@ -1,8 +1,9 @@
 import { siteConfig } from '@/config/site'
-import './globals.css'
-import localFont from 'next/font/local'
-import { Inter, Roboto, Source_Sans_Pro } from 'next/font/google'
 import { LayoutProvider } from '@/providers/LayoutProvider'
+import { Inter, Roboto, Source_Sans_Pro } from 'next/font/google'
+import localFont from 'next/font/local'
+import { Toaster } from 'react-hot-toast'
+import './globals.css'
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -68,7 +69,30 @@ export default function RootLayout({
       <body
         className={`${fontTabloidScuzzball.variable} ${sourceSansPro.variable} ${inter.variable} ${roboto.variable}`}
       >
-        <LayoutProvider>{children}</LayoutProvider>
+        <LayoutProvider>
+          <Toaster
+            toastOptions={{
+              className: ' font-sans',
+              position: 'top-center',
+              style: {
+                padding: '.5rem',
+                color: '#f4f4f4',
+              },
+              success: {
+                style: {
+                  background: 'green',
+                },
+              },
+              error: {
+                style: {
+                  background: '#ef4444',
+                  opacity: '70%',
+                },
+              },
+            }}
+          />
+          {children}
+        </LayoutProvider>
       </body>
     </html>
   )

@@ -1,15 +1,12 @@
 'use client'
 
-import { User } from 'next-auth'
-import { useState } from 'react'
-import { Button } from '../button'
-import {
-  faExclamationTriangle,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons'
-import { Input } from '../input'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { Button } from '../button'
+import { Input } from '../input'
 
 interface NameChange {
   userName: string | null | undefined
@@ -20,7 +17,6 @@ const SettingsNameChange = ({ userName, userId }: NameChange) => {
   const router = useRouter()
   const [name, setName] = useState(userName ? userName : '')
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value)
@@ -43,13 +39,16 @@ const SettingsNameChange = ({ userName, userId }: NameChange) => {
       })
 
       if (!response?.ok) {
-        setError('Your name was not updated. Please try again.')
+        toast.error('Your name was not updated. Please try again.')
       } else {
-        router.refresh()
         setIsSaving(false)
+
+        toast.success('Changes successfully saved.')
+
+        router.refresh()
       }
     } catch (err) {
-      if (err instanceof Error) setError(err.message)
+      if (err instanceof Error) toast.error(err.message)
       setIsSaving(false)
     }
   }
@@ -77,13 +76,6 @@ const SettingsNameChange = ({ userName, userId }: NameChange) => {
         disabled={isSaving}
         className="max-w-xs w-full font-medium"
       />
-
-      {error && (
-        <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">
-          <FontAwesomeIcon icon={faExclamationTriangle} />
-          <p className=" font-roboto font-medium">{error}</p>
-        </div>
-      )}
 
       <Button
         variant="regular"

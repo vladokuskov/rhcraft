@@ -1,10 +1,11 @@
 'use client'
 
-import { Button } from '../button'
-import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { Button } from '../button'
 
 const NewPostButton = () => {
   const router = useRouter()
@@ -23,13 +24,18 @@ const NewPostButton = () => {
       }),
     })
 
-    const post = await response.json()
+    if (!response.ok) {
+      toast.error('An error ocurred while creating new post.')
+      return
+    } else {
+      const post = await response.json()
 
-    router.push(`/dashboard/${post.id}`)
+      router.push(`/dashboard/${post.id}`)
 
-    router.refresh()
+      router.refresh()
 
-    setIsLoading(false)
+      setIsLoading(false)
+    }
   }
 
   return (

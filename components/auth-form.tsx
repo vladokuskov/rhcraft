@@ -1,14 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { toast } from 'react-hot-toast'
 import { Button } from './button'
-import {
-  faExclamationTriangle,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Input } from './input'
 
 const AuthForm = () => {
@@ -17,8 +15,6 @@ const AuthForm = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,17 +35,17 @@ const AuthForm = () => {
             setTimeout(resolve, 100)
           })
           setIsLoading(false)
-          setError('Something happen, try again.')
+          toast.error('Something happen, try again.')
         } else {
           router.refresh()
 
           setIsLoading(false)
         }
       } catch (err) {
-        if (err instanceof Error) setError(err.message)
+        if (err instanceof Error) toast.error(err.message)
       }
     } else {
-      setError('Please type email and password.')
+      toast.error('Please type email and password.')
     }
   }
 
@@ -87,13 +83,6 @@ const AuthForm = () => {
         className="w-full font-medium"
         label="Password"
       />
-
-      {error && (
-        <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">
-          <FontAwesomeIcon icon={faExclamationTriangle} />
-          <p className=" font-roboto font-medium">{error}</p>
-        </div>
-      )}
 
       <Button
         variant="service"

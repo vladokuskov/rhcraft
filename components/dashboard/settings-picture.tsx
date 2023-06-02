@@ -1,14 +1,11 @@
 'use client'
 
-import {
-  faCamera,
-  faExclamationTriangle,
-  faSpinner,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCamera, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
+import { toast } from 'react-hot-toast'
 import { Button } from '../button'
 
 type SettingsPicture = {
@@ -24,7 +21,6 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
     string | null | undefined
   >(userImage)
   const [isSaving, setIsSaving] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
 
   const handleImageUpdate = async () => {
     setIsSaving(true)
@@ -43,14 +39,17 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
       })
 
       if (!response?.ok) {
-        setError('Your picture was not updated. Please try again.')
+        toast.error('Your picture was not updated. Please try again.')
         setIsSaving(false)
       } else {
-        router.refresh()
         setIsSaving(false)
+
+        toast.success('Changes successfully saved.')
+
+        router.refresh()
       }
     } catch (err) {
-      if (err instanceof Error) setError(err.message)
+      if (err instanceof Error) toast.error(err.message)
       setIsSaving(false)
     }
   }
@@ -76,7 +75,7 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
         })
 
         if (!res.ok) {
-          console.error('Something went wrong, check your console.')
+          toast.error('An error ocurred while uploading image.')
           return
         }
 
@@ -84,33 +83,39 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
 
         return data.imageURL
       } catch (err) {
-        console.error(err)
+        toast.error('An error ocurred while uploading image.')
       }
     } else if (uploadedImage && userImage && userId) {
-      const deleted = await deleteImage(userImage)
+      try {
+        const deleted = await deleteImage(userImage)
 
-      if (deleted) {
-        const formData = new FormData()
-        formData.append('file', uploadedImage)
-        formData.append('userId', userId)
+        if (deleted) {
+          const formData = new FormData()
+          formData.append('file', uploadedImage)
+          formData.append('userId', userId)
 
-        const res = await fetch('/api/users/media/upload', {
-          method: 'POST',
-          body: formData,
-        })
+          const res = await fetch('/api/users/media/upload', {
+            method: 'POST',
+            body: formData,
+          })
 
-        if (!res.ok) {
-          console.error('Something went wrong, check your console.')
-          return
+          if (!res.ok) {
+            toast.error('An error ocurred while uploading image.')
+
+            return
+          }
+
+          const data: { imageURL: string } = await res.json()
+
+          return data.imageURL
+        } else {
+          return userImage
         }
-
-        const data: { imageURL: string } = await res.json()
-
-        return data.imageURL
-      } else {
-        return userImage
+      } catch (err) {
+        toast.error('An error ocurred while uploading image.')
       }
     } else if (!uploadedImage && previewImageUrl && userImage) {
+      setPreviewImageUrl(userImage)
       return userImage
     } else if (!uploadedImage && !previewImageUrl && userImage) {
       const deleted = await deleteImage(userImage)
@@ -118,6 +123,7 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
       if (deleted) {
         return null
       } else {
+        setPreviewImageUrl(userImage)
         return userImage
       }
     }
@@ -133,7 +139,7 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
       })
 
       if (!res.ok) {
-        console.error('Something went wrong.')
+        toast.error('An error ocurred while deleting image.')
         return false
       }
 
@@ -188,13 +194,6 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
           </div>
         )}
       </div>
-
-      {error && (
-        <div className=" inline-flex gap-2 text-red-500 justify-center items-center ">
-          <FontAwesomeIcon icon={faExclamationTriangle} />
-          <p className=" font-roboto font-medium">{error}</p>
-        </div>
-      )}
 
       <input
         type="file"

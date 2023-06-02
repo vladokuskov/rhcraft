@@ -11,6 +11,7 @@ import { Post } from '@prisma/client'
 import { TopicSelection } from './topic-selection'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ImageUploader } from './image-uploader'
+import { toast } from 'react-hot-toast'
 
 const PostEditing = ({ post }: { post: Post }) => {
   const inputRef = useRef<HTMLInputElement>(null)
@@ -105,14 +106,19 @@ const PostEditing = ({ post }: { post: Post }) => {
         }),
       })
 
+      if (!response?.ok) {
+        toast.error('An error ocurred while saving post.')
+        setIsSaving(false)
+      }
+
       setIsSaving(false)
 
-      if (!response?.ok) {
-      }
+      toast.success('Post successfully saved.')
 
       router.refresh()
     } catch (err) {
       setIsSaving(false)
+      toast.error('Something happen while saving post.')
     }
   }
 
@@ -136,13 +142,19 @@ const PostEditing = ({ post }: { post: Post }) => {
 
       if (!response.ok) {
         setIsPublishing(false)
+        toast.error('An error ocurred while publishing post.')
       } else {
-        router.refresh()
-
         setIsPublishing(false)
+
+        toast.success(
+          `Post successfully ${post.published ? 'unpublished' : 'published'}`,
+        )
+
+        router.refresh()
       }
     } catch (err) {
       setIsPublishing(false)
+      toast.error('Something happen while publishing post.')
     }
   }
 
@@ -159,7 +171,7 @@ const PostEditing = ({ post }: { post: Post }) => {
         })
 
         if (!res.ok) {
-          console.error('Something went wrong, check your console.')
+          toast.error('An error ocurred while uploading image.')
           return
         }
 
@@ -167,31 +179,35 @@ const PostEditing = ({ post }: { post: Post }) => {
 
         return data.imageURL
       } catch (err) {
-        console.error(err)
+        toast.error('Something happen while uploading image.')
       }
     } else if (uploadedImage && post.imageURL && post.authorId) {
-      const deleted = await deleteImage(post.imageURL)
+      try {
+        const deleted = await deleteImage(post.imageURL)
 
-      if (deleted) {
-        const formData = new FormData()
-        formData.append('file', uploadedImage)
-        formData.append('authorId', post.authorId)
+        if (deleted) {
+          const formData = new FormData()
+          formData.append('file', uploadedImage)
+          formData.append('authorId', post.authorId)
 
-        const res = await fetch('/api/posts/media/upload', {
-          method: 'POST',
-          body: formData,
-        })
+          const res = await fetch('/api/posts/media/upload', {
+            method: 'POST',
+            body: formData,
+          })
 
-        if (!res.ok) {
-          console.error('Something went wrong, check your console.')
-          return
+          if (!res.ok) {
+            toast.error('An error ocurred while uploading image.')
+            return
+          }
+
+          const data: { imageURL: string } = await res.json()
+
+          return data.imageURL
+        } else {
+          return post.imageURL
         }
-
-        const data: { imageURL: string } = await res.json()
-
-        return data.imageURL
-      } else {
-        return post.imageURL
+      } catch (err) {
+        toast.error('Something happen while uploading image.')
       }
     } else if (!uploadedImage && previewImageUrl && post.imageURL) {
       return post.imageURL
@@ -201,6 +217,7 @@ const PostEditing = ({ post }: { post: Post }) => {
       if (deleted) {
         return null
       } else {
+        setPreviewImageUrl(post.imageURL)
         return post.imageURL
       }
     }
@@ -211,16 +228,20 @@ const PostEditing = ({ post }: { post: Post }) => {
     const key = imageUrl.pathname.split('/').pop()
 
     if (key) {
-      const res = await fetch(`/api/posts/media/delete/${key}`, {
-        method: 'DELETE',
-      })
+      try {
+        const res = await fetch(`/api/posts/media/delete/${key}`, {
+          method: 'DELETE',
+        })
 
-      if (!res.ok) {
-        console.error('Something went wrong.')
-        return false
+        if (!res.ok) {
+          toast.error('An error ocurred while deleting image.')
+          return false
+        }
+
+        return true
+      } catch (err) {
+        toast.error('Something happen while deleting image.')
       }
-
-      return true
     }
   }
 

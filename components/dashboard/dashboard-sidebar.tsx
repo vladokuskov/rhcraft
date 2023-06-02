@@ -2,9 +2,9 @@
 
 import { faFile } from '@fortawesome/free-regular-svg-icons'
 import { faArrowLeftLong, faGear } from '@fortawesome/free-solid-svg-icons'
-import { NavigationLink } from '../navigation-link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { usePathname } from 'next/navigation'
+import { NavigationLink } from '../navigation-link'
 
 const DashboardSidebar = () => {
   const pathname = usePathname()

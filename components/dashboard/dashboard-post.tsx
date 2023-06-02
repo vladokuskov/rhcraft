@@ -1,14 +1,15 @@
 'use client'
 
+import { useClickOutside } from '@/hooks/useClickOutside'
 import {
   faEllipsisVertical,
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons'
-import { Button } from '../button'
-import { useRef, useState } from 'react'
-import { useClickOutside } from '@/hooks/useClickOutside'
-import { useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useRouter } from 'next/navigation'
+import { useRef, useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { Button } from '../button'
 
 type DashboardPost = {
   title: string
@@ -25,7 +26,7 @@ const handlePostDelete = async (id: string) => {
     })
 
     if (!response?.ok) {
-      console.error('Error happen when deleting post')
+      toast.error('An error occurred while deleting post.')
     }
 
     return true
@@ -80,7 +81,7 @@ const DashboardPost = ({ title, date, imageURL, id }: DashboardPost) => {
               setIsDeleting(true)
 
               const isConfirmed = window.confirm(
-                'Are you sure you want to delete post from database?',
+                'Are you sure you want to delete post?',
               )
               if (isConfirmed) {
                 if (imageURL) {
@@ -93,7 +94,7 @@ const DashboardPost = ({ title, date, imageURL, id }: DashboardPost) => {
                     })
 
                     if (!res.ok) {
-                      console.error('Something went wrong.')
+                      toast.error('An error occurred while deleting the image.')
                       return false
                     }
 

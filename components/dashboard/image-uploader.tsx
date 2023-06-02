@@ -2,11 +2,11 @@
 
 import React, { ChangeEvent, RefObject, useState } from 'react'
 
+import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { Button } from '../button'
-import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 
 interface ImageUploader {
   previewImageUrl: string | null

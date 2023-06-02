@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { NavBarMenu } from './nav-menu'
-import { NavigationLink } from '../navigation-link'
 import { usePathname } from 'next/navigation'
+import { NavigationLink } from '../navigation-link'
+import { NavBarMenu } from './nav-menu'
 
 const NavBar = () => {
   const pathname = usePathname()

@@ -1,7 +1,7 @@
 import { Post } from '@prisma/client'
+import Image from 'next/image'
 import Link from 'next/link'
 import { PostTopicBadge } from './post-topic-badge'
-import Image from 'next/image'
 
 interface PostCard {
   post: Post

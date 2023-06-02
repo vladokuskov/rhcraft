@@ -2,7 +2,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { db } from '@/lib/db'
-import { confirmPasswordHash } from '@/utils/confirmPasswordHash'
+import { confirmPasswordHash } from '@/lib/confirmPasswordHash'
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,

@@ -1,7 +1,7 @@
 import { PostTopicBadge } from '@/components/post-topic-badge'
 import YoutubeVideoPlayer from '@/components/video-player'
 import { db } from '@/lib/db'
-import { parseEditorJson } from '@/utils/parseEditorJson'
+import { parseEditorJson } from '@/lib/parseEditorJson'
 import { Post } from '@prisma/client'
 import { Metadata, ResolvingMetadata } from 'next'
 import Image from 'next/image'
@@ -176,7 +176,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
         </div>
         {post.post.topic && <PostTopicBadge topic={post.post.topic} />}
-        <h1 className="font-inter font-medium tracking-wide text-2xl leading-7">
+        <h1 className="font-inter font-medium tracking-wide text-2xl leading-7 mt-2 mb-2">
           {post.post.title}
         </h1>
         <div className="w-full max-w-[50rem] font-roboto flex flex-col justify-start items-start gap-2">

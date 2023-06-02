@@ -63,68 +63,61 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
   }
 
   const getImageURL = async () => {
-    if (uploadedImage && !userImage && userId) {
-      try {
-        const formData = new FormData()
-        formData.append('file', uploadedImage)
-        formData.append('userId', userId)
-
-        const res = await fetch('/api/users/media/upload', {
-          method: 'POST',
-          body: formData,
-        })
-
-        if (!res.ok) {
-          toast.error('An error ocurred while uploading image.')
-          return
-        }
-
-        const data: { imageURL: string } = await res.json()
-
-        return data.imageURL
-      } catch (err) {
-        toast.error('An error ocurred while uploading image.')
-      }
-    } else if (uploadedImage && userImage && userId) {
-      try {
-        const deleted = await deleteImage(userImage)
-
-        if (deleted) {
+    if (uploadedImage) {
+      if (!userImage && userId) {
+        try {
           const formData = new FormData()
           formData.append('file', uploadedImage)
           formData.append('userId', userId)
-
           const res = await fetch('/api/users/media/upload', {
             method: 'POST',
             body: formData,
           })
-
           if (!res.ok) {
-            toast.error('An error ocurred while uploading image.')
-
+            toast.error('An error occurred while uploading the image.')
             return
           }
-
-          const data: { imageURL: string } = await res.json()
-
+          const data = await res.json()
           return data.imageURL
-        } else {
-          return userImage
+        } catch (err) {
+          toast.error('An error occurred while uploading the image.')
         }
-      } catch (err) {
-        toast.error('An error ocurred while uploading image.')
+      } else if (userImage && userId) {
+        try {
+          const deleted = await deleteImage(userImage)
+          if (deleted) {
+            const formData = new FormData()
+            formData.append('file', uploadedImage)
+            formData.append('userId', userId)
+            const res = await fetch('/api/users/media/upload', {
+              method: 'POST',
+              body: formData,
+            })
+            if (!res.ok) {
+              toast.error('An error occurred while uploading the image.')
+              return
+            }
+            const data = await res.json()
+            return data.imageURL
+          } else {
+            return userImage
+          }
+        } catch (err) {
+          toast.error('An error occurred while uploading the image.')
+        }
       }
-    } else if (!uploadedImage && previewImageUrl && userImage) {
-      setPreviewImageUrl(userImage)
-      return userImage
-    } else if (!uploadedImage && !previewImageUrl && userImage) {
-      const deleted = await deleteImage(userImage)
-
-      if (deleted) {
-        return null
-      } else {
+    } else if (!uploadedImage) {
+      if (previewImageUrl && userImage) {
         setPreviewImageUrl(userImage)
         return userImage
+      } else if (!previewImageUrl && userImage) {
+        const deleted = await deleteImage(userImage)
+        if (deleted) {
+          return null
+        } else {
+          setPreviewImageUrl(userImage)
+          return userImage
+        }
       }
     }
   }

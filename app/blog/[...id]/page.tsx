@@ -176,7 +176,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
         </div>
         {post.post.topic && <PostTopicBadge topic={post.post.topic} />}
-        <h1 className="font-inter font-medium tracking-wide text-2xl leading-7">
+        <h1 className="font-inter font-medium tracking-wide text-2xl leading-7 mt-2 mb-2">
           {post.post.title}
         </h1>
         <div className="w-full max-w-[50rem] font-roboto flex flex-col justify-start items-start gap-2">

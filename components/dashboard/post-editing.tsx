@@ -159,66 +159,60 @@ const PostEditing = ({ post }: { post: Post }) => {
   }
 
   const getImageURL = async () => {
-    if (uploadedImage && !post.imageURL && post.authorId) {
-      try {
-        const formData = new FormData()
-        formData.append('file', uploadedImage)
-        formData.append('authorId', post.authorId)
-
-        const res = await fetch('/api/posts/media/upload', {
-          method: 'POST',
-          body: formData,
-        })
-
-        if (!res.ok) {
-          toast.error('An error ocurred while uploading image.')
-          return
-        }
-
-        const data: { imageURL: string } = await res.json()
-
-        return data.imageURL
-      } catch (err) {
-        toast.error('Something happen while uploading image.')
-      }
-    } else if (uploadedImage && post.imageURL && post.authorId) {
-      try {
-        const deleted = await deleteImage(post.imageURL)
-
-        if (deleted) {
+    if (uploadedImage) {
+      if (!post.imageURL && post.authorId) {
+        try {
           const formData = new FormData()
           formData.append('file', uploadedImage)
           formData.append('authorId', post.authorId)
-
           const res = await fetch('/api/posts/media/upload', {
             method: 'POST',
             body: formData,
           })
-
           if (!res.ok) {
-            toast.error('An error ocurred while uploading image.')
+            toast.error('An error occurred while uploading the image.')
             return
           }
-
-          const data: { imageURL: string } = await res.json()
-
+          const data = await res.json()
           return data.imageURL
+        } catch (err) {
+          toast.error('Something happened while uploading the image.')
+        }
+      } else if (post.imageURL && post.authorId) {
+        try {
+          const deleted = await deleteImage(post.imageURL)
+          if (deleted) {
+            const formData = new FormData()
+            formData.append('file', uploadedImage)
+            formData.append('authorId', post.authorId)
+            const res = await fetch('/api/posts/media/upload', {
+              method: 'POST',
+              body: formData,
+            })
+            if (!res.ok) {
+              toast.error('An error occurred while uploading the image.')
+              return
+            }
+            const data = await res.json()
+            return data.imageURL
+          } else {
+            return post.imageURL
+          }
+        } catch (err) {
+          toast.error('Something happened while uploading the image.')
+        }
+      }
+    } else if (!uploadedImage) {
+      if (previewImageUrl && post.imageURL) {
+        return post.imageURL
+      } else if (!previewImageUrl && post.imageURL) {
+        const deleted = await deleteImage(post.imageURL)
+        if (deleted) {
+          return null
         } else {
+          setPreviewImageUrl(post.imageURL)
           return post.imageURL
         }
-      } catch (err) {
-        toast.error('Something happen while uploading image.')
-      }
-    } else if (!uploadedImage && previewImageUrl && post.imageURL) {
-      return post.imageURL
-    } else if (!uploadedImage && !previewImageUrl && post.imageURL) {
-      const deleted = await deleteImage(post.imageURL)
-
-      if (deleted) {
-        return null
-      } else {
-        setPreviewImageUrl(post.imageURL)
-        return post.imageURL
       }
     }
   }

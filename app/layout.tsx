@@ -4,6 +4,10 @@ import { Inter, Roboto, Source_Sans_Pro } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+
+import { config } from '@fortawesome/fontawesome-svg-core'
+config.autoAddCss = false
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],

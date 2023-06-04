@@ -1,6 +1,7 @@
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { getServerSession } from 'next-auth'
+import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 export async function GET(req: Request) {
@@ -27,14 +28,14 @@ export async function GET(req: Request) {
     })
 
     if (result.length == 0) {
-      return new Response(
-        JSON.stringify({
+      return NextResponse.json(
+        {
           data: [],
           metaData: {
             lastCursor: null,
             hasNextPage: false,
           },
-        }),
+        },
         { status: 200 },
       )
     }
@@ -61,9 +62,9 @@ export async function GET(req: Request) {
       },
     }
 
-    return new Response(JSON.stringify(data), { status: 200 })
+    return NextResponse.json(data, { status: 200 })
   } catch (error) {
-    return new Response(null, { status: 500 })
+    return NextResponse.json({ status: 500 })
   }
 }
 
@@ -71,7 +72,10 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) {
-      return new Response(null, { status: 403 })
+      return NextResponse.json(
+        { error: 'User not authenticated.' },
+        { status: 403 },
+      )
     }
 
     const body = await req.json()
@@ -88,12 +92,12 @@ export async function POST(req: Request) {
       },
     })
 
-    return new Response(JSON.stringify(post))
+    return NextResponse.json(post, { status: 200 })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+      return NextResponse.json({ error: error.issues }, { status: 422 })
     }
 
-    return new Response(null, { status: 500 })
+    return NextResponse.json({ status: 500 })
   }
 }

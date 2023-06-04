@@ -56,7 +56,7 @@ export async function generateMetadata(
 
   return {
     title: post.title && post.title !== undefined ? post.title : '',
-    description: `Created - ${createdAtDate}`,
+    description: `${createdAtDate}`,
     openGraph: {
       images: [
         post.imageURL && post.imageURL !== undefined ? post.imageURL : '',
@@ -90,39 +90,37 @@ async function getPostFromParams(params: Params): Promise<{
 } | null> {
   const id = params?.id?.join('/')
 
-  const fetchedPost = await db.post.findUnique({
+  const post = await db.post.findUnique({
     where: {
       id: id,
     },
   })
 
-  if (!fetchedPost || fetchedPost.published === false) {
+  if (!post || post.published === false) {
     return null
   }
 
-  const author = await getAuthorInfo(fetchedPost.authorId)
+  const author = await getAuthorInfo(post.authorId)
 
   if (!author) {
     return null
   }
 
-  return { post: fetchedPost, author }
+  return { post, author }
 }
 export const revalidate = 600
 export const dynamic = 'force-dynamic'
 
 export default async function PostPage({ params }: PostPageProps) {
-  const post = await getPostFromParams(params)
+  const data = await getPostFromParams(params)
 
-  if (!post) {
+  if (!data) {
     notFound()
   }
 
-  if (!post.post) {
-    return null
-  }
+  const { author, post } = data
 
-  const lastUpdatedDate = post.post.updatedAt.toLocaleString('en-US', {
+  const lastUpdatedDate = post.updatedAt.toLocaleString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
@@ -131,15 +129,14 @@ export default async function PostPage({ params }: PostPageProps) {
   })
 
   const content =
-    post.post.content &&
-    ((await parseEditorJson(post.post.content)) as Element[])
+    post.content && ((await parseEditorJson(post.content)) as Element[])
 
   return (
     <div className=" mt-4 w-full flex flex-col items-start justify-start gap-4 mb-12">
-      {post.post.imageURL && (
+      {post.imageURL && (
         <div className=" w-full max-h-96 h-full rounded flex items-start justify-start ml-0 object-contain">
           <Image
-            src={post.post.imageURL}
+            src={post.imageURL}
             alt="Picture of post preview"
             width={600}
             height={300}
@@ -150,11 +147,11 @@ export default async function PostPage({ params }: PostPageProps) {
       )}
       <div className=" w-full flex flex-col items-start justify-start gap-4">
         <div className="flex items-center justify-center gap-2">
-          {post.author?.image && (
+          {author?.image && (
             <div className="w-8 h-8">
               <Image
-                className=" rounded-full w-full h-full z-20"
-                src={post.author?.image}
+                className=" rounded-full w-full h-full z-20 bg-neutral-700"
+                src={author?.image}
                 alt="Author picture"
                 width={30}
                 height={30}
@@ -164,10 +161,10 @@ export default async function PostPage({ params }: PostPageProps) {
           )}
           <div className="flex flex-col items-start justify-start gap-1">
             <p className="font-sans text-base font-semibold text-orange-200 leading-4">
-              {post.author?.name}
+              {author?.name}
             </p>
             <p className="font-sans text-neutral-400 leading-3">
-              {`${post.post.createdAt.toLocaleString('en-US', {
+              {`${post.createdAt.toLocaleString('en-US', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
@@ -175,9 +172,9 @@ export default async function PostPage({ params }: PostPageProps) {
             </p>
           </div>
         </div>
-        {post.post.topic && <PostTopicBadge topic={post.post.topic} />}
+        {post.topic && <PostTopicBadge topic={post.topic} />}
         <h1 className="font-inter font-medium tracking-wide text-2xl leading-7 mt-2 mb-2">
-          {post.post.title}
+          {post.title}
         </h1>
         <div className="w-full max-w-[50rem] font-roboto flex flex-col justify-start items-start gap-2">
           {content &&

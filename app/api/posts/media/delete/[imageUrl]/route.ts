@@ -17,7 +17,10 @@ export async function DELETE(
   const session = await getServerSession(authOptions)
 
   if (!session?.user) {
-    return NextResponse.json({ error: 'Not authenticated.' }, { status: 401 })
+    return NextResponse.json(
+      { error: 'User not authenticated.' },
+      { status: 403 },
+    )
   }
 
   const { params } = routeContextSchema.parse(context)

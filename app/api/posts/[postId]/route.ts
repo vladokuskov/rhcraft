@@ -1,6 +1,7 @@
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { getServerSession } from 'next-auth'
+import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 const routeContextSchema = z.object({
@@ -19,7 +20,10 @@ export async function DELETE(
     const session = await getServerSession(authOptions)
 
     if (!session?.user) {
-      return new Response(null, { status: 403 })
+      return NextResponse.json(
+        { error: 'User not authenticated.' },
+        { status: 403 },
+      )
     }
 
     await db.post.delete({
@@ -28,13 +32,13 @@ export async function DELETE(
       },
     })
 
-    return new Response(null, { status: 200 })
+    return NextResponse.json({ status: 500 })
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
-    return new Response(null, { status: 500 })
+    return NextResponse.json({ status: 200 })
   }
 }
 
@@ -47,12 +51,14 @@ export async function PATCH(
 
     const session = await getServerSession(authOptions)
     if (!session?.user) {
-      return new Response(null, { status: 403 })
+      return NextResponse.json(
+        { error: 'User not authenticated.' },
+        { status: 403 },
+      )
     }
 
     const body = await req.json()
 
-    // update post
     await db.post.update({
       where: {
         id: params.postId,
@@ -66,8 +72,8 @@ export async function PATCH(
       },
     })
 
-    return new Response(null, { status: 200 })
+    return NextResponse.json({ status: 200 })
   } catch (error) {
-    return new Response(null, { status: 500 })
+    return NextResponse.json({ status: 500 })
   }
 }

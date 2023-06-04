@@ -8,7 +8,10 @@ export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions)
 
   if (!session?.user) {
-    return NextResponse.json({ error: 'Not authenticated.' }, { status: 401 })
+    return NextResponse.json(
+      { error: 'User not authenticated.' },
+      { status: 403 },
+    )
   }
 
   const formData = await request.formData()
@@ -47,6 +50,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       imageURL: `https://${process.env.BUCKET_NAME}.s3.${process.env.BUCKET_REGION}.backblazeb2.com/${filename}`,
+      status: 200,
     })
   } catch (err) {
     return NextResponse.json(

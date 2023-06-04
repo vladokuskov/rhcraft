@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { PostTopicBadge } from '../post-topic-badge'
 
 interface TopicSelection {
@@ -11,33 +12,44 @@ const TopicSelection = ({
 }: TopicSelection) => {
   return (
     <div className=" w-full flex flex-col justify-center items-start gap-2 mt-4">
-      <p className="font-sans text-neutral-400">
-        Selected topic: {selectedTopic}
-      </p>
-      <div className=" w-full inline-flex justify-start items-center gap-4">
+      <p className="font-sans text-neutral-400 font-semibold text-lg">Topic</p>
+
+      <div className=" w-full inline-flex justify-start items-center gap-4 font-sans font-semibold">
         <button
-          className="hover:opacity-80 transition-opacity"
+          className={clsx(
+            'py-2 px-4 border-2 border-neutral-600 rounded hover:border-neutral-400 focus:border-neutral-400 transition-colors',
+            'disabled:border-green-500',
+          )}
           type="button"
           onClick={() => handleTopicChange('News')}
-          title="Select News topic"
+          title="News"
+          disabled={selectedTopic === 'News'}
         >
-          <PostTopicBadge topic="News" active={selectedTopic === 'News'} />
+          News
         </button>
         <button
-          className=" hover:opacity-80 transition-opacity"
+          className={clsx(
+            'py-2 px-4 border-2 border-neutral-600 rounded hover:border-neutral-400 focus:border-neutral-400 transition-colors',
+            'disabled:border-green-500',
+          )}
           type="button"
           onClick={() => handleTopicChange('Story')}
-          title="Select Story topic"
+          title="News"
+          disabled={selectedTopic === 'Story'}
         >
-          <PostTopicBadge topic="Story" active={selectedTopic === 'Story'} />
+          Story
         </button>
         <button
-          className=" hover:opacity-80 transition-opacity"
+          className={clsx(
+            'py-2 px-4 border-2 border-neutral-600 rounded hover:border-neutral-400 focus:border-neutral-400 transition-colors',
+            'disabled:border-green-500',
+          )}
           type="button"
           onClick={() => handleTopicChange('Puzzle')}
-          title="Select Puzzle topic"
+          title="News"
+          disabled={selectedTopic === 'Puzzle'}
         >
-          <PostTopicBadge topic="Puzzle" active={selectedTopic === 'Puzzle'} />
+          Puzzle
         </button>
       </div>
     </div>

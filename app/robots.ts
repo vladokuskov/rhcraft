@@ -5,6 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
+      disallow: ['/404', '/dashboard', '/dashboard/settings', '/login'],
     },
+    sitemap: './sitemap.xml.ts',
   }
 }

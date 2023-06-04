@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, RefObject, useState } from 'react'
 
-import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { faCloudArrowUp, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -139,7 +139,7 @@ const ImageUploader = ({
           onClick={handleImageDelete}
           title={'Delete image'}
         >
-          Delete image
+          Delete image <FontAwesomeIcon icon={faTrash} />
         </Button>
       )}
     </div>

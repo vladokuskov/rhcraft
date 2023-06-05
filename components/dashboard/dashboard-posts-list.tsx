@@ -18,7 +18,7 @@ type PostsQueryParams = {
 
 const allPosts = async ({ take, lastCursor, date }: PostsQueryParams) => {
   const response = await axios.get('/api/dashboard/posts/', {
-    params: { take, lastCursor, date },
+    params: { take, lastCursor },
   })
   return response?.data
 }
@@ -49,8 +49,6 @@ const DashboardPostsList = () => {
       fetchNextPage()
     }
   }, [hasNextPage, inView, fetchNextPage, date])
-
-  console.log(data?.pages)
 
   return (
     <ul className="flex flex-col gap-4 w-full">

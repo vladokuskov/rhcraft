@@ -50,6 +50,8 @@ const DashboardPostsList = () => {
     }
   }, [hasNextPage, inView, fetchNextPage, date])
 
+  console.log(data?.pages)
+
   return (
     <ul className="flex flex-col gap-4 w-full">
       {isSuccess &&
@@ -83,11 +85,11 @@ const DashboardPostsList = () => {
 
       {(isLoading || isFetchingNextPage) && <DashboardPostsLoading />}
 
-      {isSuccess && (data?.pages?.length === 1 || data?.pages.length === 0) && (
+      {/* {isSuccess && (data?.pages?.length === 1 || data?.pages.length === 0) && (
         <p className=" text-center font-sans text-neutral-600 font-semibold">
           There are no posts.
         </p>
-      )}
+      )} */}
     </ul>
   )
 }

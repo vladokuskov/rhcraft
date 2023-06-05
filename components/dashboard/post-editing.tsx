@@ -28,14 +28,6 @@ const PostEditing = ({ post }: { post: Post }) => {
     post.imageURL,
   )
 
-  const lastUpdatedDate = post.updatedAt.toLocaleString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  })
-
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default
     const Header = (await import('@editorjs/header')).default
@@ -322,11 +314,6 @@ const PostEditing = ({ post }: { post: Post }) => {
         disabled={isSaving}
         value={title}
       />
-
-      <p className="font-sans text-neutral-400 leading-3 mb-2 whitespace-nowrap">
-        Last updated:
-        {` ${lastUpdatedDate}`}
-      </p>
 
       <div
         id="editor"

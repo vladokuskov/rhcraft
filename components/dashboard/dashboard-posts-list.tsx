@@ -35,7 +35,7 @@ const DashboardPostsList = () => {
     isSuccess,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryFn: ({ pageParam = ' ' }) =>
+    queryFn: ({ pageParam = '' }) =>
       allPosts({ take: 10, lastCursor: pageParam, date: date }),
     queryKey: ['posts', date],
     getNextPageParam: (lastPage) => {

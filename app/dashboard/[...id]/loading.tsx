@@ -1,6 +1,6 @@
 export default function DashboardEditingLoading() {
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col max-w-[80rem] mx-auto my-0">
       <div className="w-full flex items-end justify-end gap-2">
         {[...Array(2)].map((i) => (
           <div

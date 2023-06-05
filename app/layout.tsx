@@ -75,7 +75,6 @@ export default function RootLayout({
         className={`${fontTabloidScuzzball.variable} ${sourceSansPro.variable} ${inter.variable} ${roboto.variable}`}
       >
         <QueryProvider>
-          {' '}
           <LayoutProvider>
             <Toaster
               toastOptions={{

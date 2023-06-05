@@ -14,7 +14,7 @@ export default async function Login() {
   }
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-full max-w-[80rem] mx-auto my-0 px-4 py-12">
       <h3 className="font-sans pb-4 text-xl text-center">RHCraft Dashboard</h3>
       <AuthForm />
     </div>

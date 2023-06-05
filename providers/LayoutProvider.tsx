@@ -11,7 +11,7 @@ export const LayoutProvider = ({ children }: { children: ReactNode }) => {
   return (
     <>
       {pathname !== '/login' && <NavBar />}
-      <Container variant="page-content"> {children}</Container>
+      <Container variant="page-content">{children}</Container>
       <Footer />
     </>
   )

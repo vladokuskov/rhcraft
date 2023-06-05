@@ -10,7 +10,7 @@ const DashboardSidebar = () => {
   const pathname = usePathname()
 
   return (
-    <aside className=" w-full flex flex-col items-start justify-center gap-3">
+    <aside className=" w-full flex flex-col items-start justify-center gap-3 mt-4">
       {pathname === '/dashboard' || pathname === '/dashboard/settings' ? (
         <>
           <NavigationLink

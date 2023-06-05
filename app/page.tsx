@@ -18,33 +18,27 @@ export default async function Home() {
   return (
     <div className=" w-full flex flex-col items-center justify-center gap-8">
       <section className="w-full flex items-start justify-center gap-8 max-lg:flex-col-reverse mt-8">
-        <div className="relative w-full flex items-center justify-center">
+        <div className="relative flex items-center justify-center w-screen h-[50vh] ">
           <Image
-            className="rounded relative bg-neutral-700"
-            src={bannerImage}
-            height={400}
-            alt="Banner picture"
+            fill
             priority
+            className=" -z-1 object-cover"
+            src={bannerImage}
+            alt="Banner picture"
           />
-        </div>
-        <div className="w-full flex flex-col items-start justify-start gap-4">
-          <h1 className=" text-5xl font-sans font-bold flex flex-col items-start justify-start text-white-100">
-            WELCOME TO<span className=" text-[#E4DE39]">RHCraft!</span>
-          </h1>
-          <p className=" max-w-[28rem] font-sans text-lg text-neutral-500 font-semibold leading-5">
-            Welcome to our private Minecraft server, a haven for you and your
-            friends to embark on unforgettable adventures together! Step into a
-            vast and meticulously crafted world, where creativity knows no
-            bounds and endless possibilities await.
-          </p>
+          <div className=" relative flex flex-col items-center">
+            <h1 className=" text-5xl font-sans font-bold flex flex-col items-start justify-start text-white-100">
+              WELCOME TO<span className=" text-[#E4DE39]">RHCraft!</span>
+            </h1>
+          </div>
         </div>
       </section>
-      <section className="w-full flex flex-col items-start justify-center gap-8 mt-8 mb-12">
+      <section className="w-full flex flex-col items-start justify-center gap-8 mt-8 mb-12 p-4 max-w-[80rem] mx-auto my-0">
         <div className="w-full flex flex-col items-start justify-start gap-1">
           <h2 className=" text-4xl font-sans font-bold flex flex-col items-start justify-start text-white-100">
             Latest news
           </h2>
-          <p className="font-sans text-md text-neutral-500 font-medium font-semibold leading-4">
+          <p className="font-sans text-md text-neutral-500 leading-4">
             Check out our blog for the latest news and updates
           </p>
         </div>

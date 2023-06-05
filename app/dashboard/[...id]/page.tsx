@@ -41,7 +41,7 @@ export default async function DashboardCreationPage({
   }
 
   return (
-    <div className=" flex flex-col w-full gap-3">
+    <div className=" flex flex-col w-full gap-3 ">
       <PostEditing post={post} />
     </div>
   )

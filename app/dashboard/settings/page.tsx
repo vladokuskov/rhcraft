@@ -18,7 +18,7 @@ export default async function DashboardSettings() {
   }
 
   return (
-    <main className="flex flex-col w-full items-start justify-start gap-8">
+    <main className="flex flex-col w-full items-start justify-start gap-8 max-w-[80rem] mx-auto my-0">
       <div>
         <h2 className=" text-white text-3xl font-tabloid tracking-wider">
           SETTINGS

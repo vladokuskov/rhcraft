@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function DashboardPostNotFound() {
   return (
-    <div className=" w-full flex flex-col items-center justify-start gap-3 pt-8">
+    <div className=" w-full flex flex-col items-center justify-start gap-3 pt-8 max-w-[80rem] mx-auto my-0">
       <Image
         src="/logo.svg"
         width={100}

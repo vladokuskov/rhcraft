@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   return (
     <Container variant="dashboard-page">
       <DashboardSidebar />
-      <div className="w-full h-1 w-full h-full min-h-screen flex flex-col items-start justify-start">
+      <div className="w-full  h-full min-h-screen flex flex-col items-start justify-start py-4">
         {children}
       </div>
     </Container>

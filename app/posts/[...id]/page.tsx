@@ -132,7 +132,7 @@ export default async function PostPage({ params }: PostPageProps) {
     post.content && ((await parseEditorJson(post.content)) as Element[])
 
   return (
-    <div className=" mt-4 w-full flex flex-col items-start justify-start gap-4 mb-12">
+    <div className=" mt-4 w-full flex flex-col items-start justify-start gap-4 mb-12 p-4 py-12 max-w-[80rem] mx-auto my-0">
       {post.imageURL && (
         <div className=" w-full max-h-96 h-full rounded flex items-start justify-start ml-0 object-contain">
           <Image

@@ -7,6 +7,7 @@ import './globals.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import { config } from '@fortawesome/fontawesome-svg-core'
+import QueryProvider from '@/providers/QueryProvider'
 config.autoAddCss = false
 
 const roboto = Roboto({
@@ -73,30 +74,32 @@ export default function RootLayout({
       <body
         className={`${fontTabloidScuzzball.variable} ${sourceSansPro.variable} ${inter.variable} ${roboto.variable}`}
       >
-        <LayoutProvider>
-          <Toaster
-            toastOptions={{
-              className: ' font-sans',
-              position: 'top-center',
-              style: {
-                padding: '.5rem',
-                color: '#f4f4f4',
-              },
-              success: {
+        <QueryProvider>
+          <LayoutProvider>
+            <Toaster
+              toastOptions={{
+                className: ' font-sans',
+                position: 'top-center',
                 style: {
-                  background: 'green',
+                  padding: '.5rem',
+                  color: '#f4f4f4',
                 },
-              },
-              error: {
-                style: {
-                  background: '#ef4444',
-                  opacity: '70%',
+                success: {
+                  style: {
+                    background: 'green',
+                  },
                 },
-              },
-            }}
-          />
-          {children}
-        </LayoutProvider>
+                error: {
+                  style: {
+                    background: '#ef4444',
+                    opacity: '70%',
+                  },
+                },
+              }}
+            />
+            {children}
+          </LayoutProvider>
+        </QueryProvider>
       </body>
     </html>
   )

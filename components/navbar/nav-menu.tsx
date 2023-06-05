@@ -46,15 +46,6 @@ const NavBarMenu = () => {
             >
               HOME <FontAwesomeIcon icon={faAngleRight} />
             </NavigationLink>
-            <NavigationLink
-              variant="nav"
-              href="/blog"
-              className=" justify-between"
-              disabled={pathname === '/blog'}
-              title="Blog"
-            >
-              BLOG <FontAwesomeIcon icon={faAngleRight} />
-            </NavigationLink>
           </div>
         </div>
       )}

@@ -38,7 +38,7 @@ const Button = ({
         variant === 'service' &&
           'bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 hover:border-blue-300 focus:border-blue-300 border-2 border-blue-300 text-white disabled:hover:bg-blue-500 disabled:hover:border-blue-300',
         variant === 'outline' &&
-          ' bg-transparent hover:border-neutral-600 hover:text-neutral-600 focus:text-neutral-600 focus:border-neutral-600 border-2 border-neutral-500 text-neutral-500 disabled:hover:border-neutral-500 disabled:hover:text-neutral-500',
+          ' bg-transparent hover:border-neutral-400 hover:text-neutral-400 focus:text-neutral-400 focus:border-neutral-400 border-2 border-neutral-500 text-neutral-500 disabled:hover:border-neutral-500 disabled:hover:text-neutral-500',
         variant === 'ghost' &&
           'bg-transparent hover:text-neutral-400 focus:text-neutral-400 text-white-100 disabled:hover:text-white-100',
         sizesClass[size],

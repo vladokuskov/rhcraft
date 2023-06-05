@@ -12,13 +12,13 @@ import DashboardPostsLoading from './skeletons/dashboard-home-loading'
 
 type PostsQueryParams = {
   take?: number
-  lastCursor?: string
+  lastCursor?: string | null
   date: Date | null
 }
 
 const allPosts = async ({ take, lastCursor, date }: PostsQueryParams) => {
-  const response = await axios.get('/api/posts/', {
-    params: { take, lastCursor },
+  const response = await axios.get('/api/dashboard/posts/', {
+    params: { take, lastCursor, date },
   })
   return response?.data
 }
@@ -40,7 +40,7 @@ const DashboardPostsList = () => {
     queryKey: ['posts', date],
 
     getNextPageParam: (lastPage) => {
-      return lastPage?.metaData.lastCursor
+      return lastPage?.metaData?.lastCursor
     },
   })
 

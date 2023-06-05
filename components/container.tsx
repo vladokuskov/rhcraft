@@ -13,7 +13,7 @@ const Container = ({ variant, children, className }: Container) => {
     </div>
   ) : variant === 'page-content' ? (
     <main
-      className={`w-full h-full min-h-screen  flex flex-col items-center justify-start ${className}`}
+      className={`w-full h-full min-h-screen  flex flex-col items-center justify-start ${className} overflow-y-hidden`}
     >
       {children}
     </main>

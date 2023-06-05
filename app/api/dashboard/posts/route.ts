@@ -20,6 +20,8 @@ export async function GET(req: Request) {
     const lastCursor = url.searchParams.get('lastCursor')
     const date = url.searchParams.get('date') as Date | null
 
+    console.log(take, lastCursor, date)
+
     if (date) {
       const todayStart = new Date(new Date(date).setHours(0, 0, 0, 0))
       const todayEnd = new Date(new Date(date).setHours(23, 59, 59, 999))
@@ -66,6 +68,8 @@ export async function GET(req: Request) {
           id: cursor,
         },
       })
+
+      console.log(cursor)
 
       const data = {
         data: result,

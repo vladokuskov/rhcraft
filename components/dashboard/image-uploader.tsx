@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { Button } from '../button'
-import DatePicker from '../date-picker'
 
 interface ImageUploader {
   previewImageUrl: string | null
@@ -63,12 +62,10 @@ const ImageUploader = ({
     const fileInput = e.target
 
     if (!fileInput.files) {
-      console.warn('no file was chosen')
       return
     }
 
     if (!fileInput.files || fileInput.files.length === 0) {
-      console.warn('files list is empty')
       return
     }
 

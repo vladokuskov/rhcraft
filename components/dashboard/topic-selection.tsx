@@ -1,5 +1,3 @@
-import clsx from 'clsx'
-import { PostTopicBadge } from '../post-topic-badge'
 import { Button } from '../button'
 
 interface TopicSelection {
@@ -17,7 +15,7 @@ const TopicSelection = ({
 
       <div className=" w-full inline-flex justify-start items-center gap-4 font-sans font-semibold">
         <Button
-          className="disabled:border-green-500 disabled:hover:border-green-500 focus:hover:border-green-500"
+          className="disabled:border-green-500 disabled:hover:!border-green-500 focus:hover:border-green-500 disabled:!opacity-100 disabled:!text-neutral-300"
           variant="outline"
           onClick={() => handleTopicChange('News')}
           title="News"
@@ -26,7 +24,7 @@ const TopicSelection = ({
           News
         </Button>
         <Button
-          className="disabled:border-green-500 disabled:hover:border-green-500 focus:hover:border-green-500"
+          className="disabled:border-green-500 disabled:hover:!border-green-500 focus:hover:border-green-500 disabled:!opacity-100 disabled:!text-neutral-300"
           variant="outline"
           onClick={() => handleTopicChange('Story')}
           title="Story"
@@ -35,7 +33,7 @@ const TopicSelection = ({
           Story
         </Button>
         <Button
-          className="disabled:border-green-500 disabled:hover:border-green-500 focus:hover:border-green-500"
+          className="disabled:border-green-500 disabled:hover:!border-green-500 focus:hover:border-green-500 disabled:!opacity-100 disabled:!text-neutral-300"
           variant="outline"
           onClick={() => handleTopicChange('Puzzle')}
           title="Puzzle"

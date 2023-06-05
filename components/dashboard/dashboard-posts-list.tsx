@@ -38,7 +38,7 @@ const DashboardPostsList = () => {
     queryFn: ({ pageParam = '' }) =>
       allPosts({ take: 10, lastCursor: pageParam, date: date }),
     queryKey: ['posts', date],
-    getNextPageParam: (lastPage) => lastPage?.metaData.lastCursor,
+    getNextPageParam: (lastPage) => lastPage?.data?.metaData?.lastCursor,
     staleTime: 5000,
   })
 

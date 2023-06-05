@@ -36,7 +36,9 @@ const BlogPostsList = () => {
       allPosts({ take: 10, lastCursor: pageParam }),
     queryKey: ['posts'],
 
-    getNextPageParam: (lastPage) => lastPage?.data?.metaData?.lastCursor,
+    getNextPageParam: (lastPage) => {
+      return lastPage?.metaData.lastCursor
+    },
   })
 
   useEffect(() => {

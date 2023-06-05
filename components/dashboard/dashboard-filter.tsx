@@ -18,8 +18,8 @@ const DashboardFilter = () => {
           className=" w-52"
         />
         {date && (
-          <Button variant="outline" size="small">
-            <FontAwesomeIcon icon={faClose} onClick={() => setDate(null)} />
+          <Button variant="outline" size="small" onClick={() => setDate(null)}>
+            <FontAwesomeIcon icon={faClose} className=" pointer-events-none" />
           </Button>
         )}
       </div>

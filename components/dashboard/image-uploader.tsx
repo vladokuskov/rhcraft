@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { Button } from '../button'
+import DatePicker from './date-picker'
 
 interface ImageUploader {
   previewImageUrl: string | null

@@ -1,7 +1,7 @@
 const DashboardLoading = () => {
   return (
     <div className="flex flex-col w-full items-start justify-start gap-8">
-      {[...Array(20)].map((i) => (
+      {[...Array(20)].map((_, i) => (
         <div
           key={i}
           className="w-full flex items-center justify-between py-4 px-4 border border-neutral-600 rounded animate-pulse"

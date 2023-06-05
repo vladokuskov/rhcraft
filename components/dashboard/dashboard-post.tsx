@@ -52,7 +52,7 @@ const DashboardPost = ({ title, date, imageURL, id }: DashboardPost) => {
           {title}
         </h4>
         <p className="font-sans text-neutral-500 tracking-tight">
-          {`${date.toLocaleString('en-US', {
+          {`${new Date(date).toLocaleString('en-US', {
             month: 'short',
             day: 'numeric',
             year: 'numeric',

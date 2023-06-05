@@ -22,7 +22,7 @@ export default async function Dashboard() {
         </div>
         <NewPostButton />
       </div>
-      {/* <DashboardFilter /> */}
+      <DashboardFilter />
       <Suspense fallback={<DashboardLoading />}>
         <DashboardPostsList />
       </Suspense>

@@ -1,14 +1,14 @@
 'use client'
 
-import { useState } from 'react'
 import DatePicker from '../date-picker'
+import { useFilterContext } from '@/app/context/filter.context'
 
 const DashboardFilter = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const { date, setDate } = useFilterContext()
 
   return (
     <div>
-      <DatePicker onChange={(e) => setSelectedDate(e)} />
+      <DatePicker onChange={(e) => setDate(e)} initialDate={date} />
     </div>
   )
 }

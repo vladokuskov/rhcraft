@@ -37,7 +37,9 @@ const BlogPostsList = () => {
     queryKey: ['posts'],
 
     getNextPageParam: (lastPage) => {
-      return lastPage?.metaData.lastCursor
+      return lastPage && lastPage.metaData
+        ? lastPage.metaData.lastCursor
+        : undefined
     },
   })
 

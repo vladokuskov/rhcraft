@@ -38,11 +38,7 @@ const DashboardPostsList = () => {
     queryFn: ({ pageParam = '' }) =>
       allPosts({ take: 10, lastCursor: pageParam, date: date }),
     queryKey: ['posts', date],
-    getNextPageParam: (lastPage) => {
-      return lastPage && lastPage.metaData
-        ? lastPage.metaData.lastCursor
-        : undefined
-    },
+    getNextPageParam: (lastPage) => lastPage?.metaData.lastCursor,
     staleTime: 5000,
   })
 
@@ -55,7 +51,7 @@ const DashboardPostsList = () => {
   return (
     <ul className="flex flex-col gap-4 w-full">
       {isSuccess &&
-        data?.pages.map((page) =>
+        data?.pages?.map((page) =>
           page.data.map((post: Post, index: number) => {
             if (page.data.length === index + 1) {
               return (
@@ -85,7 +81,7 @@ const DashboardPostsList = () => {
 
       {(isLoading || isFetchingNextPage) && <DashboardPostsLoading />}
 
-      {isSuccess && (data?.pages.length === 1 || data?.pages.length === 0) && (
+      {isSuccess && (data?.pages?.length === 1 || data?.pages.length === 0) && (
         <p className=" text-center font-sans text-neutral-600 font-semibold">
           There are no posts.
         </p>

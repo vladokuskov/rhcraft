@@ -64,7 +64,7 @@ const DashboardPost = ({ title, date, imageURL, id }: DashboardPost) => {
         onClick={() => setIsMenuOpen((prev) => !prev)}
         title="Post menu"
         size="large"
-        className=" !text-2xl"
+        className=" !text-2xl focus:bg-neutral-800 active:bg-neutral-800"
       >
         <FontAwesomeIcon icon={faEllipsisVertical} />
       </Button>

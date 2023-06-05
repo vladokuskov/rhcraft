@@ -5,10 +5,10 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
-import { Post } from '@prisma/client'
-import DashboardPostsLoading from './skeletons/dashboard-home-loading'
-import { DashboardPost } from './dashboard-post'
 import { useFilterContext } from '@/app/context/filter.context'
+import { Post } from '@prisma/client'
+import { DashboardPost } from './dashboard-post'
+import DashboardPostsLoading from './skeletons/dashboard-home-loading'
 
 type PostsQueryParams = {
   take?: number
@@ -25,7 +25,7 @@ const allPosts = async ({ take, lastCursor, date }: PostsQueryParams) => {
 
 const DashboardPostsList = () => {
   const { ref, inView } = useInView()
-  const { date, setDate } = useFilterContext()
+  const { date } = useFilterContext()
 
   const {
     data,

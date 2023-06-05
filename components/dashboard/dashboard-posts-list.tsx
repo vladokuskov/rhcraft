@@ -1,7 +1,7 @@
 import { DashboardPost } from './dashboard-post'
 
 import { db } from '@/lib/db'
-import DatePicker from './date-picker'
+import DatePicker from '../date-picker'
 
 async function getAllPosts() {
   const posts = db.post.findMany({

@@ -12,14 +12,36 @@ type DatePickerProps = {
   placeholder?: string
 }
 
+const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]
+
 const DatePicker: React.FC<DatePickerProps> = ({
   initialDate,
   onChange,
   placeholder,
 }) => {
   const ref = useRef(null)
+  const today = new Date()
   const [selectedDate, setSelectedDate] = useState<Date | null>(
-    initialDate || null,
+    initialDate ? initialDate : null,
+  )
+  const [selectedMonth, setSelectedMonth] = useState(
+    selectedDate ? selectedDate.getMonth() : today.getMonth(),
+  )
+  const [selectedYear, setSelectedYear] = useState(
+    selectedDate ? selectedDate.getFullYear() : today.getFullYear(),
   )
   const [showCalendar, setShowCalendar] = useClickOutside(ref, false)
 
@@ -34,15 +56,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   }
 
   const handleMonthChange = (newMonth: number) => {
-    const today = new Date()
-    const currentMonth = selectedDate
-      ? selectedDate.getMonth()
-      : today.getMonth()
-    const currentYear = selectedDate
-      ? selectedDate.getFullYear()
-      : today.getFullYear()
-
-    let newYear = currentYear
+    let newYear = selectedYear
     if (newMonth < 0) {
       newMonth = 11
       newYear -= 1
@@ -51,38 +65,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
       newYear += 1
     }
 
-    const newDate = new Date(newYear, newMonth, 1)
-    setSelectedDate(newDate)
-    onChange(newDate)
+    setSelectedMonth(newMonth)
+    setSelectedYear(newYear)
   }
 
   const renderCalendar = () => {
-    const today = new Date()
-    const selectedMonth = selectedDate
-      ? selectedDate.getMonth()
-      : today.getMonth()
-    const selectedYear = selectedDate
-      ? selectedDate.getFullYear()
-      : today.getFullYear()
-
     const numDays = daysInMonth(selectedMonth, selectedYear)
     const firstDay = new Date(selectedYear, selectedMonth, 1).getDay()
     const daysArray = Array.from({ length: numDays }, (_, index) => index + 1)
-
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ]
 
     return (
       <div>
@@ -152,7 +142,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
           value={selectedDate ? selectedDate.toDateString() : ''}
           readOnly
           placeholder={placeholder || 'Select a date'}
-          className="w-full bg-transparent outline-none cursor-pointer "
+          className="w-full bg-transparent outline-none cursor-pointer placeholder:text-neutral-500"
         />
         <FontAwesomeIcon icon={faCalendar} />
       </div>

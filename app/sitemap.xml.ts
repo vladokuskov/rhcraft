@@ -11,7 +11,7 @@ function generateSiteMap(posts: Post[]) {
         <loc>https://rhcraft.vercel.app/</loc>
      </url>
      <url>
-         <loc>https://rhcraft.vercel.app/blog</loc>
+         <loc>https://rhcraft.vercel.app/posts</loc>
      </url>
      ${posts
        .map(({ id }) => {

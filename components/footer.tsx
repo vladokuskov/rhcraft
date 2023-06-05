@@ -23,9 +23,6 @@ const Footer = () => {
           <NavigationLink variant="regular" href="/" title="Home">
             Home
           </NavigationLink>
-          <NavigationLink variant="regular" href="/blog" title="Blog">
-            Blog
-          </NavigationLink>
 
           <a
             title="YouTube channel"

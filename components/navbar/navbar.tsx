@@ -30,14 +30,6 @@ const NavBar = () => {
           >
             HOME
           </NavigationLink>
-          <NavigationLink
-            variant="nav"
-            href="/blog"
-            disabled={pathname === '/blog'}
-            title="Blog"
-          >
-            BLOG
-          </NavigationLink>
         </div>
         <NavBarMenu />
       </div>

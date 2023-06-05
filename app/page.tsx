@@ -1,11 +1,8 @@
-import HomePostsList from '@/components/home/home-posts-list'
 import Image from 'next/image'
 import bannerImage from '../public/banner.webp'
-import Link from 'next/link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExternalLink } from '@fortawesome/free-solid-svg-icons'
 import { Suspense } from 'react'
-import HomePostsLoading from '@/components/home/skeletons/home-posts-skeleton'
+import BlogPostsLoading from '@/components/home/skeletons/blog-posts-skeleton'
+import BlogPostsList from '@/components/home/blog-posts-list'
 
 export const metadata = {
   title: 'rhcraft',
@@ -51,8 +48,8 @@ export default async function Home() {
             Check out our blog for the latest news and updates
           </p>
         </div>
-        <Suspense fallback={<HomePostsLoading />}>
-          <HomePostsList />
+        <Suspense fallback={<BlogPostsLoading />}>
+          <BlogPostsList />
         </Suspense>
       </section>
     </div>

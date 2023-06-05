@@ -22,13 +22,23 @@ export default async function Home() {
           <Image
             fill
             priority
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrAcAAZcBCvVKh9YAAAAASUVORK5CYII="
+            placeholder="blur"
             className=" -z-1 object-cover"
             src={bannerImage}
             alt="Banner picture"
           />
-          <div className=" relative flex flex-col items-center">
-            <h1 className=" text-5xl font-sans font-bold flex flex-col items-start justify-start text-white-100">
-              WELCOME TO<span className=" text-[#E4DE39]">RHCraft!</span>
+          <div className=" relative flex flex-col items-center justify-center gap-4">
+            <Image
+              src="/logo.svg"
+              alt="Picture of logo"
+              width={120}
+              height={50}
+              priority
+            />
+            <h1 className=" text-5xl font-sans font-bold flex max-sm:flex-col items-start justify-start text-white-100">
+              WELCOME TO
+              <span className=" text-[#E4DE39] ml-2 max-sm:ml-0">RHCraft!</span>
             </h1>
           </div>
         </div>

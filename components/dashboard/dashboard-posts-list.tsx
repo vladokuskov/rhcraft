@@ -59,7 +59,7 @@ const DashboardPostsList = () => {
                   <DashboardPost
                     key={post.id}
                     title={post.title}
-                    date={post.createdAt}
+                    createdAt={post.createdAt}
                     imageURL={post.imageURL}
                     id={post.id}
                   />
@@ -70,7 +70,7 @@ const DashboardPostsList = () => {
                 <DashboardPost
                   key={post.id}
                   title={post.title}
-                  date={post.createdAt}
+                  createdAt={post.createdAt}
                   imageURL={post.imageURL}
                   id={post.id}
                 />

@@ -10,10 +10,11 @@ import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Button } from '../button'
+import { useFilterContext } from '@/app/context/filter.context'
 
 type DashboardPost = {
   title: string
-  date: Date
+  createdAt: Date
   imageURL: string | null
   id: string
   key: string
@@ -36,11 +37,12 @@ const handlePostDelete = async (id: string) => {
   }
 }
 
-const DashboardPost = ({ title, date, imageURL, id }: DashboardPost) => {
+const DashboardPost = ({ title, createdAt, imageURL, id }: DashboardPost) => {
   const router = useRouter()
   const dashboardPostRef = useRef(null)
   const [isMenuOpen, setIsMenuOpen] = useClickOutside(dashboardPostRef, false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const { date, setDate } = useFilterContext()
 
   return (
     <li
@@ -51,13 +53,17 @@ const DashboardPost = ({ title, date, imageURL, id }: DashboardPost) => {
         <h4 className="font-sans text-white font-xl font-semibold text-lg leading-5">
           {title}
         </h4>
-        <p className="font-sans text-neutral-500 tracking-tight">
-          {`${new Date(date).toLocaleString('en-US', {
+        <button
+          title="Filter by this date"
+          className="font-sans text-neutral-500 tracking-tight hover:underline focus:underline underline-offset-2 hover:text-neutral-400 focus:text-neutral-400"
+          onClick={() => setDate(new Date(createdAt))}
+        >
+          {`${new Date(createdAt).toLocaleString('en-US', {
             month: 'short',
             day: 'numeric',
             year: 'numeric',
           })}`}
-        </p>
+        </button>
       </div>
       <Button
         variant="ghost"

@@ -8,7 +8,7 @@ import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 
 type DatePickerProps = {
-  initialDate?: Date | null
+  initialDate: Date | null
   onChange: (date: Date | null) => void
   placeholder?: string
   className?: string
@@ -38,7 +38,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   const ref = useRef(null)
   const today = new Date()
   const [selectedDate, setSelectedDate] = useState<Date | null>(
-    initialDate ? initialDate : null,
+    initialDate || null,
   )
   const [selectedMonth, setSelectedMonth] = useState(
     selectedDate ? selectedDate.getMonth() : today.getMonth(),
@@ -48,11 +48,21 @@ const DatePicker: React.FC<DatePickerProps> = ({
   )
   const [showCalendar, setShowCalendar] = useClickOutside(ref, false)
 
+  const [selectedDay, setSelectedDay] = useState(
+    selectedDate ? selectedDate.getDate() : null,
+  )
+
   useEffect(() => {
     if (initialDate === null) {
       setSelectedDate(null)
       setSelectedMonth(today.getMonth())
       setSelectedYear(today.getFullYear())
+      setSelectedDay(null)
+    } else if (initialDate) {
+      setSelectedDate(initialDate)
+      setSelectedMonth(initialDate.getMonth())
+      setSelectedYear(initialDate.getFullYear())
+      setSelectedDay(initialDate.getDate())
     }
   }, [initialDate])
 
@@ -125,11 +135,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
           {daysArray.map((day) => (
             <button
               key={day}
-              className={`cursor-pointer text-center py-1 rounded ${
-                selectedDate && selectedDate.getDate() === day
+              className={clsx(
+                'cursor-pointer text-center py-1 rounded',
+                selectedDay === day &&
+                  selectedMonth === today.getMonth() &&
+                  selectedYear === today.getFullYear()
                   ? 'bg-neutral-400 text-neutral-100'
-                  : 'hover:bg-neutral-600 transition-colors text-neutral-300 focus:bg-neutral-600'
-              }`}
+                  : 'hover:bg-neutral-600 transition-colors text-neutral-300 focus:bg-neutral-600',
+              )}
               onClick={() =>
                 handleDateChange(new Date(selectedYear, selectedMonth, day))
               }
@@ -150,10 +163,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
       >
         <input
           type="text"
-          value={selectedDate ? selectedDate.toDateString() : ''}
+          value={selectedDate ? selectedDate.toDateString() : 'Select a date'}
           readOnly
           placeholder={placeholder || 'Select a date'}
-          className="w-full bg-transparent outline-none cursor-pointer placeholder:text-neutral-500"
+          className="w-full bg-transparent outline-none cursor-pointer placeholder:text-neutral-500 placeholder:font-semibold font-semibold"
         />
         <FontAwesomeIcon icon={faCalendar} />
       </div>

@@ -54,7 +54,7 @@ const DashboardPostsList = () => {
     <ul className="flex flex-col gap-4 w-full">
       {isSuccess &&
         data?.pages?.map((page) =>
-          page.data.map((post: Post, index: number) => {
+          page?.data?.map((post: Post, index: number) => {
             if (page.data.length === index + 1) {
               return (
                 <div ref={ref} key={index}>

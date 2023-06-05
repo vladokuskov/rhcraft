@@ -64,7 +64,15 @@ const BlogPostsList = () => {
           }),
         )}
 
-      {(isLoading || isFetchingNextPage) && <BlogPostsLoading />}
+      {isLoading || (isFetchingNextPage && !isSuccess) ? (
+        <BlogPostsLoading />
+      ) : (
+        data?.pages.length === 0 && (
+          <p className="text-center font-sans text-neutral-600 font-semibold">
+            There are no posts.
+          </p>
+        )
+      )}
     </ul>
   )
 }

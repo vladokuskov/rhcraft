@@ -79,12 +79,14 @@ const DashboardPostsList = () => {
           }),
         )}
 
-      {(isLoading || isFetchingNextPage) && <DashboardPostsLoading />}
-
-      {isSuccess && (data?.pages.length === 1 || data?.pages.length === 0) && (
-        <p className=" text-center font-sans text-neutral-600 font-semibold">
-          There are no posts.
-        </p>
+      {isLoading || (isFetchingNextPage && !isSuccess) ? (
+        <DashboardPostsLoading />
+      ) : (
+        data?.pages.length === 0 && (
+          <p className="text-center font-sans text-neutral-600 font-semibold">
+            There are no posts.
+          </p>
+        )
       )}
     </ul>
   )

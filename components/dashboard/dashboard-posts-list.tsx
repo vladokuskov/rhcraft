@@ -12,12 +12,12 @@ import DashboardPostsLoading from './skeletons/dashboard-home-loading'
 
 type PostsQueryParams = {
   take?: number
-  lastCursor?: string | null
+  lastCursor?: string
   date: Date | null
 }
 
 const allPosts = async ({ take, lastCursor, date }: PostsQueryParams) => {
-  const response = await axios.get('/api/dashboard/posts/', {
+  const response = await axios.get('/api/dashboard/posts', {
     params: { take, lastCursor, date },
   })
   return response?.data
@@ -40,7 +40,7 @@ const DashboardPostsList = () => {
     queryKey: ['posts', date],
 
     getNextPageParam: (lastPage) => {
-      return lastPage?.metaData?.lastCursor
+      return lastPage?.metaData.lastCursor
     },
   })
 
@@ -53,8 +53,8 @@ const DashboardPostsList = () => {
   return (
     <ul className="flex flex-col gap-4 w-full">
       {isSuccess &&
-        data?.pages?.map((page) =>
-          page?.data?.map((post: Post, index: number) => {
+        data?.pages.map((page) =>
+          page.data.map((post: Post, index: number) => {
             if (page.data.length === index + 1) {
               return (
                 <div ref={ref} key={index}>
@@ -83,11 +83,11 @@ const DashboardPostsList = () => {
 
       {(isLoading || isFetchingNextPage) && <DashboardPostsLoading />}
 
-      {isSuccess && (data?.pages?.length === 1 || data?.pages.length === 0) && (
+      {/* {isSuccess && (data?.pages?.length === 1 || data?.pages.length === 0) && (
         <p className=" text-center font-sans text-neutral-600 font-semibold">
           There are no posts.
         </p>
-      )}
+      )} */}
     </ul>
   )
 }

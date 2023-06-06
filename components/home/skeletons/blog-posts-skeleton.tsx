@@ -4,7 +4,7 @@ const BlogPostsLoading = () => {
       {[...Array(20)].map((_, i) => (
         <div
           key={i}
-          className="w-full h-[16rem] rounded flex flex-col items-start justify-center max-w-[19rem] max-sm:max-w-full max-sm:min-w-full min-w-[19rem] z-10 bg-neutral-700 animate-pulse"
+          className="w-full max-w-[20rem] max-sm:max-w-full max-sm:min-w-full min-w-[19rem] h-[16.5rem] rounded flex flex-col items-start justify-center z-10 bg-neutral-700 animate-pulse"
         />
       ))}
     </div>

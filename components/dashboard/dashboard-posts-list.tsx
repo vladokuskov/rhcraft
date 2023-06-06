@@ -5,10 +5,10 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
-import { useFilterContext } from '@/app/context/filter.context'
 import { Post } from '@prisma/client'
+import { useFilterContext } from '@/app/context/filter.context'
+import DashboardLoading from './skeletons/dashboard-home-loading'
 import { DashboardPost } from './dashboard-post'
-import DashboardPostsLoading from './skeletons/dashboard-home-loading'
 
 type PostsQueryParams = {
   take?: number
@@ -17,7 +17,7 @@ type PostsQueryParams = {
 }
 
 const allPosts = async ({ take, lastCursor, date }: PostsQueryParams) => {
-  const response = await axios.get('/api/dashboard/posts/', {
+  const response = await axios.get('/api/dashboardposts', {
     params: { take, lastCursor, date },
   })
   return response?.data
@@ -38,8 +38,10 @@ const DashboardPostsList = () => {
     queryFn: ({ pageParam = '' }) =>
       allPosts({ take: 10, lastCursor: pageParam, date: date }),
     queryKey: ['posts', date],
-    getNextPageParam: (lastPage) => lastPage?.metaData.lastCursor,
-    staleTime: 5000,
+
+    getNextPageParam: (lastPage) => {
+      return lastPage?.metaData.lastCursor
+    },
   })
 
   useEffect(() => {
@@ -80,9 +82,12 @@ const DashboardPostsList = () => {
         )}
 
       {isLoading || (isFetchingNextPage && !isSuccess) ? (
-        <DashboardPostsLoading />
+        <DashboardLoading />
       ) : (
-        data?.pages.length === 0 && (
+        Array.isArray(data?.pages) &&
+        data &&
+        data.pages.length > 0 &&
+        data?.pages[0].data.length === 0 && (
           <p className="text-center font-sans text-neutral-600 font-semibold">
             There are no posts.
           </p>

@@ -7,21 +7,24 @@ import { useInView } from 'react-intersection-observer'
 
 import { Post } from '@prisma/client'
 import PostCard from '../post-card'
+import { useFilterContext } from '@/app/context/filter.context'
 
 type PostsQueryParams = {
   take?: number
   lastCursor?: string
+  date: Date | null
 }
 
-const allPosts = async ({ take, lastCursor }: PostsQueryParams) => {
+const allPosts = async ({ take, lastCursor, date }: PostsQueryParams) => {
   const response = await axios.get('/api/postsauth', {
-    params: { take, lastCursor },
+    params: { take, lastCursor, date },
   })
   return response?.data
 }
 
 const DashboardPostsList = () => {
   const { ref, inView } = useInView()
+  const { date } = useFilterContext()
 
   const {
     data,
@@ -32,8 +35,8 @@ const DashboardPostsList = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryFn: ({ pageParam = '' }) =>
-      allPosts({ take: 10, lastCursor: pageParam }),
-    queryKey: ['posts'],
+      allPosts({ take: 10, lastCursor: pageParam, date: date }),
+    queryKey: ['posts', date],
 
     getNextPageParam: (lastPage) => {
       return lastPage?.metaData.lastCursor
@@ -44,7 +47,7 @@ const DashboardPostsList = () => {
     if (inView && hasNextPage) {
       fetchNextPage()
     }
-  }, [hasNextPage, inView, fetchNextPage])
+  }, [hasNextPage, inView, fetchNextPage, date])
 
   return (
     <ul className="flex flex-wrap items-start justify-start gap-8 w-full p-2 pl-0 ">

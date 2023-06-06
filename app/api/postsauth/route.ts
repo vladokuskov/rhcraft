@@ -13,8 +13,9 @@ export async function GET(req: Request) {
     const date = url.searchParams.get('date') as Date | null
 
     if (date) {
-      const todayStart = new Date(new Date(date).setHours(0, 0, 0, 0))
-      const todayEnd = new Date(new Date(date).setHours(23, 59, 59, 999))
+      const selectedDate = new Date(date)
+      const nextDay = new Date(selectedDate)
+      nextDay.setDate(selectedDate.getDate() + 1)
 
       let result = await db.post.findMany({
         take: take ? parseInt(take as string) : 10,
@@ -29,8 +30,8 @@ export async function GET(req: Request) {
         },
         where: {
           createdAt: {
-            gte: todayStart,
-            lt: todayEnd,
+            gte: selectedDate,
+            lt: nextDay,
           },
         },
       })

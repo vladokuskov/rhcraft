@@ -6,9 +6,9 @@ import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import { Post } from '@prisma/client'
+import PostCard from '../post-card'
 import { useFilterContext } from '@/app/context/filter.context'
 import DashboardLoading from './skeletons/dashboard-home-loading'
-import { DashboardPost } from './dashboard-post'
 
 type PostsQueryParams = {
   take?: number
@@ -51,32 +51,18 @@ const DashboardPostsList = () => {
   }, [hasNextPage, inView, fetchNextPage, date])
 
   return (
-    <ul className="flex flex-col gap-4 w-full">
+    <ul className="flex flex-wrap items-start justify-start gap-8 w-full p-2 pl-0 ">
       {isSuccess &&
         data?.pages.map((page) =>
           page.data.map((post: Post, index: number) => {
             if (page.data.length === index + 1) {
               return (
                 <div ref={ref} key={index}>
-                  <DashboardPost
-                    key={post.id}
-                    title={post.title}
-                    createdAt={post.createdAt}
-                    imageURL={post.imageURL}
-                    id={post.id}
-                  />
+                  <PostCard key={post.id} post={post} />
                 </div>
               )
             } else {
-              return (
-                <DashboardPost
-                  key={post.id}
-                  title={post.title}
-                  createdAt={post.createdAt}
-                  imageURL={post.imageURL}
-                  id={post.id}
-                />
-              )
+              return <PostCard key={post.id} post={post} />
             }
           }),
         )}

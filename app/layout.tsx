@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import { config } from '@fortawesome/fontawesome-svg-core'
 import QueryProvider from '@/providers/QueryProvider'
+import GoogleAnalytics from '@/components/google-analytics'
 config.autoAddCss = false
 
 const roboto = Roboto({
@@ -71,6 +72,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <GoogleAnalytics GA_TRACKING_ID={process.env.GA_TRACKING_ID} />
       <body
         className={`${fontTabloidScuzzball.variable} ${sourceSansPro.variable} ${inter.variable} ${roboto.variable}`}
       >

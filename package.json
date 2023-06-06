@@ -52,6 +52,7 @@
     "@editorjs/link-autocomplete": "^0.1.0",
     "@types/bcrypt": "^5.0.0",
     "@types/editorjs__header": "^2.6.0",
+    "@types/gtag.js": "^0.0.12",
     "@types/mime": "^3.0.1",
     "@types/react-fontawesome": "^1.6.5",
     "editorjs-youtube-embed": "^1.0.3",

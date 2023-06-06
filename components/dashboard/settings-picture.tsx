@@ -22,6 +22,11 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
   >(userImage)
   const [isSaving, setIsSaving] = useState<boolean>(false)
 
+  const isSupportedFileType = (file: File) => {
+    const supportedTypes = ['image/jpeg', 'image/png', 'image/webp']
+    return supportedTypes.includes(file.type)
+  }
+
   const handleImageUpdate = async () => {
     setIsSaving(true)
 
@@ -56,9 +61,15 @@ const SettingsPicture = ({ userImage, userId }: SettingsPicture) => {
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const newImage = e.target.files[0]
-      setUploadedImage(newImage)
-      setPreviewImageUrl(URL.createObjectURL(newImage))
+      const file = e.target.files[0]
+      if (!isSupportedFileType(file)) {
+        toast.error(
+          'Unsupported file type. Please select a JPG, PNG, or WEBP image.',
+        )
+      } else {
+        setUploadedImage(file)
+        setPreviewImageUrl(URL.createObjectURL(file))
+      }
     }
   }
 

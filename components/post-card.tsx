@@ -15,18 +15,19 @@ const PostCard = ({ post }: PostCard) => {
       <Link href={`/posts/${post.id}`} title="Go to post">
         <article
           className={clsx(
-            `w-full rounded flex flex-col items-start justify-center max-w-[20rem] z-10  bg-neutral-700 hover:bg-neutral-600   focus:bg-neutral-60 transition-colors border-2 border-neutral-600`,
+            `w-full rounded flex flex-col items-start justify-center max-w-[20rem] min-w-[20rem] z-10  bg-neutral-700 hover:bg-neutral-600   focus:bg-neutral-60 transition-colors border-2 border-neutral-600`,
             'max-sm:max-w-full max-sm:min-w-full',
           )}
         >
           {post.imageURL && (
-            <Image
-              className=" rounded-t w-full h-full max-h-44 object-cover bg-neutral-500"
-              src={post.imageURL}
-              alt="Post picture"
-              width={400}
-              height={240}
-            />
+            <div className="relative h-[10rem] w-full">
+              <Image
+                className=" rounded-t object-cover bg-neutral-500"
+                src={post.imageURL}
+                alt="Post picture"
+                fill
+              />
+            </div>
           )}
           <div className="flex flex-col items-start justify-start p-2 gap-4  w-full">
             {post.topic && <PostTopicBadge topic={post.topic} />}

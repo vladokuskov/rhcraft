@@ -134,14 +134,13 @@ export default async function PostPage({ params }: PostPageProps) {
   return (
     <div className=" mt-4 w-full flex flex-col items-start justify-start gap-4 mb-12 p-4 py-12 max-w-[80rem] mx-auto my-0">
       {post.imageURL && (
-        <div className=" w-full max-h-96 h-full rounded flex items-start justify-start ml-0 object-contain">
+        <div className="w-full max-w-[50rem] max-sm:h-60 h-96 rounded flex items-start justify-start ml-0 relative">
           <Image
+            priority
             src={post.imageURL}
             alt="Picture of post preview"
-            width={600}
-            height={300}
-            className="rounded bg-neutral-700"
-            priority
+            fill
+            className="rounded object-cover "
           />
         </div>
       )}

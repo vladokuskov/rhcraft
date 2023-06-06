@@ -14,7 +14,6 @@ import { ImageUploader } from './image-uploader'
 import { toast } from 'react-hot-toast'
 
 const PostEditing = ({ post }: { post: Post }) => {
-  const inputRef = useRef<HTMLInputElement>(null)
   const editorRef = useRef<EditorJS>()
   const router = useRouter()
   const [isSaving, setIsSaving] = useState<boolean>(false)
@@ -27,14 +26,6 @@ const PostEditing = ({ post }: { post: Post }) => {
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(
     post.imageURL,
   )
-
-  const lastUpdatedDate = post.updatedAt.toLocaleString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  })
 
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import('@editorjs/editorjs')).default
@@ -156,6 +147,11 @@ const PostEditing = ({ post }: { post: Post }) => {
       setIsPublishing(false)
       toast.error('Something happen while publishing post.')
     }
+  }
+
+  const handleImageChange = (image: File | null) => {
+    setUploadedImage(image)
+    setPreviewImageUrl(image ? URL.createObjectURL(image) : '')
   }
 
   const getImageURL = async () => {
@@ -300,10 +296,8 @@ const PostEditing = ({ post }: { post: Post }) => {
       </div>
 
       <ImageUploader
-        previewImageUrl={previewImageUrl}
-        setUploadedImage={setUploadedImage}
-        setPreviewImageUrl={setPreviewImageUrl}
-        inputRef={inputRef}
+        onChange={handleImageChange}
+        initialImage={post.imageURL}
       />
 
       <TopicSelection
@@ -322,11 +316,6 @@ const PostEditing = ({ post }: { post: Post }) => {
         disabled={isSaving}
         value={title}
       />
-
-      <p className="font-sans text-neutral-400 leading-3 mb-2 whitespace-nowrap">
-        Last updated:
-        {` ${lastUpdatedDate}`}
-      </p>
 
       <div
         id="editor"

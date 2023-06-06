@@ -20,11 +20,11 @@ export default async function Home() {
       <section className="w-full flex items-start justify-center gap-8 max-lg:flex-col-reverse mt-8 ">
         <div className="relative flex items-center justify-center w-screen h-[50vh] ">
           <Image
+            quality={100}
             fill
             priority
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mPsrAcAAZcBCvVKh9YAAAAASUVORK5CYII="
             placeholder="blur"
-            className=" -z-1 object-cover"
+            className=" -z-1 object-cover max-sm:object-bottom object-center"
             src={bannerImage}
             alt="Banner picture"
           />

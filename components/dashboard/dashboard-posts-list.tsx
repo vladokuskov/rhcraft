@@ -68,7 +68,7 @@ const DashboardPostsList = () => {
         )}
 
       {isLoading || (isFetchingNextPage && !isSuccess) ? (
-        <DashboardLoading />
+        <p>Loading</p>
       ) : (
         data?.pages.length === 0 && (
           <p className="text-center font-sans text-neutral-600 font-semibold">

@@ -13,12 +13,12 @@ import DashboardPostsLoading from './skeletons/dashboard-home-loading'
 type PostsQueryParams = {
   take?: number
   lastCursor?: string
-  date: Date | null
+  // date: Date | null
 }
 
-const allPosts = async ({ take, lastCursor, date }: PostsQueryParams) => {
+const allPosts = async ({ take, lastCursor }: PostsQueryParams) => {
   const response = await axios.get('/api/dashboard/posts', {
-    params: { take, lastCursor, date },
+    params: { take, lastCursor },
   })
   return response?.data
 }
@@ -36,8 +36,8 @@ const DashboardPostsList = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryFn: ({ pageParam = '' }) =>
-      allPosts({ take: 10, lastCursor: pageParam, date: date }),
-    queryKey: ['posts', date],
+      allPosts({ take: 10, lastCursor: pageParam }),
+    queryKey: ['posts'],
 
     getNextPageParam: (lastPage) => {
       return lastPage?.metaData.lastCursor
@@ -48,7 +48,7 @@ const DashboardPostsList = () => {
     if (inView && hasNextPage) {
       fetchNextPage()
     }
-  }, [hasNextPage, inView, fetchNextPage, date])
+  }, [hasNextPage, inView, fetchNextPage])
 
   return (
     <ul className="flex flex-col gap-4 w-full">

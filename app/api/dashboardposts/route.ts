@@ -2,6 +2,7 @@ import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
+import { z } from 'zod'
 
 export async function GET(req: Request) {
   try {
@@ -21,8 +22,9 @@ export async function GET(req: Request) {
     const date = url.searchParams.get('date') as Date | null
 
     if (date) {
-      const todayStart = new Date(new Date(date).setHours(0, 0, 0, 0))
-      const todayEnd = new Date(new Date(date).setHours(23, 59, 59, 999))
+      const selectedDate = new Date(date)
+      const nextDay = new Date(selectedDate)
+      nextDay.setDate(selectedDate.getDate() + 1)
 
       let result = await db.post.findMany({
         take: take ? parseInt(take as string) : 10,
@@ -37,8 +39,8 @@ export async function GET(req: Request) {
         },
         where: {
           createdAt: {
-            gte: todayStart,
-            lt: todayEnd,
+            gte: selectedDate,
+            lt: nextDay,
           },
         },
       })
@@ -79,6 +81,9 @@ export async function GET(req: Request) {
     }
 
     let result = await db.post.findMany({
+      where: {
+        published: true,
+      },
       take: take ? parseInt(take as string) : 10,
       ...(lastCursor && {
         skip: 1,
@@ -108,6 +113,9 @@ export async function GET(req: Request) {
     const cursor: any = lastPostInResults.id
 
     const nextPage = await db.post.findMany({
+      where: {
+        published: true,
+      },
       take: take ? parseInt(take as string) : 7,
       skip: 1,
       cursor: {
@@ -127,4 +135,8 @@ export async function GET(req: Request) {
   } catch (error) {
     return NextResponse.json({ status: 500 })
   }
+}
+
+export async function POST(req: Request) {
+  return NextResponse.json({ status: 500 })
 }

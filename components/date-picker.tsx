@@ -136,9 +136,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
               key={day}
               className={clsx(
                 'cursor-pointer text-center py-1 rounded',
-                selectedDate && selectedDate.getDate() === day
-                  ? 'bg-neutral-400 text-neutral-100'
-                  : 'hover:bg-neutral-600 transition-colors text-neutral-300 focus:bg-neutral-600',
+                selectedDate &&
+                  selectedDate.getDate() === day &&
+                  selectedDate.getMonth() === selectedMonth
+                  ? 'bg-neutral-400 text-neutral-100 transition-none'
+                  : 'hover:bg-neutral-500 transition-colors text-neutral-300 focus:bg-neutral-500',
               )}
               onClick={() =>
                 handleDateChange(new Date(selectedYear, selectedMonth, day))

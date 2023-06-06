@@ -6,6 +6,15 @@ import { z } from 'zod'
 
 export async function GET(req: Request) {
   try {
+    const session = await getServerSession(authOptions)
+
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'User not authenticated.' },
+        { status: 403 },
+      )
+    }
+
     const url = new URL(req.url)
 
     const take = url.searchParams.get('take')
@@ -59,8 +68,6 @@ export async function GET(req: Request) {
           id: cursor,
         },
       })
-
-      console.log(cursor)
 
       const data = {
         data: result,

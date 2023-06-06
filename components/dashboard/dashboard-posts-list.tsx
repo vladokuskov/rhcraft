@@ -9,6 +9,7 @@ import { Post } from '@prisma/client'
 import PostCard from '../post-card'
 import { useFilterContext } from '@/app/context/filter.context'
 import DashboardLoading from './skeletons/dashboard-home-loading'
+import { DashboardPost } from './dashboard-post'
 
 type PostsQueryParams = {
   take?: number
@@ -51,24 +52,38 @@ const DashboardPostsList = () => {
   }, [hasNextPage, inView, fetchNextPage, date])
 
   return (
-    <ul className="flex flex-wrap items-start justify-start gap-8 w-full p-2 pl-0 ">
+    <ul className="flex flex-col gap-4 w-full">
       {isSuccess &&
         data?.pages.map((page) =>
           page.data.map((post: Post, index: number) => {
             if (page.data.length === index + 1) {
               return (
                 <div ref={ref} key={index}>
-                  <PostCard key={post.id} post={post} />
+                  <DashboardPost
+                    key={post.id}
+                    title={post.title}
+                    createdAt={post.createdAt}
+                    imageURL={post.imageURL}
+                    id={post.id}
+                  />
                 </div>
               )
             } else {
-              return <PostCard key={post.id} post={post} />
+              return (
+                <DashboardPost
+                  key={post.id}
+                  title={post.title}
+                  createdAt={post.createdAt}
+                  imageURL={post.imageURL}
+                  id={post.id}
+                />
+              )
             }
           }),
         )}
 
       {isLoading || (isFetchingNextPage && !isSuccess) ? (
-        <p>Loading</p>
+        <DashboardLoading />
       ) : (
         data?.pages.length === 0 && (
           <p className="text-center font-sans text-neutral-600 font-semibold">

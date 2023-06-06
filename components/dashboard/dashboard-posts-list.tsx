@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import { Post } from '@prisma/client'
-import PostCard from '../post-card'
 import { useFilterContext } from '@/app/context/filter.context'
 import DashboardLoading from './skeletons/dashboard-home-loading'
 import { DashboardPost } from './dashboard-post'

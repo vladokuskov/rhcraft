@@ -1,7 +1,10 @@
 import { PostTopicBadge } from '@/components/post-topic-badge'
 import YoutubeVideoPlayer from '@/components/video-player'
+import ViewCounter from '@/components/view-counter'
 import { db } from '@/lib/db'
 import { parseEditorJson } from '@/lib/parseEditorJson'
+import { faEye } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Post } from '@prisma/client'
 import { Metadata, ResolvingMetadata } from 'next'
 import Image from 'next/image'
@@ -120,14 +123,6 @@ export default async function PostPage({ params }: PostPageProps) {
 
   const { author, post } = data
 
-  const lastUpdatedDate = post.updatedAt.toLocaleString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  })
-
   const content =
     post.content && ((await parseEditorJson(post.content)) as Element[])
 
@@ -172,6 +167,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
         </div>
         {post.topic && <PostTopicBadge topic={post.topic} />}
+        <ViewCounter postId={post.id} views={post.views} />
         <h1 className="font-inter font-medium tracking-wide text-2xl leading-7 mt-2 mb-2">
           {post.title}
         </h1>
@@ -258,10 +254,6 @@ export default async function PostPage({ params }: PostPageProps) {
               },
             )}
         </div>
-        <p className="font-sans text-neutral-400 leading-3 mt-8 whitespace-nowrap">
-          Last updated:
-          {` ${lastUpdatedDate}`}
-        </p>
       </div>
     </div>
   )

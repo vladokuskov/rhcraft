@@ -18,7 +18,7 @@ type PostsQueryParams = {
 
 const allPosts = async ({ take, lastCursor, date }: PostsQueryParams) => {
   const response = await axios.get('/api/dashboard/posts/', {
-    params: { take, lastCursor },
+    params: { take, lastCursor, date },
   })
   return response?.data
 }

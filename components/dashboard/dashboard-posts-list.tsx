@@ -5,19 +5,16 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
-import { useFilterContext } from '@/app/context/filter.context'
 import { Post } from '@prisma/client'
-import { DashboardPost } from './dashboard-post'
-import DashboardPostsLoading from './skeletons/dashboard-home-loading'
+import PostCard from '../post-card'
 
 type PostsQueryParams = {
   take?: number
   lastCursor?: string
-  // date: Date | null
 }
 
 const allPosts = async ({ take, lastCursor }: PostsQueryParams) => {
-  const response = await axios.get('/api/dashboard/posts', {
+  const response = await axios.get('/api/posts', {
     params: { take, lastCursor },
   })
   return response?.data
@@ -25,7 +22,6 @@ const allPosts = async ({ take, lastCursor }: PostsQueryParams) => {
 
 const DashboardPostsList = () => {
   const { ref, inView } = useInView()
-  const { date } = useFilterContext()
 
   const {
     data,
@@ -51,43 +47,31 @@ const DashboardPostsList = () => {
   }, [hasNextPage, inView, fetchNextPage])
 
   return (
-    <ul className="flex flex-col gap-4 w-full">
+    <ul className="flex flex-wrap items-start justify-start gap-8 w-full p-2 pl-0 ">
       {isSuccess &&
         data?.pages.map((page) =>
           page.data.map((post: Post, index: number) => {
             if (page.data.length === index + 1) {
               return (
                 <div ref={ref} key={index}>
-                  <DashboardPost
-                    key={post.id}
-                    title={post.title}
-                    createdAt={post.createdAt}
-                    imageURL={post.imageURL}
-                    id={post.id}
-                  />
+                  <PostCard key={post.id} post={post} />
                 </div>
               )
             } else {
-              return (
-                <DashboardPost
-                  key={post.id}
-                  title={post.title}
-                  createdAt={post.createdAt}
-                  imageURL={post.imageURL}
-                  id={post.id}
-                />
-              )
+              return <PostCard key={post.id} post={post} />
             }
           }),
         )}
 
-      {(isLoading || isFetchingNextPage) && <DashboardPostsLoading />}
-
-      {/* {isSuccess && (data?.pages?.length === 1 || data?.pages.length === 0) && (
-        <p className=" text-center font-sans text-neutral-600 font-semibold">
-          There are no posts.
-        </p>
-      )} */}
+      {isLoading || (isFetchingNextPage && !isSuccess) ? (
+        <p>Loading</p>
+      ) : (
+        data?.pages.length === 0 && (
+          <p className="text-center font-sans text-neutral-600 font-semibold">
+            There are no posts.
+          </p>
+        )
+      )}
     </ul>
   )
 }

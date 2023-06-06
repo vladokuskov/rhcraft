@@ -1,19 +1,8 @@
-import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
-
-    if (!session?.user) {
-      return NextResponse.json(
-        { error: 'User not authenticated.' },
-        { status: 403 },
-      )
-    }
-
     const url = new URL(req.url)
 
     const take = url.searchParams.get('take')

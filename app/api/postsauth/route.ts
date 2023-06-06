@@ -2,10 +2,18 @@ import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
-import { z } from 'zod'
 
 export async function GET(req: Request) {
   try {
+    const session = await getServerSession(authOptions)
+
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'User not authenticated.' },
+        { status: 403 },
+      )
+    }
+
     const url = new URL(req.url)
 
     const take = url.searchParams.get('take')
@@ -125,40 +133,6 @@ export async function GET(req: Request) {
 
     return NextResponse.json(data, { status: 200 })
   } catch (error) {
-    return NextResponse.json({ status: 500 })
-  }
-}
-
-export async function POST(req: Request) {
-  try {
-    const session = await getServerSession(authOptions)
-    if (!session?.user) {
-      return NextResponse.json(
-        { error: 'User not authenticated.' },
-        { status: 403 },
-      )
-    }
-
-    const body = await req.json()
-
-    // create post
-    const post = await db.post.create({
-      data: {
-        title: body.title,
-        content: body.content,
-        authorId: session.user.id,
-      },
-      select: {
-        id: true,
-      },
-    })
-
-    return NextResponse.json(post, { status: 200 })
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues }, { status: 422 })
-    }
-
     return NextResponse.json({ status: 500 })
   }
 }

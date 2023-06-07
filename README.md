@@ -25,6 +25,13 @@ Full-stack blog for private minecraft server.
     Authentication
     Image uploading
 
+
+<img  src="public/previews/1.png" width="200px">
+<img  src="public/previews/2.png" width="200px">
+<img  src="public/previews/3.png" width="200px">
+<img  src="public/previews/4.png" width="200px">
+<img  src="public/previews/5.png" width="200px">
+
 ### How to start?
 
 1.  Clone the repository: `git clone https://github.com/swappnet/rhcraft.git`.

@@ -8,7 +8,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 
 import { config } from '@fortawesome/fontawesome-svg-core'
 import QueryProvider from '@/providers/QueryProvider'
-import GoogleAnalytics from '@/components/google-analytics'
+
 config.autoAddCss = false
 
 const roboto = Roboto({

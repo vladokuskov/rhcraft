@@ -11,8 +11,12 @@ interface PostCard {
 const PostCard = ({ post }: PostCard) => {
   const createdAt = new Date(post.createdAt)
   return (
-    <li className="max-sm:w-full">
-      <Link href={`/posts/${post.id}`} title="Go to post">
+    <article className="max-sm:w-full max-sm:min-w-full max-sm:max-w-full">
+      <Link
+        href={`/posts/${post.id}`}
+        title="Go to post"
+        className="max-sm:w-full max-sm:min-w-full max-sm:max-w-full"
+      >
         <article
           className={clsx(
             `w-full rounded flex flex-col items-start justify-center max-w-[20rem] min-w-[20rem] z-10  bg-neutral-700 hover:bg-neutral-600   focus:bg-neutral-60 transition-colors border-2 border-neutral-600`,
@@ -44,7 +48,7 @@ const PostCard = ({ post }: PostCard) => {
           </div>
         </article>
       </Link>
-    </li>
+    </article>
   )
 }
 

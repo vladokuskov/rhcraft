@@ -50,7 +50,7 @@ const BlogPostsList = () => {
   }, [hasNextPage, inView, fetchNextPage])
 
   return (
-    <ul className="flex flex-wrap items-start justify-start gap-8 w-full p-2 pl-0 ">
+    <div className="flex flex-wrap items-start justify-start gap-8 w-full p-2 pl-0 ">
       {isSuccess &&
         data?.pages.map((page) =>
           page.data.map((post: Post, index: number) => {
@@ -65,7 +65,6 @@ const BlogPostsList = () => {
             }
           }),
         )}
-
       {isLoading || (isFetchingNextPage && !isSuccess) ? (
         <BlogPostsLoading />
       ) : (
@@ -75,7 +74,7 @@ const BlogPostsList = () => {
           </p>
         )
       )}
-    </ul>
+    </div>
   )
 }
 

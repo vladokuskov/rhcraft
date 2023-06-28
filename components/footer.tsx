@@ -23,7 +23,6 @@ const Footer = () => {
           <NavigationLink variant="regular" href="/" title="Home">
             Home
           </NavigationLink>
-
           <a
             title="YouTube channel"
             href="https://www.youtube.com/@realminheart"

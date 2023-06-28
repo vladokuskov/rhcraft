@@ -72,7 +72,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <GoogleAnalytics GA_TRACKING_ID={process.env.GA_TRACKING_ID} />
       <body
         className={`${fontTabloidScuzzball.variable} ${sourceSansPro.variable} ${inter.variable} ${roboto.variable}`}
       >

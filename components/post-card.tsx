@@ -17,7 +17,7 @@ const PostCard = ({ post }: PostCard) => {
         title="Go to post"
         className="max-sm:w-full max-sm:min-w-full max-sm:max-w-full"
       >
-        <article
+        <div
           className={clsx(
             `w-full rounded flex flex-col items-start justify-center max-w-[20rem] min-w-[20rem] z-10  bg-neutral-700 hover:bg-neutral-600   focus:bg-neutral-60 transition-colors border-2 border-neutral-600`,
             'max-sm:max-w-full max-sm:min-w-full',
@@ -46,7 +46,7 @@ const PostCard = ({ post }: PostCard) => {
               })}`}
             </p>
           </div>
-        </article>
+        </div>
       </Link>
     </article>
   )
